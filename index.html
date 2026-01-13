@@ -693,10 +693,21 @@ footer{
 <section id="retro">
   <h2>Camisetas Retro</h2>
 
+  <p id="contadorRetro" style="text-align:center; margin-bottom:20px; font-weight:bold;"></p>
+
+  <!-- FILTROS RETRO -->
+  <div class="ver-mas-btn">
+    <button onclick="filtrarRetro('todos', this)" class="active">TODOS</button>
+    <button onclick="filtrarRetro('peru', this)">PERÚ</button>
+    <button onclick="filtrarRetro('europa', this)">EUROPA</button>
+    <button onclick="filtrarRetro('selecciones', this)">SELECCIONES</button>
+    <button onclick="filtrarRetro('resto', this)">RESTO DEL MUNDO</button>
+  </div>
+
   <div class="grid" id="productosRetro">
 
     <!-- CAMISETA RETRO 1 -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="peru">
       <img src="alianza-100.jpg"
            alt="Camiseta Alianza Lima 100 años Retro"
            loading="lazy"
@@ -721,7 +732,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 2 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="peru">
       <img src="alianza-2013.jpg"
            alt="Camiseta Alianza Lima 2013 Retro"
            loading="lazy"
@@ -744,7 +755,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 3 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="seleciones">
       <img src="argentina-86.jpg"
            alt="Camiseta Argentina 1986 Retro"
            loading="lazy"
@@ -767,7 +778,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 4 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="arsenal-2002.jpg"
            alt="Camiseta Arsenal 2002 Retro"
            loading="lazy"
@@ -790,7 +801,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 5 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="barcelona-2006.jpg"
            alt="Camiseta Barcelona 2006 Retro"
            loading="lazy"
@@ -813,7 +824,7 @@ footer{
     </article>
 
      <!-- CAMISETA RETRO 6 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="barcelona-2009.jpg"
            alt="Camiseta Barcelona 2009 Retro"
            loading="lazy"
@@ -836,7 +847,7 @@ footer{
     </article>
 
      <!-- CAMISETA RETRO 7 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="barcelona-2010.jpg"
            alt="Camiseta Barcelona 2010 Retro"
            loading="lazy"
@@ -859,8 +870,8 @@ footer{
     </article>
 
      <!-- CAMISETA RETRO 8 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
-      <img src="barcelona-alterna-200.jpg"
+    <article class="card producto-retro" data-category="europa">
+      <img src="barcelona-alterna-2004.jpg"
            alt="Camiseta Barcelona Alterna 2004 Retro"
            loading="lazy"
            onclick="openLightbox(this.src)">
@@ -882,7 +893,7 @@ footer{
     </article>
 
      <!-- CAMISETA RETRO 9 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="barcelona-alterna-2016.jpg"
            alt="Camiseta Barcelona Alterna 2016 Retro"
            loading="lazy"
@@ -905,7 +916,7 @@ footer{
     </article>
 
   <!-- CAMISETA RETRO 10 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="seleciones">
       <img src="brasil-2002.jpg"
            alt="Camiseta Brasil 2002 Retro"
            loading="lazy"
@@ -928,7 +939,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 11 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="seleciones">
       <img src="francia-98.jpg"
            alt="Camiseta Francia 1998 Retro"
            loading="lazy"
@@ -951,7 +962,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 12 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="inter-2004.jpg"
            alt="Camiseta Inter de Milan 2004 Retro"
            loading="lazy"
@@ -974,7 +985,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 13 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="lisboa-2001.jpg"
            alt="Camiseta Sporting Lisboa 2001 Retro"
            loading="lazy"
@@ -997,7 +1008,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 14 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="lisboa-2002.jpg"
            alt="Camiseta Sporting Lisboa 2002 Retro"
            loading="lazy"
@@ -1020,7 +1031,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 15 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="madrid-2002.jpg"
            alt="Camiseta Real Madrid 2002 Retro"
            loading="lazy"
@@ -1043,7 +1054,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 16 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="madrid-2011.jpg"
            alt="Camiseta Real Madrid 2011 Retro"
            loading="lazy"
@@ -1066,7 +1077,7 @@ footer{
     </article>
 
      <!-- CAMISETA RETRO 17 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="madrid-2018-larga.jpg"
            alt="Camiseta Real Madrid 2018 Retro Manga Larga"
            loading="lazy"
@@ -1089,7 +1100,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 18 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="madrid-alterna-18.jpg"
            alt="Camiseta Real Madrid Alterna 2018 Retro"
            loading="lazy"
@@ -1112,7 +1123,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 19 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="madrid-chilena.jpg"
            alt="Camiseta Real Madrid Chilena 2018 Retro"
            loading="lazy"
@@ -1135,7 +1146,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 20 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="manchester-2008.jpg"
            alt="Camiseta Manchester United 2008 Retro"
            loading="lazy"
@@ -1158,7 +1169,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 21 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="manchester-2008-larga.jpg"
            alt="Camiseta Manchester United 2008 Manga Larga Retro"
            loading="lazy"
@@ -1181,7 +1192,7 @@ footer{
     </article>
 
      <!-- CAMISETA RETRO 22 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="europa">
       <img src="manchester-alterna-2008.jpg"
            alt="Camiseta Manchester United Alterna 2008 Retro"
            loading="lazy"
@@ -1204,7 +1215,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 23 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="peru">
       <img src="milan-alterna-2007.jpg"
            alt="Camiseta Milan Alterna 2007 Retro"
            loading="lazy"
@@ -1227,7 +1238,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 24 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto-retro">
+    <article class="card producto-retro" data-category="resto">
       <img src="santos-2012.jpg"
            alt="Camiseta Santos 2012 Retro"
            loading="lazy"
@@ -1296,6 +1307,25 @@ footer{
     </article>
     
   </div>
+
+  </div>
+
+  <!-- VER MÁS -->
+  <div class="ver-mas-btn">
+    <button id="btnToggleRetro" onclick="toggleRetro()">VER MÁS</button>
+  </div>
+
+  /* ANIMACIÓN CAMISETAS RETRO */
+#retro .card{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 0.6s ease, transform 0.6s ease;
+}
+
+#retro .card.visible{
+  opacity:1;
+  transform:translateY(0);
+}
 </section>
 
 <section id="short">
@@ -1513,7 +1543,80 @@ document.querySelectorAll(".talla-select").forEach(select => {
     }
   });
 });
+
+  let categoriaRetro = "todos";
+const porBloqueRetro = 6;
+let mostradosRetro = porBloqueRetro;
+
+const productosRetro = [...document.querySelectorAll(".producto-retro")];
+let productosRetroFiltrados = [...productosRetro];
+
+const btnToggleRetro = document.getElementById("btnToggleRetro");
+const contadorRetro = document.getElementById("contadorRetro");
+
+/* CONTADOR RETRO */
+function actualizarContadorRetro(){
+  contadorRetro.textContent =
+    `Mostrando ${Math.min(mostradosRetro, productosRetroFiltrados.length)} de ${productosRetroFiltrados.length} camisetas retro`;
+}
+
+/* RENDER RETRO */
+function renderRetro(){
+  productosRetro.forEach(p=>{
+    p.style.display="none";
+    p.classList.remove("visible");
+  });
+
+  productosRetroFiltrados.slice(0, mostradosRetro).forEach(p=>{
+    p.style.display="block";
+    setTimeout(()=>p.classList.add("visible"),50);
+  });
+
+  btnToggleRetro.style.display =
+    productosRetroFiltrados.length > porBloqueRetro ? "inline-block" : "none";
+
+  btnToggleRetro.textContent =
+    mostradosRetro >= productosRetroFiltrados.length ? "VER MENOS" : "VER MÁS";
+
+  actualizarContadorRetro();
+}
+
+/* FILTRAR RETRO */
+function filtrarRetro(categoria, boton){
+  categoriaRetro = categoria;
+  mostradosRetro = porBloqueRetro;
+
+  document
+    .querySelectorAll("#retro .ver-mas-btn button")
+    .forEach(b=>b.classList.remove("active"));
+
+  if(boton) boton.classList.add("active");
+
+  productosRetroFiltrados = productosRetro.filter(p =>
+    categoria === "todos" || p.dataset.category === categoria
+  );
+
+  renderRetro();
+}
+
+/* VER MÁS / VER MENOS RETRO */
+function toggleRetro(){
+  if(mostradosRetro < productosRetroFiltrados.length){
+    mostradosRetro += porBloqueRetro;
+  }else{
+    mostradosRetro = porBloqueRetro;
+    document.getElementById("retro")
+      .scrollIntoView({behavior:"smooth"});
+  }
+  renderRetro();
+}
+
+/* INICIAL RETRO */
+document.addEventListener("DOMContentLoaded", ()=>{
+  filtrarRetro("todos", document.querySelector("#retro .ver-mas-btn button"));
+});
 </script>
+
 
 
 
