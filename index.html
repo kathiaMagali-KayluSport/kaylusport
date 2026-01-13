@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KayluSport | Camisetas de Fútbol y Tienda Deportiva en Tarapoto - Perú</title>
+  <meta name="description" content="KayluSport es una tienda deportiva especializada en camisetas de fútbol actuales y retro. Envíos a todo el Perú. Compra fácil por WhatsApp.">
+
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+  url("cesped-nocturno.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  color:#fff;
+}
+
+header{
+  text-align:center;
+  padding:20px;
+}
+
+nav a{
+  color:#fff;
+  margin:0 10px;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+section{
+  padding:40px 20px;
+  max-width:1200px;
+  margin:auto;
+}
+
+h2{
+  text-align:center;
+  color:#f9d423;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 260px));
+  justify-content:center;
+  gap:20px;
+}
+
+.card{
+  background:#fff;
+  color:#000;
+  padding:15px;
+  border-radius:14px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+  .card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 14px 35px rgba(0,0,0,0.25);
+}
+
+/* ANIMACIÓN SOLO PARA CAMISETAS ACTUALES */
+#actuales .card{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 0.6s ease, transform 0.6s ease;
+}
+
+#actuales .card.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.card img{
+  width:100%;
+  height:230px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:12px;
+  transition:transform 0.3s ease;
+}
+
+.card:hover img{
+  transform:scale(1.05);
+}
+
+  .card p{
+  font-size:16px;
+  font-weight:600;
+  margin:8px 0;
+}
+.price{
+  font-weight:700;
+  font-size:18px;
+  color:#25D366;
+  margin:10px 0;
+}
+
+.sizes{
+  font-size:0.9rem;
+  margin-bottom:10px;
+}
+
+.whatsapp{
+  display:inline-block;
+  background:#25D366;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:600;
+  transition:background 0.3s ease, transform 0.2s ease;
+}
+
+.whatsapp:hover{
+  background:#1ebe5d;
+  transform:scale(1.03);
+}
+
+.ver-mas-btn{
+  text-align:center;
+  margin-top:30px;
+}
+
+.ver-mas-btn button{
+  background:#f9d423;
+  color:#000;
+  border:none;
+  padding:12px 30px;
+  font-size:16px;
+  font-weight:bold;
+  border-radius:30px;
+  cursor:pointer;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+}
+
+.whatsapp-float{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#25D366;
+  color:white;
+  padding:15px 18px;
+  border-radius:50%;
+  font-size:22px;
+  text-decoration:none;
+  box-shadow:0 6px 15px rgba(0,0,0,0.3);
+  z-index:1000;
+}
+
+/* LIGHTBOX */
+.lightbox{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2000;
+}
+
+.lightbox img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:12px;
+}
+
+.lightbox span{
+  position:absolute;
+  top:20px;
+  right:30px;
+  color:#fff;
+  font-size:30px;
+  cursor:pointer;
+}
+
+  .filtro-btn{
+  background:#f9d423;
+  color:#000;
+  border:none;
+  padding:10px 18px;
+  margin:4px;
+  border-radius:20px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.filtro-btn.activo{
+  background:#25D366;
+  color:#fff;
+}
+
+  .ver-mas-btn button.active{
+  background:#25D366;
+  color:#fff;
+}
+
+  .talla-select{
+  width:100%;
+  padding:8px;
+  margin:10px 0;
+  border-radius:6px;
+  font-size:14px;
+}
+
+.btn-wsp{
+  display:block;
+  text-align:center;
+  margin-top:8px;
+}
+
+  .whatsapp.disabled{
+  background:#ccc;
+  cursor:not-allowed;
+  pointer-events:none;
+}
+
+.talla-select:focus{
+  outline:2px solid #25D366;
+}
+
+  @media (min-width:1024px){
+  section{
+    max-width:1100px;
+  }
+
+  .card{
+    max-width:260px;
+    margin:auto;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div style="background:#f9d423;color:#000;padding:10px;font-weight:700;">
+    🚚 Envíos a toda la región y el Perú
+  </div>
+
+  <img src="logo-kaylusport.png" style="max-width:140px;margin:20px auto;display:block;">
+  <h1>KayluSport</h1>
+  <p>Pasión por el fútbol • Camisetas y accesorios deportivos</p>
+
+  <nav>
+    <a href="#actuales">Actuales</a>
+    <a href="#retro">Retro</a>
+    <a href="#short">Short</a>
+    <a href="#casacas">Casacas</a>
+    <a href="#medias">Medias</a>
+    <a href="#souvenirs">Souvenirs</a>
+  </nav>
+</header>
+
+<!-- ======= CONTENIDO PRINCIPAL ======= -->
+<main> <!-- MODIFICADO: agregado main para semántica -->
+
+<!-- CAMISETAS ACTUALES -->
+<section id="actuales">
+<h2>Camisetas Actuales</h2>
+
+  <p id="contador" style="text-align:center; margin-bottom:20px; font-weight:bold;"></p>
+  
+  <div style="text-align:center; margin:20px 0;">
+  <input 
+    type="text" 
+    id="buscador"
+    placeholder="Buscar camiseta..."
+    style="
+      padding:12px 16px;
+      width:100%;
+      max-width:400px;
+      border-radius:30px;
+      border:none;
+      font-size:16px;
+      outline:none;
+    "
+  >
+</div>
+
+ <div class="ver-mas-btn">
+  <button id="btnTodos" onclick="filtrar('todos', this)">TODOS</button>
+  <button id="btnPeru" onclick="filtrar('peru', this)">PERÚ</button>
+  <button id="btnEuropa" onclick="filtrar('europa', this)">EUROPA</button>
+  <button id="btnSelecciones" onclick="filtrar('selecciones', this)">SELECCIONES</button>
+  <button id="btnResto" onclick="filtrar('resto-del-mundo', this)">RESTO DEL MUNDO</button>
+</div>
+
+<div class="grid" id="productosActuales">
+  
+  <!-- AGREGA TODAS TUS CAMISETAS AQUÍ -->
+ 
+  <article class="card producto" data-category="peru"><img src="actual-u.jpg" alt="Camiseta Universitario" loading="lazy" onclick="openLightbox(this.src)"><h3>Universitario</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="peru"><img src="actual-al.jpg" alt="Camiseta Alianza Lima" loading="lazy" onclick="openLightbox(this.src)"><h3>Alianza Lima</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-rm.jpg" alt="Camiseta Real Madrid" loading="lazy" onclick="openLightbox(this.src)"><h3>Real Madrid</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-che-a.jpg" alt="Camiseta Chelsea" loading="lazy" onclick="openLightbox(this.src)"><p>Chelsea</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-juve-a.jpg" alt="Camiseta Juventus" loading="lazy" onclick="openLightbox(this.src)"><h3>Juventus</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-bayer.jpg" alt="Camiseta Bayern" loading="lazy" onclick="openLightbox(this.src)"><h3>Bayern</h3><div class="price">S/ 50.00</div>
+  
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-bar-alt.jpg" alt="Camiseta Barcelona" loading="lazy" onclick="openLightbox(this.src)"><h3>Barcelona</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="selecciones"><img src="actual-port-negro.jpg" alt="Camiseta Portugal" loading="lazy" onclick="openLightbox(this.src)"><h3>Portugal</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="selecciones"><img src="actual-peru.jpg" alt="Camiseta Perú" loading="lazy" onclick="openLightbox(this.src)"><h3>Perú</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="resto-del-mundo"><img src="actual-miami.jpg" alt="Camiseta Inter Miami" loading="lazy" onclick="openLightbox(this.src)"><h3>Inter Miami</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="resto-del-mundo"><img src="actual-miami2.jpg" alt="Camiseta Inter Miami 2" loading="lazy" onclick="openLightbox(this.src)"><h3>Inter Miami</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="selecciones"><img src="actual-portu1.jpg" alt="Camiseta Portugal 2" loading="lazy" onclick="openLightbox(this.src)"><h3>Portugal Titular</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="resto-del-mundo"><img src="actual-palme.jpg" alt="Camiseta Palmeiras" loading="lazy" onclick="openLightbox(this.src)"><h3>Palmeiras</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-rm2.jpg" alt="Camiseta Real Madrid 2" loading="lazy" onclick="openLightbox(this.src)"><h3>Real Madrid</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-juve.jpg" alt="Camiseta Juventus 2" loading="lazy" onclick="openLightbox(this.src)"><h3>Juventus</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-amadrid.jpg" alt="Camiseta Atletico Madrid" loading="lazy" onclick="openLightbox(this.src)"><h3>Atletico Madrid</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="selecciones"><img src="actual-portu2.jpg" alt="Camiseta Portugal 3" loading="lazy" onclick="openLightbox(this.src)"><h3>Portugal</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="resto-del-mundo"><img src="actual-pal2.jpg" alt="Camiseta Palmeiras 2" loading="lazy" onclick="openLightbox(this.src)"><h3>Palmeiras</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-tote2.jpg" alt="Camiseta Tottenham 2" loading="lazy" onclick="openLightbox(this.src)"><h3>Tottenham</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-chel3.jpg" alt="Camiseta Chelsea 3" loading="lazy" onclick="openLightbox(this.src)"><h3>Chelsea</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-tote.jpg" alt="Camiseta Tottenham" loading="lazy" onclick="openLightbox(this.src)"><h3>Tottenham</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="europa"><img src="actual-live2.jpg" alt="Camiseta Liverpool" loading="lazy" onclick="openLightbox(this.src)"><h3>Liverpool</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+  <article class="card producto" data-category="resto-del-mundo"><img src="actual-all3.jpg" alt="Camiseta All Nassr" loading="lazy" onclick="openLightbox(this.src)"><h3>All Nassr</h3><div class="price">S/ 50.00</div>
+  <!-- SELECTOR DE TALLA -->
+  <select class="talla-select">
+    <option value="">Selecciona talla</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+  </select>
+
+  <!-- WHATSAPP -->
+  <a class="whatsapp btn-wsp" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+  </article>
+
+</div>
+
+<div class="ver-mas-btn">
+  <button id="btnToggle" onclick="toggleProductos()">VER MÁS</button>
+</div>
+</section>
+
+<section id="retro">
+<h2>Camisetas Retro</h2>
+<div class="grid">
+<article class="card">
+<p>Camiseta Retro Clásica</p>
+<div class="price">S/ 60.00</div>
+<div class="sizes">S - M - L - XL</div>
+<a class="whatsapp" href="https://wa.me/51971245962">Comprar</a>
+</article>
+</div>
+</section>
+
+<section id="short">
+<h2>Short</h2>
+<div class="grid">
+<article class="card">
+<p>Short Deportivo</p>
+<div class="price">S/ 25.00</div>
+<div class="sizes">S - M - L</div>
+<a class="whatsapp" href="https://wa.me/51971245962">Comprar</a>
+</article>
+</div>
+</section>
+
+<section id="casacas">
+<h2>Casacas y Buzos</h2>
+<div class="grid">
+<article class="card">
+<p>Casaca Oficial</p>
+<div class="price">S/ 130.00</div>
+<div class="sizes">M - L - XL</div>
+<a class="whatsapp" href="https://wa.me/51971245962">Comprar</a>
+</article>
+</div>
+</section>
+
+<section id="medias">
+<h2>Medias</h2>
+<div class="grid">
+<article class="card">
+<p>Medias de Fútbol</p>
+<div class="price">S/ 10.00</div>
+<div class="sizes">Talla Única</div>
+<a class="whatsapp" href="https://wa.me/51971245962">Comprar</a>
+</article>
+</div>
+</section>
+
+<section id="souvenirs">
+<h2>Souvenirs</h2>
+<div class="grid">
+<article class="card">
+<p>Llavero Futbolero</p>
+<div class="price">S/ 8.00</div>
+<a class="whatsapp" href="https://wa.me/51971245962">Comprar</a>
+</article>
+</div>
+</section>
+
+</main> <!-- MODIFICADO: cierre main -->
+
+<footer>
+<p>© 2026 KayluSport | Pasión futbolera</p>
+</footer>
+
+<a class="whatsapp-float" href="https://wa.me/51971245962">💬</a>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <span onclick="closeLightbox()">✖</span>
+  <img id="lightbox-img">
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  let categoriaActual = "todos";
+  const porBloque = 6;
+  let mostrados = porBloque;
+
+  const productos = [...document.querySelectorAll(".producto")];
+  let productosFiltrados = [...productos];
+
+  const btnToggle = document.getElementById("btnToggle");
+  const buscador = document.getElementById("buscador");
+  const contador = document.getElementById("contador");
+
+  /* ===============================
+     CONTADOR
+  ================================ */
+  function actualizarContador() {
+    contador.textContent =
+      `Mostrando ${Math.min(mostrados, productosFiltrados.length)} de ${productosFiltrados.length} camisetas`;
+  }
+
+  /* ===============================
+     MOSTRAR PRODUCTOS
+  ================================ */
+  function renderProductos() {
+    productos.forEach(p => {
+      p.style.display = "none";
+      p.classList.remove("visible");
+    });
+
+    productosFiltrados.slice(0, mostrados).forEach(p => {
+      p.style.display = "block";
+      setTimeout(() => p.classList.add("visible"), 50);
+    });
+
+    btnToggle.style.display =
+      productosFiltrados.length > porBloque ? "inline-block" : "none";
+
+    btnToggle.textContent =
+      mostrados >= productosFiltrados.length ? "VER MENOS" : "VER MÁS";
+
+    actualizarContador();
+  }
+
+  /* ===============================
+     FILTRAR POR CATEGORÍA
+  ================================ */
+  window.filtrar = function (categoria, boton) {
+    categoriaActual = categoria;
+    mostrados = porBloque;
+    buscador.value = "";
+
+    document
+      .querySelectorAll("#actuales .ver-mas-btn button")
+      .forEach(b => b.classList.remove("active"));
+
+    if (boton) boton.classList.add("active");
+
+    productosFiltrados = productos.filter(p =>
+      categoria === "todos" || p.dataset.category === categoria
+    );
+
+    renderProductos();
+  };
+
+  /* ===============================
+     BUSCADOR
+  ================================ */
+  buscador.addEventListener("input", function () {
+    const texto = this.value.toLowerCase();
+
+    productosFiltrados = productos.filter(p => {
+      const nombre = p.querySelector("p").textContent.toLowerCase();
+      return (
+        (categoriaActual === "todos" || p.dataset.category === categoriaActual) &&
+        nombre.includes(texto)
+      );
+    });
+
+    mostrados = productosFiltrados.length;
+    renderProductos();
+    btnToggle.style.display = "none";
+  });
+
+  /* ===============================
+     VER MÁS / VER MENOS
+  ================================ */
+  window.toggleProductos = function () {
+    if (mostrados < productosFiltrados.length) {
+      mostrados += porBloque;
+    } else {
+      mostrados = porBloque;
+      document
+        .getElementById("actuales")
+        .scrollIntoView({ behavior: "smooth" });
+    }
+    renderProductos();
+  };
+
+  /* ===============================
+     LIGHTBOX
+  ================================ */
+  window.openLightbox = function (src) {
+    document.getElementById("lightbox-img").src = src;
+    document.getElementById("lightbox").style.display = "flex";
+  };
+
+  window.closeLightbox = function () {
+    document.getElementById("lightbox").style.display = "none";
+  };
+
+  /* ===============================
+     ESTADO INICIAL
+  ================================ */
+  filtrar("todos", document.getElementById("btnTodos"));
+
+});
+
+function enviarWhatsApp(btn){
+  const card = btn.closest(".card");
+  const producto = card.querySelector("p").textContent;
+  const talla = card.querySelector(".talla-select").value;
+  const precio = card.querySelector(".price").textContent;
+
+  if(!talla){
+    alert("Por favor selecciona una talla");
+    return;
+  }
+
+  const mensaje =
+    `Hola 👋, quiero comprar la camiseta:\n\n` +
+    `🏷 Producto: ${producto}\n` +
+    `📏 Talla: ${talla}\n` +
+    `💰 Precio: ${precio}`;
+
+  const telefono = "51971245962";
+  const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+
+  window.open(url, "_blank");
+}
+  // ACTIVAR WHATSAPP SOLO SI HAY TALLA
+document.querySelectorAll(".talla-select").forEach(select => {
+  select.addEventListener("change", function(){
+    const card = this.closest(".card");
+    const btn = card.querySelector(".whatsapp");
+
+    if(this.value){
+      btn.classList.remove("disabled");
+    }else{
+      btn.classList.add("disabled");
+    }
+  });
+});
+</script>
