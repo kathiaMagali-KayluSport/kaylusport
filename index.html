@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KayluSport | Camisetas de Fútbol y Tienda Deportiva en Tarapoto - Perú</title>
-  <meta name="description" content="KayluSport es una tienda deportiva especializada en camisetas de fútbol actuales y retro. Envíos a todo el Perú. Compra fácil por WhatsApp.">
+  <meta name="keywords" content="KayluSport es una tienda deportiva especializada en camisetas de fútbol actuales y retro. Envíos a todo el Perú. Compra fácil por WhatsApp.">
+  <meta name="author" content="KayluSport">
 
 <style>
 body{
@@ -285,6 +286,21 @@ footer{
 .btn-ver-mas:hover{
   transform:scale(1.05);
 }
+
+  #retro .card {
+  animation: fadeUp 0.4s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>
 </head>
 
@@ -302,7 +318,7 @@ footer{
   <nav>
     <a href="#actuales">Actuales</a>
     <a href="#retro">Retro</a>
-    <a href="#ediciones-espeiales">Ediciones Especiales</a>
+    <a href="#ediciones-especiales">Ediciones Especiales</a>
     <a href="#short">Short</a>
     <a href="#casacas">Casacas</a>
     <a href="#medias">Medias</a>
@@ -1526,6 +1542,11 @@ document.addEventListener("DOMContentLoaded", function () {
      ===================================================== */
 
   const productosRetro = [...document.querySelectorAll("#productosRetro .producto")];
+
+  if (productosRetro.length === 0) {
+  btnRetroToggle.style.display = "none";
+  contadorRetro.textContent = "No hay camisetas retro aún";
+}
   let retroMostrados = porBloque;
 
   const buscadorRetro = document.getElementById("buscadorRetro");
@@ -1639,6 +1660,7 @@ function enviarWhatsApp(btn) {
   window.open(url, "_blank");
 }
 </script>
+
 
 
 
