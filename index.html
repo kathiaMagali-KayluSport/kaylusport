@@ -301,29 +301,62 @@ footer{
     transform: translateY(0);
   }
 }
-</style>
 
-  /* Zoom al hacer clic */
+  /* LIGHTBOX CON ZOOM AL CLIC */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
 .lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
   transition: transform 0.3s ease;
   cursor: zoom-in;
 }
 
 .lightbox img.zoomed {
-  transform: scale(2); /* Cambia 2 por otro número si quieres más o menos zoom */
+  transform: scale(2); /* Nivel de zoom */
   cursor: zoom-out;
 }
-  
+
+.lightbox span {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+ <!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <span onclick="closeLightbox()">&times;</span>
+  <img id="lightbox-img" src="" alt="Imagen ampliada">
+</div> 
+</style>
+
 </head>
 
 function openLightbox(src) {
   const lightbox = document.getElementById("lightbox");
   const img = document.getElementById("lightbox-img");
-
   if (!lightbox || !img) return;
 
   img.src = src;
   lightbox.style.display = "flex";
+
+  // Quitar zoom de un clic anterior
+  img.classList.remove("zoomed");
 }
 
 function closeLightbox() {
@@ -331,10 +364,8 @@ function closeLightbox() {
   if (lightbox) lightbox.style.display = "none";
 }
 
-  // Seleccionamos la imagen del lightbox
+// Zoom al hacer clic en la imagen dentro del lightbox
 const lightboxImg = document.getElementById("lightbox-img");
-
-// Cuando se haga clic en la imagen, alterna zoom
 lightboxImg.addEventListener("click", function() {
   this.classList.toggle("zoomed");
 });
@@ -1700,3 +1731,4 @@ renderRetro();
   
 });
 </script>
+
