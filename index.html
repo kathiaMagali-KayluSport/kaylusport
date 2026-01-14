@@ -302,6 +302,18 @@ footer{
   }
 }
 </style>
+
+  /* Zoom al hacer clic */
+.lightbox img {
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+}
+
+.lightbox img.zoomed {
+  transform: scale(2); /* Cambia 2 por otro número si quieres más o menos zoom */
+  cursor: zoom-out;
+}
+  
 </head>
 
 function openLightbox(src) {
@@ -319,6 +331,14 @@ function closeLightbox() {
   if (lightbox) lightbox.style.display = "none";
 }
 
+  // Seleccionamos la imagen del lightbox
+const lightboxImg = document.getElementById("lightbox-img");
+
+// Cuando se haga clic en la imagen, alterna zoom
+lightboxImg.addEventListener("click", function() {
+  this.classList.toggle("zoomed");
+});
+  
 <body>
 
 <header>
@@ -1680,17 +1700,3 @@ renderRetro();
   
 });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
