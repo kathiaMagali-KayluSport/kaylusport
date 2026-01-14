@@ -304,6 +304,21 @@ footer{
 </style>
 </head>
 
+function openLightbox(src) {
+  const lightbox = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+
+  if (!lightbox || !img) return;
+
+  img.src = src;
+  lightbox.style.display = "flex";
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById("lightbox");
+  if (lightbox) lightbox.style.display = "none";
+}
+
 <body>
 
 <header>
@@ -1665,6 +1680,7 @@ renderRetro();
   
 });
 </script>
+
 
 
 
