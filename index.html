@@ -1555,10 +1555,14 @@ function renderRetro() {
     p.dataset.category === categoriaRetroActual
   );
 
-  productosRetro.forEach(p => p.style.display = "none");
+  productosRetro.forEach(p => {
+    p.style.display = "none";
+    p.classList.remove("visible");
+  });
 
-  visibles.slice(0, retroMostrados).forEach(p => {
+  visibles.slice(0, retroMostrados).forEach((p, i) => {
     p.style.display = "block";
+    setTimeout(() => p.classList.add("visible"), i * 40);
   });
 
   document.getElementById("contadorRetro").textContent =
@@ -1573,16 +1577,6 @@ function renderRetro() {
       retroMostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
   }
 }
-
-window.filtrarRetro = function (categoria, boton) {
-  categoriaRetroActual = categoria;
-  retroMostrados = 6;
-
-  document
-    .querySelectorAll("#retro .ver-mas-btn button")
-    .forEach(b => b.classList.remove("active"));
-
-  if (boton) boton.classList.add("active");
 
   renderRetro();
 };
@@ -1673,6 +1667,7 @@ function enviarWhatsApp(btn) {
   window.open(url, "_blank");
 }
 </script>
+
 
 
 
