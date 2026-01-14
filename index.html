@@ -1384,7 +1384,6 @@ function closeLightbox() {
   <img id="lightbox-img">
 </div>
 
-<script>
 document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================
@@ -1436,7 +1435,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (buscadorActuales) {
     buscadorActuales.addEventListener("input", function () {
       const texto = this.value.toLowerCase();
-      mostrados = porBloque;
+      mostrados = porBloque; // reinicia cantidad mostrada
       renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle", texto);
     });
   }
@@ -1444,7 +1443,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.filtrar = function(categoria, boton) {
     categoriaActual = categoria;
     mostrados = porBloque;
-    if (buscadorActuales) buscadorActuales.value = "";
+    if (buscadorActuales) buscadorActuales.value = ""; // limpiar buscador al cambiar categoría
 
     document.querySelectorAll("#actuales .ver-mas-btn button")
       .forEach(b => b.classList.remove("active"));
@@ -1466,7 +1465,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      RETRO
   ====================== */
-  const productosRetro = [...document.querySelectorAll("#retro .producto")];
+  const productosRetro = [...document.querySelectorAll("#retro .producto-retro")];
   let categoriaRetro = "todos";
   let retroMostrados = porBloque;
 
@@ -1474,7 +1473,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (buscadorRetro) {
     buscadorRetro.addEventListener("input", function () {
       const texto = this.value.toLowerCase();
-      retroMostrados = porBloque;
+      retroMostrados = porBloque; // reinicia cantidad mostrada
       renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle", texto);
     });
   }
@@ -1482,7 +1481,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.filtrarRetro = function(categoria, boton) {
     categoriaRetro = categoria;
     retroMostrados = porBloque;
-    if (buscadorRetro) buscadorRetro.value = "";
+    if (buscadorRetro) buscadorRetro.value = ""; // limpiar buscador al cambiar categoría
 
     document.querySelectorAll("#retro .ver-mas-btn button")
       .forEach(b => b.classList.remove("active"));
@@ -1490,7 +1489,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (boton) boton.classList.add("active");
 
     renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
-    document.getElementById("retro").scrollIntoView({ behavior: "smooth" });
   };
 
   window.toggleRetro = function() {
