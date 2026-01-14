@@ -1519,7 +1519,7 @@ function renderActuales(textoBusqueda = "") {
 /* =====================
    FILTROS
 ===================== */
-window.filtrarCategoria = function (categoria, boton) {
+window.filtrar = function (categoria, boton) {
   categoriaActual = categoria;
   mostrados = porBloque;
   if (buscador) buscador.value = "";
@@ -1535,14 +1535,21 @@ window.filtrarCategoria = function (categoria, boton) {
    VER MÁS / VER MENOS
 ===================== */
 window.toggleMostrar = function () {
-  mostrados += porBloque;
+  const visibles = productos.filter(p =>
+    categoriaActual === "todos" || p.dataset.category === categoriaActual
+  );
+
+  if (mostrados < visibles.length) {
+    mostrados += porBloque;
+  } else {
+    mostrados = porBloque;
+    document
+      .getElementById("actuales")
+      .scrollIntoView({ behavior: "smooth" });
+  }
+
   renderActuales();
 };
-
-/* =====================
-   ESTADO INICIAL
-===================== */
-renderActuales();
 
   
   /* =====================
@@ -1602,6 +1609,7 @@ renderActuales();
 
 });
 </script>
+
 
 
 
