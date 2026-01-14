@@ -1480,7 +1480,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const texto = this.value.toLowerCase();
 
     productosFiltrados = productos.filter(p => {
-      const nombre = p.querySelector("p").textContent.toLowerCase();
+      const nombre = p.querySelector("h3").textContent.toLowerCase();
       return (
         (categoriaActual === "todos" || p.dataset.category === categoriaActual) &&
         nombre.includes(texto)
@@ -1528,7 +1528,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function enviarWhatsApp(btn){
   const card = btn.closest(".card");
-  const producto = card.querySelector("p").textContent;
+  const producto = card.querySelector("h3").textContent;
   const talla = card.querySelector(".talla-select").value;
   const precio = card.querySelector(".price").textContent;
 
@@ -1655,6 +1655,7 @@ buscadorRetro.addEventListener("input", function(){
 });
   
 </script>
+
 
 
 
