@@ -1433,28 +1433,26 @@ footer{
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
+  /* =====================================================
+     =============== CAMISETAS ACTUALES ==================
+     ===================================================== */
+
   let categoriaActual = "todos";
   const porBloque = 6;
   let mostrados = porBloque;
 
-  const productos = [...document.querySelectorAll(".producto")];
+  const productos = [...document.querySelectorAll("#productosActuales .producto")];
   let productosFiltrados = [...productos];
 
   const btnToggle = document.getElementById("btnToggle");
   const buscador = document.getElementById("buscador");
   const contador = document.getElementById("contador");
 
-  /* ===============================
-     CONTADOR
-  ================================ */
   function actualizarContador() {
     contador.textContent =
       `Mostrando ${Math.min(mostrados, productosFiltrados.length)} de ${productosFiltrados.length} camisetas`;
   }
 
-  /* ===============================
-     MOSTRAR PRODUCTOS
-  ================================ */
   function renderProductos() {
     productos.forEach(p => {
       p.style.display = "none";
@@ -1475,9 +1473,6 @@ document.addEventListener("DOMContentLoaded", function () {
     actualizarContador();
   }
 
-  /* ===============================
-     FILTRAR POR CATEGORÍA
-  ================================ */
   window.filtrar = function (categoria, boton) {
     categoriaActual = categoria;
     mostrados = porBloque;
@@ -1496,9 +1491,6 @@ document.addEventListener("DOMContentLoaded", function () {
     renderProductos();
   };
 
-  /* ===============================
-     BUSCADOR
-  ================================ */
   buscador.addEventListener("input", function () {
     const texto = this.value.toLowerCase();
 
@@ -1515,47 +1507,111 @@ document.addEventListener("DOMContentLoaded", function () {
     btnToggle.style.display = "none";
   });
 
-  /* ===============================
-     VER MÁS / VER MENOS
-  ================================ */
   window.toggleProductos = function () {
     if (mostrados < productosFiltrados.length) {
       mostrados += porBloque;
     } else {
       mostrados = porBloque;
-      document
-        .getElementById("actuales")
+      document.getElementById("actuales")
         .scrollIntoView({ behavior: "smooth" });
     }
     renderProductos();
   };
 
-  /* ===============================
-     LIGHTBOX
-  ================================ */
-  window.openLightbox = function (src) {
-    document.getElementById("lightbox-img").src = src;
-    document.getElementById("lightbox").style.display = "flex";
-  };
-
-  window.closeLightbox = function () {
-    document.getElementById("lightbox").style.display = "none";
-  };
-
-  /* ===============================
-     ESTADO INICIAL
-  ================================ */
   filtrar("todos", document.getElementById("btnTodos"));
+
+  /* =====================================================
+     ================= CAMISETAS RETRO ===================
+     ===================================================== */
+
+  const productosRetro = [...document.querySelectorAll("#productosRetro .producto")];
+  let retroMostrados = porBloque;
+
+  const buscadorRetro = document.getElementById("buscadorRetro");
+  const contadorRetro = document.getElementById("contadorRetro");
+  const btnRetroToggle = document.getElementById("btnRetroToggle");
+
+  function actualizarContadorRetro() {
+    contadorRetro.textContent =
+      `Mostrando ${Math.min(retroMostrados, productosRetro.length)} de ${productosRetro.length} camisetas retro`;
+  }
+
+  function renderRetro() {
+    productosRetro.forEach(p => p.style.display = "none");
+
+    productosRetro.slice(0, retroMostrados).forEach(p => {
+      p.style.display = "block";
+    });
+
+    btnRetroToggle.textContent =
+      retroMostrados >= productosRetro.length ? "VER MENOS" : "VER MÁS";
+
+    actualizarContadorRetro();
+  }
+
+  buscadorRetro.addEventListener("input", function () {
+    const texto = this.value.toLowerCase();
+
+    productosRetro.forEach(p => {
+      const nombre = p.querySelector("h3").textContent.toLowerCase();
+      p.style.display = nombre.includes(texto) ? "block" : "none";
+    });
+
+    btnRetroToggle.style.display = "none";
+  });
+
+  window.toggleRetro = function () {
+    if (retroMostrados < productosRetro.length) {
+      retroMostrados += porBloque;
+    } else {
+      retroMostrados = porBloque;
+      document.getElementById("retro")
+        .scrollIntoView({ behavior: "smooth" });
+    }
+    renderRetro();
+  };
+
+  renderRetro();
+
+  /* =====================================================
+     ================= WHATSAPP + TALLA ==================
+     ===================================================== */
+
+  document.querySelectorAll(".talla-select").forEach(select => {
+    select.addEventListener("change", function () {
+      const card = this.closest(".card");
+      const btn = card.querySelector(".whatsapp");
+
+      if (this.value) {
+        btn.classList.remove("disabled");
+      } else {
+        btn.classList.add("disabled");
+      }
+    });
+  });
 
 });
 
-function enviarWhatsApp(btn){
+/* ======================= LIGHTBOX ======================= */
+
+function openLightbox(src) {
+  document.getElementById("lightbox-img").src = src;
+  document.getElementById("lightbox").style.display = "flex";
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").style.display = "none";
+}
+
+/* ======================= WHATSAPP ======================= */
+
+function enviarWhatsApp(btn) {
   const card = btn.closest(".card");
   const producto = card.querySelector("h3").textContent;
   const talla = card.querySelector(".talla-select").value;
   const precio = card.querySelector(".price").textContent;
 
-  if(!talla){
+  if (!talla) {
     alert("Por favor selecciona una talla");
     return;
   }
@@ -1571,81 +1627,6 @@ function enviarWhatsApp(btn){
 
   window.open(url, "_blank");
 }
-  // ACTIVAR WHATSAPP SOLO SI HAY TALLA
-document.querySelectorAll(".talla-select").forEach(select => {
-  select.addEventListener("change", function(){
-    const card = this.closest(".card");
-    const btn = card.querySelector(".whatsapp");
-
-    if(this.value){
-      btn.classList.remove("disabled");
-    }else{
-      btn.classList.add("disabled");
-    }
-  });
-});
-
-/* ===============================
-   ====== CAMISETAS RETRO ======
-================================ */
-
-const retroPorBloque = 6;
-let retroMostrados = retroPorBloque;
-
-const productosRetro = [...document.querySelectorAll(".producto-retro")];
-let retroFiltrados = [...productosRetro];
-
-const btnToggleRetro = document.getElementById("btnToggleRetro");
-const buscadorRetro = document.getElementById("buscadorRetro");
-const contadorRetro = document.getElementById("contadorRetro");
-
-function actualizarContadorRetro() {
-  contadorRetro.textContent =
-    `Mostrando ${Math.min(retroMostrados, retroFiltrados.length)} de ${retroFiltrados.length} camisetas retro`;
-}
-
-function renderRetro() {
-  productosRetro.forEach(p => p.style.display = "none");
-
-  retroFiltrados.slice(0, retroMostrados).forEach(p => {
-    p.style.display = "block";
-    setTimeout(() => p.classList.add("visible"), 50);
-  });
-
-  btnToggleRetro.style.display =
-    retroFiltrados.length > retroPorBloque ? "inline-block" : "none";
-
-  btnToggleRetro.textContent =
-    retroMostrados >= retroFiltrados.length ? "VER MENOS" : "VER MÁS";
-
-  actualizarContadorRetro();
-}
-
-buscadorRetro.addEventListener("input", function () {
-  const texto = this.value.toLowerCase();
-
-  retroFiltrados = productosRetro.filter(p =>
-    p.querySelector("h3").textContent.toLowerCase().includes(texto)
-  );
-
-  retroMostrados = retroFiltrados.length;
-  renderRetro();
-  btnToggleRetro.style.display = "none";
-});
-
-btnToggleRetro.addEventListener("click", function () {
-  if (retroMostrados < retroFiltrados.length) {
-    retroMostrados += retroPorBloque;
-  } else {
-    retroMostrados = retroPorBloque;
-    document.getElementById("retro").scrollIntoView({ behavior: "smooth" });
-  }
-  renderRetro();
-});
-
-/* inicial */
-renderRetro();
-  
 </script>
 
 
