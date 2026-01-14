@@ -1584,14 +1584,18 @@ window.toggleMostrar = function () {
   if (!select) return;
 
   const card = select.closest(".card");
-  const btn = card.querySelector(".btn-whatsapp");
+  const btn = card.querySelector(".btn-wsp");
+
+  if (!btn) return;
 
   if (select.value !== "") {
-    btn.classList.add("activo");
-    btn.removeAttribute("disabled");
+    btn.classList.remove("disabled");
+    btn.style.pointerEvents = "auto";
+    btn.style.opacity = "1";
   } else {
-    btn.classList.remove("activo");
-    btn.setAttribute("disabled", true);
+    btn.classList.add("disabled");
+    btn.style.pointerEvents = "none";
+    btn.style.opacity = "0.6";
   }
 });
   
@@ -1652,6 +1656,7 @@ window.toggleMostrar = function () {
 
 });
 </script>
+
 
 
 
