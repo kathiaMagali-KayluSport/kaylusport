@@ -262,6 +262,29 @@ footer{
   opacity:1;
   transform:translateY(0);
 }
+
+  .contador{
+  text-align:center;
+  margin-bottom:20px;
+  font-weight:bold;
+  color:#f9d423;
+}
+
+  .btn-ver-mas{
+  padding:12px 26px;
+  background:#25d366;
+  border:none;
+  border-radius:30px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  color:#000;
+  transition:transform 0.3s ease;
+}
+
+.btn-ver-mas:hover{
+  transform:scale(1.05);
+}
 </style>
 </head>
 
@@ -705,12 +728,13 @@ footer{
 <section id="retro">
 <h2>Camisetas Retro</h2>
 
-<p id="contadorRetro" style="text-align:center; margin-bottom:20px; font-weight:bold;"></p>
+<p id="contadorRetro" class="contador"></p>
 
 <div style="text-align:center; margin:20px 0;">
   <input 
     type="text" 
     id="buscadorRetro"
+    autocomplete="off"
     placeholder="Buscar camiseta retro..."
     style="
       padding:12px 16px;
@@ -1623,6 +1647,7 @@ btnToggleRetro.addEventListener("click", function () {
 renderRetro();
   
 </script>
+
 
 
 
