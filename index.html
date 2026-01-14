@@ -1602,17 +1602,23 @@ window.toggleMostrar = function () {
   window.enviarWhatsApp = function (btn) {
   const card = btn.closest(".card");
 
-  const nombre = card.querySelector("h3")?.textContent || "Producto";
-  const talla = card.querySelector(".talla-select")?.value || "";
-  const precio = card.querySelector(".precio")?.textContent || "";
+  const producto = card.querySelector("h3")?.textContent.trim();
+  const talla = card.querySelector(".talla-select")?.value;
+  const precio = card.querySelector(".price")?.textContent.trim();
 
   if (!talla) {
-    alert("Selecciona una talla");
+    alert("Por favor selecciona una talla");
     return;
   }
 
-  const mensaje = `Hola 👋, quiero comprar:\n\n${nombre}\nTalla: ${talla}\nPrecio: ${precio}`;
-  const numero = "51971245962"; // ← CAMBIA AQUÍ TU NÚMERO
+  const mensaje =
+`Hola 👋, quiero comprar la camiseta:
+
+🏷 Producto: ${producto}
+📏 Talla: ${talla}
+💰 Precio: ${precio}`;
+
+  const numero = "51971245962"; // TU NÚMERO
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
 
   window.open(url, "_blank");
@@ -1675,6 +1681,7 @@ window.toggleMostrar = function () {
 
 });
 </script>
+
 
 
 
