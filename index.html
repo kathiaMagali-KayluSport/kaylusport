@@ -1448,226 +1448,122 @@ footer{
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
-  /* =====================================================
-     =============== CAMISETAS ACTUALES ==================
-     ===================================================== */
-
-  let categoriaActual = "todos";
+  /* =====================
+     CONFIGURACIÓN GENERAL
+  ====================== */
   const porBloque = 6;
+
+  /* =====================
+     ACTUALES
+  ====================== */
+  const productos = [...document.querySelectorAll("#actuales .producto")];
+  let categoriaActual = "todos";
   let mostrados = porBloque;
 
-  const productos = [...document.querySelectorAll("#productosActuales .producto")];
-  let productosFiltrados = [...productos];
+  function renderActuales() {
+    let visibles = productos.filter(p =>
+      categoriaActual === "todos" || p.dataset.category === categoriaActual
+    );
 
-  const btnToggle = document.getElementById("btnToggle");
-  const buscador = document.getElementById("buscador");
-  const contador = document.getElementById("contador");
-
-  function actualizarContador() {
-    contador.textContent =
-      `Mostrando ${Math.min(mostrados, productosFiltrados.length)} de ${productosFiltrados.length} camisetas`;
-  }
-
-  function renderProductos() {
     productos.forEach(p => {
       p.style.display = "none";
       p.classList.remove("visible");
     });
 
-    productosFiltrados.slice(0, mostrados).forEach(p => {
+    visibles.slice(0, mostrados).forEach((p, i) => {
       p.style.display = "block";
-      setTimeout(() => p.classList.add("visible"), 50);
+      setTimeout(() => p.classList.add("visible"), i * 40);
     });
 
-    btnToggle.style.display =
-      productosFiltrados.length > porBloque ? "inline-block" : "none";
+    const contador = document.getElementById("contador");
+    if (contador) {
+      contador.textContent = `Mostrando ${Math.min(mostrados, visibles.length)} de ${visibles.length} camisetas`;
+    }
 
-    btnToggle.textContent =
-      mostrados >= productosFiltrados.length ? "VER MENOS" : "VER MÁS";
-
-    actualizarContador();
+    const btn = document.getElementById("btnToggle");
+    if (btn) {
+      btn.style.display = visibles.length > porBloque ? "inline-block" : "none";
+      btn.textContent = mostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
+    }
   }
 
-  window.filtrar = function (categoria, boton) {
+  window.filtrarCategoria = function (categoria, boton) {
     categoriaActual = categoria;
     mostrados = porBloque;
-    buscador.value = "";
 
-    document
-      .querySelectorAll("#actuales .ver-mas-btn button")
+    document.querySelectorAll("#actuales .ver-mas-btn button")
       .forEach(b => b.classList.remove("active"));
 
     if (boton) boton.classList.add("active");
+    renderActuales();
+  };
 
-    productosFiltrados = productos.filter(p =>
-      categoria === "todos" || p.dataset.category === categoria
+  window.toggleMostrar = function () {
+    mostrados = mostrados < productos.length ? mostrados + porBloque : porBloque;
+    renderActuales();
+  };
+
+  renderActuales();
+
+  /* =====================
+     RETRO
+  ====================== */
+  const productosRetro = [...document.querySelectorAll("#retro .producto")];
+  let categoriaRetro = "todos";
+  let retroMostrados = porBloque;
+
+  function renderRetro() {
+    let visibles = productosRetro.filter(p =>
+      categoriaRetro === "todos" || p.dataset.category === categoriaRetro
     );
 
-    renderProductos();
-  };
-
-  buscador.addEventListener("input", function () {
-    const texto = this.value.toLowerCase();
-
-    productosFiltrados = productos.filter(p => {
-      const nombre = p.querySelector("h3").textContent.toLowerCase();
-      return (
-        (categoriaActual === "todos" || p.dataset.category === categoriaActual) &&
-        nombre.includes(texto)
-      );
+    productosRetro.forEach(p => {
+      p.style.display = "none";
+      p.classList.remove("visible");
     });
 
-    mostrados = productosFiltrados.length;
-    renderProductos();
-    btnToggle.style.display = "none";
-  });
+    visibles.slice(0, retroMostrados).forEach((p, i) => {
+      p.style.display = "block";
+      setTimeout(() => p.classList.add("visible"), i * 40);
+    });
 
-  window.toggleProductos = function () {
-    if (mostrados < productosFiltrados.length) {
-      mostrados += porBloque;
-    } else {
-      mostrados = porBloque;
-      document.getElementById("actuales")
-        .scrollIntoView({ behavior: "smooth" });
+    const contador = document.getElementById("contadorRetro");
+    if (contador) {
+      contador.textContent =
+        `Mostrando ${Math.min(retroMostrados, visibles.length)} de ${visibles.length} camisetas retro`;
     }
-    renderProductos();
-  };
 
-  filtrar("todos", document.getElementById("btnTodos"));
-
-  /* =====================================================
-     ================= CAMISETAS RETRO ===================
-     ===================================================== */
-
-  /* ===============================
-   RETRO – FILTROS + VER MÁS
-================================ */
-
-const productosRetro = [...document.querySelectorAll("#productosRetro .producto")];
-let categoriaRetroActual = "todos";
-let retroMostrados = 6;
-
-function renderRetro() {
-  let visibles = productosRetro.filter(p =>
-    categoriaRetroActual === "todos" ||
-    p.dataset.category === categoriaRetroActual
-  );
-
-  productosRetro.forEach(p => {
-    p.style.display = "none";
-    p.classList.remove("visible");
-  });
-
-  visibles.slice(0, retroMostrados).forEach((p, i) => {
-    p.style.display = "block";
-    setTimeout(() => p.classList.add("visible"), i * 40);
-  });
-
-  document.getElementById("contadorRetro").textContent =
-    `Mostrando ${Math.min(retroMostrados, visibles.length)} de ${visibles.length} camisetas retro`;
-
-  const btn = document.getElementById("btnRetroToggle");
-  if (visibles.length <= 6) {
-    btn.style.display = "none";
-  } else {
-    btn.style.display = "inline-block";
-    btn.textContent =
-      retroMostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
+    const btn = document.getElementById("btnRetroToggle");
+    if (btn) {
+      btn.style.display = visibles.length > porBloque ? "inline-block" : "none";
+      btn.textContent = retroMostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
+    }
   }
-}
-
-  renderRetro();
-};
-
-window.toggleRetro = function () {
-  if (retroMostrados < productosRetro.length) {
-    retroMostrados += 6;
-  } else {
-    retroMostrados = 6;
-    document.getElementById("retro").scrollIntoView({ behavior: "smooth" });
-  }
-  renderRetro();
-};
-  renderRetro();
 
   window.filtrarRetro = function (categoria, boton) {
-  categoriaRetroActual = categoria;
-  retroMostrados = 6;
+    categoriaRetro = categoria;
+    retroMostrados = porBloque;
 
-  document
-    .querySelectorAll("#retro .ver-mas-btn button")
-    .forEach(b => b.classList.remove("active"));
+    document.querySelectorAll("#retro .ver-mas-btn button")
+      .forEach(b => b.classList.remove("active"));
 
-  if (boton) boton.classList.add("active");
+    if (boton) boton.classList.add("active");
+    renderRetro();
+  };
+
+  window.toggleRetro = function () {
+    retroMostrados = retroMostrados < productosRetro.length
+      ? retroMostrados + porBloque
+      : porBloque;
+    renderRetro();
+  };
 
   renderRetro();
-};
-  actualizarContadorRetro();
-};
-
-  /* =====================================================
-     ================= WHATSAPP + TALLA ==================
-     ===================================================== */
-
-  document.querySelectorAll(".talla-select").forEach(select => {
-    select.addEventListener("change", function () {
-      const card = this.closest(".card");
-      const btn = card.querySelector(".whatsapp");
-
-      if (this.value) {
-        btn.classList.remove("disabled");
-      } else {
-        btn.classList.add("disabled");
-      }
-    });
-  });
 
 });
-
-/* ======================= LIGHTBOX ======================= */
-
-function openLightbox(src) {
-  document.getElementById("lightbox-img").src = src;
-  document.getElementById("lightbox").style.display = "flex";
-}
-
-function closeLightbox() {
-  document.getElementById("lightbox").style.display = "none";
-}
-
-/* ======================= WHATSAPP ======================= */
-
-function enviarWhatsApp(btn) {
-  const card = btn.closest(".card");
-  const producto = card.querySelector("h3").textContent;
-  const talla = card.querySelector(".talla-select").value;
-  const precio = card.querySelector(".price").textContent;
-
-  if (!talla) {
-    alert("Por favor selecciona una talla");
-    return;
-  }
-
-  const mensaje =
-    `Hola 👋, quiero comprar la camiseta:\n\n` +
-    `🏷 Producto: ${producto}\n` +
-    `📏 Talla: ${talla}\n` +
-    `💰 Precio: ${precio}`;
-
-  const telefono = "51971245962";
-  const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-
-  window.open(url, "_blank");
-}
 </script>
-
-
-
-
-
-
 
 
 
