@@ -1394,7 +1394,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================
      FUNCION GENÉRICA DE RENDER
-     Ahora acepta filtro de texto opcional
+     Acepta filtro por texto opcional
   ====================== */
   function renderProductos(productos, cantidadMostrada, categoria, contadorId, toggleBtnId, filtroTexto = "") {
     const visibles = productos.filter(p => {
@@ -1432,11 +1432,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let categoriaActual = "todos";
   let mostrados = porBloque;
 
-  const buscador = document.getElementById("buscador");
-  if (buscador) {
-    buscador.addEventListener("input", function () {
+  const buscadorActuales = document.getElementById("buscadorActuales");
+  if (buscadorActuales) {
+    buscadorActuales.addEventListener("input", function () {
       const texto = this.value.toLowerCase();
-      mostrados = porBloque; // reinicia cantidad mostrada
+      mostrados = porBloque;
       renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle", texto);
     });
   }
@@ -1444,7 +1444,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.filtrar = function(categoria, boton) {
     categoriaActual = categoria;
     mostrados = porBloque;
-    if (buscador) buscador.value = ""; // limpiar buscador al cambiar categoría
+    if (buscadorActuales) buscadorActuales.value = "";
 
     document.querySelectorAll("#actuales .ver-mas-btn button")
       .forEach(b => b.classList.remove("active"));
@@ -1470,9 +1470,19 @@ document.addEventListener("DOMContentLoaded", () => {
   let categoriaRetro = "todos";
   let retroMostrados = porBloque;
 
+  const buscadorRetro = document.getElementById("buscadorRetro");
+  if (buscadorRetro) {
+    buscadorRetro.addEventListener("input", function () {
+      const texto = this.value.toLowerCase();
+      retroMostrados = porBloque;
+      renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle", texto);
+    });
+  }
+
   window.filtrarRetro = function(categoria, boton) {
     categoriaRetro = categoria;
     retroMostrados = porBloque;
+    if (buscadorRetro) buscadorRetro.value = "";
 
     document.querySelectorAll("#retro .ver-mas-btn button")
       .forEach(b => b.classList.remove("active"));
