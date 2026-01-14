@@ -1287,7 +1287,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 23 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto" data-category="peru">
+    <article class="card producto" data-category="europa">
       <img src="milan-alterna-2007.jpg"
            alt="Camiseta Milan Alterna 2007 Retro"
            loading="lazy"
@@ -1310,7 +1310,7 @@ footer{
     </article>
 
     <!-- CAMISETA RETRO 24 (EJEMPLO PARA DUPLICAR) -->
-    <article class="card producto" data-category="resto">
+    <article class="card producto" data-category="resto-del-mundo">
       <img src="santos-2012.jpg"
            alt="Camiseta Santos 2012 Retro"
            loading="lazy"
@@ -1553,31 +1553,7 @@ window.toggleMostrar = function () {
 
   renderActuales();
 
-    document.getElementById("actuales").addEventListener("click", function (e) {
-  const img = e.target.closest(".card img");
-  if (!img) return;
-
-  const src = img.getAttribute("src");
-
-  const modal = document.createElement("div");
-  modal.style.position = "fixed";
-  modal.style.top = 0;
-  modal.style.left = 0;
-  modal.style.width = "100%";
-  modal.style.height = "100%";
-  modal.style.background = "rgba(0,0,0,0.8)";
-  modal.style.display = "flex";
-  modal.style.alignItems = "center";
-  modal.style.justifyContent = "center";
-  modal.style.zIndex = 9999;
-
-  modal.innerHTML = `
-    <img src="${src}" style="max-width:90%; max-height:90%; border-radius:12px;">
-  `;
-
-  modal.addEventListener("click", () => modal.remove());
-  document.body.appendChild(modal);
-});
+  onclick="openLightbox(this.src)"
 
   document.addEventListener("change", function (e) {
   const select = e.target.closest(".talla-select");
@@ -1675,12 +1651,19 @@ window.toggleMostrar = function () {
       ? retroMostrados + porBloque
       : porBloque;
     renderRetro();
+
+    // 🔽 SCROLL SUAVE AL INICIO DE RETRO
+  document
+    .getElementById("retro")
+    .scrollIntoView({ behavior: "smooth" });
+};
   };
 
   renderRetro();
 
 });
 </script>
+
 
 
 
