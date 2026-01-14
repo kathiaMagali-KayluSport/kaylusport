@@ -712,8 +712,6 @@ footer{
   >
 </div>
 
-<div class="grid" id="productosRetro">
-
   <!-- FILTROS RETRO -->
   <div class="ver-mas-btn">
     <button onclick="filtrarRetro('todos', this)" class="active">TODOS</button>
@@ -1327,9 +1325,7 @@ footer{
     
   </div>
 
-  </div>
-
-  <!-- VER MÁS -->
+   <!-- VER MÁS -->
   <div class="ver-mas-btn">
     <button id="btnToggleRetro" onclick="toggleRetro()">VER MÁS</button>
   </div>
@@ -1563,99 +1559,67 @@ document.querySelectorAll(".talla-select").forEach(select => {
   });
 });
 
-  let categoriaRetro = "todos";
-const porBloqueRetro = 6;
-let mostradosRetro = porBloqueRetro;
+/* ===============================
+   ====== RETRO ======
+================================ */
+
+const retroPorBloque = 6;
+let retroMostrados = retroPorBloque;
 
 const productosRetro = [...document.querySelectorAll(".producto-retro")];
-let productosRetroFiltrados = [...productosRetro];
-const buscadorRetro = document.getElementById("buscadorRetro");
+let retroFiltrados = [...productosRetro];
 
 const btnToggleRetro = document.getElementById("btnToggleRetro");
+const buscadorRetro = document.getElementById("buscadorRetro");
 const contadorRetro = document.getElementById("contadorRetro");
 
-/* CONTADOR RETRO */
-function actualizarContadorRetro(){
+function actualizarContadorRetro() {
   contadorRetro.textContent =
-    `Mostrando ${Math.min(mostradosRetro, productosRetroFiltrados.length)} de ${productosRetroFiltrados.length} camisetas retro`;
+    `Mostrando ${Math.min(retroMostrados, retroFiltrados.length)} de ${retroFiltrados.length} camisetas retro`;
 }
 
-/* RENDER RETRO */
-function renderRetro(){
-  productosRetro.forEach(p=>{
-    p.style.display="none";
-    p.classList.remove("visible");
-  });
+function renderRetro() {
+  productosRetro.forEach(p => p.style.display = "none");
 
-  productosRetroFiltrados.slice(0, mostradosRetro).forEach(p=>{
-    p.style.display="block";
-    setTimeout(()=>p.classList.add("visible"),50);
+  retroFiltrados.slice(0, retroMostrados).forEach(p => {
+    p.style.display = "block";
   });
 
   btnToggleRetro.style.display =
-    productosRetroFiltrados.length > porBloqueRetro ? "inline-block" : "none";
+    retroFiltrados.length > retroPorBloque ? "inline-block" : "none";
 
   btnToggleRetro.textContent =
-    mostradosRetro >= productosRetroFiltrados.length ? "VER MENOS" : "VER MÁS";
+    retroMostrados >= retroFiltrados.length ? "VER MENOS" : "VER MÁS";
 
   actualizarContadorRetro();
 }
 
-/* FILTRAR RETRO */
-function filtrarRetro(categoria, boton){
-  categoriaRetro = categoria;
-  mostradosRetro = porBloqueRetro;
-
-  document
-    .querySelectorAll("#retro .ver-mas-btn button")
-    .forEach(b=>b.classList.remove("active"));
-
-  if(boton) boton.classList.add("active");
-
-  productosRetroFiltrados = productosRetro.filter(p =>
-    categoria === "todos" || p.dataset.category === categoria
-  );
-
-  renderRetro();
-}
-
-/* VER MÁS / VER MENOS RETRO */
-function toggleRetro(){
-  if(mostradosRetro < productosRetroFiltrados.length){
-    mostradosRetro += porBloqueRetro;
-  }else{
-    mostradosRetro = porBloqueRetro;
-    document.getElementById("retro")
-      .scrollIntoView({behavior:"smooth"});
-  }
-  renderRetro();
-}
-
-/* INICIAL RETRO */
-document.addEventListener("DOMContentLoaded", ()=>{
-  filtrarRetro("todos", document.querySelector("#retro .ver-mas-btn button"));
-});
-
-  /* ===============================
-   BUSCADOR RETRO
-================================ */
-buscadorRetro.addEventListener("input", function(){
+buscadorRetro.addEventListener("input", function () {
   const texto = this.value.toLowerCase();
 
-  productosRetroFiltrados = productosRetro.filter(p => {
-    const nombre = p.querySelector("h3").textContent.toLowerCase();
-    return (
-      (categoriaRetro === "todos" || p.dataset.category === categoriaRetro) &&
-      nombre.includes(texto)
-    );
-  });
+  retroFiltrados = productosRetro.filter(p =>
+    p.querySelector("h3").textContent.toLowerCase().includes(texto)
+  );
 
-  mostradosRetro = productosRetroFiltrados.length;
+  retroMostrados = retroFiltrados.length;
   renderRetro();
   btnToggleRetro.style.display = "none";
 });
+
+btnToggleRetro.addEventListener("click", function () {
+  if (retroMostrados < retroFiltrados.length) {
+    retroMostrados += retroPorBloque;
+  } else {
+    retroMostrados = retroPorBloque;
+    document.getElementById("retro").scrollIntoView({ behavior: "smooth" });
+  }
+  renderRetro();
+});
+
+renderRetro();
   
 </script>
+
 
 
 
