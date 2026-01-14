@@ -8,7 +8,7 @@
 <meta name="author" content="KayluSport">
 
 <style>
-body{
+body {
   margin:0;
   font-family: Arial, sans-serif;
   background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
@@ -18,37 +18,56 @@ body{
   color:#fff;
 }
 
-header{
+header {
   text-align:center;
   padding:20px;
 }
 
-nav a{
+header img {
+  max-width:140px;
+  margin:20px auto;
+  display:block;
+}
+
+header h1 {
+  margin:0;
+}
+
+header p {
+  margin:5px 0 15px;
+  font-size:16px;
+}
+
+nav a {
   color:#fff;
   margin:0 10px;
   text-decoration:none;
   font-weight:bold;
 }
 
-section{
+nav a:hover {
+  color:#f9d423;
+}
+
+section {
   padding:40px 20px;
   max-width:1200px;
   margin:auto;
 }
 
-h2{
+h2 {
   text-align:center;
   color:#f9d423;
 }
 
-.grid{
+.grid {
   display:grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 260px));
   justify-content:center;
   gap:20px;
 }
 
-.card{
+.card {
   background:#fff;
   color:#000;
   padding:15px;
@@ -58,25 +77,25 @@ h2{
   transition:transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover{
+.card:hover {
   transform:translateY(-6px);
   box-shadow:0 14px 35px rgba(0,0,0,0.25);
 }
 
 #actuales .card,
-#retro .card{
+#retro .card {
   opacity:0;
   transform:translateY(20px);
   transition:opacity 0.6s ease, transform 0.6s ease;
 }
 
 #actuales .card.visible,
-#retro .card.visible{
+#retro .card.visible {
   opacity:1;
   transform:translateY(0);
 }
 
-.card img{
+.card img {
   width:100%;
   height:230px;
   object-fit:cover;
@@ -86,28 +105,29 @@ h2{
   cursor:pointer;
 }
 
-.card:hover img{
+.card:hover img {
   transform:scale(1.05);
 }
 
-.card p{
+.card p {
   font-size:16px;
   font-weight:600;
   margin:8px 0;
 }
-.price{
+
+.price {
   font-weight:700;
   font-size:18px;
   color:#25D366;
   margin:10px 0;
 }
 
-.sizes{
+.sizes {
   font-size:0.9rem;
   margin-bottom:10px;
 }
 
-.whatsapp{
+.whatsapp {
   display:inline-block;
   background:#25D366;
   color:#fff;
@@ -118,17 +138,17 @@ h2{
   transition:background 0.3s ease, transform 0.2s ease;
 }
 
-.whatsapp:hover{
+.whatsapp:hover {
   background:#1ebe5d;
   transform:scale(1.03);
 }
 
-.ver-mas-btn{
+.ver-mas-btn {
   text-align:center;
   margin-top:30px;
 }
 
-.ver-mas-btn button{
+.ver-mas-btn button {
   background:#f9d423;
   color:#000;
   border:none;
@@ -139,12 +159,12 @@ h2{
   cursor:pointer;
 }
 
-footer{
+footer {
   text-align:center;
   padding:20px;
 }
 
-.whatsapp-float{
+.whatsapp-float {
   position:fixed;
   bottom:20px;
   right:20px;
@@ -158,7 +178,7 @@ footer{
   z-index:1000;
 }
 
-/* LIGHTBOX BASICO PARA VER IMAGEN EN GRANDE */
+/* LIGHTBOX */
 .lightbox {
   position: fixed;
   top: 0;
@@ -166,7 +186,7 @@ footer{
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.85);
-  display: none; /* oculto hasta que se abra */
+  display: none;
   align-items: center;
   justify-content: center;
   z-index: 2000;
@@ -189,45 +209,45 @@ footer{
 }
 
 @media (min-width:1024px){
-  section{
+  section {
     max-width:1100px;
   }
-
-  .card{
+  .card {
     max-width:260px;
     margin:auto;
   }
 }
 </style>
 </head>
+<body>
 
-  <div class="lightbox" id="lightbox">
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
   <span onclick="closeLightbox()">&times;</span>
   <img id="lightbox-img" src="" alt="Imagen ampliada">
 </div>
 
-  function openLightbox(src) {
+<script>
+function openLightbox(src) {
   const lightbox = document.getElementById("lightbox");
   const img = document.getElementById("lightbox-img");
   if (!lightbox || !img) return;
-
-  img.src = src;         // poner la imagen
-  lightbox.style.display = "flex"; // mostrar lightbox
+  img.src = src;
+  lightbox.style.display = "flex";
 }
 
 function closeLightbox() {
   const lightbox = document.getElementById("lightbox");
   if (lightbox) lightbox.style.display = "none";
 }
-  
-</body>
+</script>
 
 <header>
   <div style="background:#f9d423;color:#000;padding:10px;font-weight:700;">
     🚚 Envíos a toda la región y el Perú
   </div>
 
-  <img src="logo-kaylusport.png" style="max-width:140px;margin:20px auto;display:block;">
+  <img src="logo-kaylusport.png" alt="KayluSport Logo">
   <h1>KayluSport</h1>
   <p>Pasión por el fútbol • Camisetas y accesorios deportivos</p>
 
@@ -1352,7 +1372,7 @@ function closeLightbox() {
 </main> <!-- MODIFICADO: cierre main -->
 
 <footer>
-<p>© 2026 KayluSport | Pasión futbolera</p>
+  <p>© 2026 KayluSport | Pasión futbolera</p>
 </footer>
 
 <a class="whatsapp-float" href="https://wa.me/51971245962">💬</a>
@@ -1372,214 +1392,152 @@ document.addEventListener("DOMContentLoaded", () => {
   const porBloque = 6;
 
   /* =====================
-     ACTUALES
-====================== */
+     FUNCION GENÉRICA DE RENDER
+  ====================== */
+  function renderProductos(productos, cantidadMostrada, categoria, contadorId, toggleBtnId) {
+    const visibles = productos.filter(p => {
+      return categoria === "todos" || p.dataset.category === categoria;
+    });
 
-const productos = [...document.querySelectorAll("#actuales .producto")];
-let categoriaActual = "todos";
-let mostrados = porBloque;
+    productos.forEach(p => {
+      p.style.display = "none";
+      p.classList.remove("visible");
+    });
 
-/* =====================
-   BUSCADOR ACTUALES
-===================== */
-const buscador = document.getElementById("buscador");
+    visibles.slice(0, cantidadMostrada).forEach((p, i) => {
+      p.style.display = "block";
+      setTimeout(() => p.classList.add("visible"), i * 40);
+    });
 
-if (buscador) {
-  buscador.addEventListener("input", function () {
-    const texto = this.value.toLowerCase();
-    mostrados = productos.length;
-    renderActuales(texto);
+    const contador = document.getElementById(contadorId);
+    if (contador) {
+      contador.textContent = `Mostrando ${Math.min(cantidadMostrada, visibles.length)} de ${visibles.length} productos`;
+    }
 
-    const btn = document.getElementById("btnToggle");
-    if (btn) btn.style.display = "none";
-  });
-}
-
-/* =====================
-   RENDER ACTUALES
-===================== */
-function renderActuales(textoBusqueda = "") {
-
-  const visibles = productos.filter(p => {
-    const nombre = p.querySelector("h3").textContent.toLowerCase();
-    const coincideCategoria =
-      categoriaActual === "todos" || p.dataset.category === categoriaActual;
-    const coincideTexto = nombre.includes(textoBusqueda);
-
-    return coincideCategoria && coincideTexto;
-  });
-
-  productos.forEach(p => {
-    p.style.display = "none";
-    p.classList.remove("visible");
-  });
-
-  visibles.slice(0, mostrados).forEach((p, i) => {
-    p.style.display = "block";
-    setTimeout(() => p.classList.add("visible"), i * 40);
-  });
-
-  const contador = document.getElementById("contador");
-  if (contador) {
-    contador.textContent =
-      `Mostrando ${Math.min(mostrados, visibles.length)} de ${visibles.length} camisetas`;
+    const btn = document.getElementById(toggleBtnId);
+    if (btn) {
+      btn.style.display = visibles.length > porBloque ? "inline-block" : "none";
+      btn.textContent = cantidadMostrada >= visibles.length ? "VER MENOS" : "VER MÁS";
+    }
   }
 
-  const btn = document.getElementById("btnToggle");
-  if (btn) {
-    btn.style.display = visibles.length > porBloque ? "inline-block" : "none";
-    btn.textContent = mostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
-  }
-}
-
-/* =====================
-   FILTROS
-===================== */
-window.filtrar = function (categoria, boton) {
-  categoriaActual = categoria;
-  mostrados = porBloque;
-  if (buscador) buscador.value = "";
-
-  document.querySelectorAll("#actuales .ver-mas-btn button")
-    .forEach(b => b.classList.remove("active"));
-
-  if (boton) boton.classList.add("active");
-  renderActuales();
-};
-
-/* =====================
-   VER MÁS / VER MENOS
-===================== */
-window.toggleMostrar = function () {
-  const visibles = productos.filter(p =>
-    categoriaActual === "todos" || p.dataset.category === categoriaActual
-  );
-
-  if (mostrados < visibles.length) {
-    mostrados += porBloque;
-  } else {
-    mostrados = porBloque;
-    document
-      .getElementById("actuales")
-      .scrollIntoView({ behavior: "smooth" });
-  }
-
-  renderActuales();
-};
-
-  renderActuales();
-
-  document.addEventListener("change", function (e) {
-  const select = e.target.closest(".talla-select");
-  if (!select) return;
-
-  const card = select.closest(".card");
-  const btn = card.querySelector(".btn-wsp");
-
-  if (!btn) return;
-
-  if (select.value !== "") {
-    btn.classList.remove("disabled");
-    btn.style.pointerEvents = "auto";
-    btn.style.opacity = "1";
-  } else {
-    btn.classList.add("disabled");
-    btn.style.pointerEvents = "none";
-    btn.style.opacity = "0.6";
-  }
-});
-
-  window.enviarWhatsApp = function (btn) {
-  const card = btn.closest(".card");
-
-  const producto = card.querySelector("h3")?.textContent.trim();
-  const talla = card.querySelector(".talla-select")?.value;
-  const precio = card.querySelector(".price")?.textContent.trim();
-
-  if (!talla) {
-    alert("Por favor selecciona una talla");
-    return;
-  }
-
-  const mensaje =
-`Hola 👋, quiero comprar la camiseta:
-
-🏷 Producto: ${producto}
-📏 Talla: ${talla}
-💰 Precio: ${precio}`;
-
-  const numero = "51971245962"; // TU NÚMERO
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-
-  window.open(url, "_blank");
-};
-  
   /* =====================
-   RETRO
-===================== */
-const productosRetro = [...document.querySelectorAll("#retro .producto")];
-let categoriaRetro = "todos";
-let retroMostrados = porBloque;
+     ACTUALES
+  ====================== */
+  const productos = [...document.querySelectorAll("#actuales .producto")];
+  let categoriaActual = "todos";
+  let mostrados = porBloque;
 
-function renderRetro() {
-  let visibles = productosRetro.filter(p =>
-    categoriaRetro === "todos" || p.dataset.category === categoriaRetro
-  );
-
-  productosRetro.forEach(p => {
-    p.style.display = "none";
-    p.classList.remove("visible");
-  });
-
-  visibles.slice(0, retroMostrados).forEach((p, i) => {
-    p.style.display = "block";
-    setTimeout(() => p.classList.add("visible"), i * 40);
-  });
-
-  const contador = document.getElementById("contadorRetro");
-  if (contador) {
-    contador.textContent =
-      `Mostrando ${Math.min(retroMostrados, visibles.length)} de ${visibles.length} camisetas retro`;
+  const buscador = document.getElementById("buscador");
+  if (buscador) {
+    buscador.addEventListener("input", function () {
+      const texto = this.value.toLowerCase();
+      mostrados = productos.length;
+      const visibles = productos.filter(p => {
+        const nombre = p.querySelector("h3").textContent.toLowerCase();
+        return nombre.includes(texto) && (categoriaActual === "todos" || p.dataset.category === categoriaActual);
+      });
+      renderProductos(visibles, mostrados, categoriaActual, "contador", "btnToggle");
+      const btn = document.getElementById("btnToggle");
+      if (btn) btn.style.display = "none";
+    });
   }
 
-  const btn = document.getElementById("btnRetroToggle");
-  if (btn) {
-    btn.style.display = visibles.length > porBloque ? "inline-block" : "none";
-    btn.textContent = retroMostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
-  }
-}
+  window.filtrar = function(categoria, boton) {
+    categoriaActual = categoria;
+    mostrados = porBloque;
+    if (buscador) buscador.value = "";
 
-window.filtrarRetro = function (categoria, boton) {
-  categoriaRetro = categoria;
-  retroMostrados = porBloque;
+    document.querySelectorAll("#actuales .ver-mas-btn button")
+      .forEach(b => b.classList.remove("active"));
 
-  document.querySelectorAll("#retro .ver-mas-btn button")
-    .forEach(b => b.classList.remove("active"));
+    if (boton) boton.classList.add("active");
 
-  if (boton) boton.classList.add("active");
-  renderRetro();
+    renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle");
+  };
 
-  document
-    .getElementById("retro")
-    .scrollIntoView({ behavior: "smooth" });
-};
+  window.toggleMostrar = function() {
+    const visibles = productos.filter(p =>
+      categoriaActual === "todos" || p.dataset.category === categoriaActual
+    );
+    mostrados = mostrados < visibles.length ? mostrados + porBloque : porBloque;
+    renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle");
+    document.getElementById("actuales").scrollIntoView({ behavior: "smooth" });
+  };
 
-window.toggleRetro = function () {
-  retroMostrados = retroMostrados < productosRetro.length
-    ? retroMostrados + porBloque
-    : porBloque;
+  /* =====================
+     RETRO
+  ====================== */
+  const productosRetro = [...document.querySelectorAll("#retro .producto")];
+  let categoriaRetro = "todos";
+  let retroMostrados = porBloque;
 
-  renderRetro();
+  window.filtrarRetro = function(categoria, boton) {
+    categoriaRetro = categoria;
+    retroMostrados = porBloque;
 
-  document
-    .getElementById("retro")
-    .scrollIntoView({ behavior: "smooth" });
-};
+    document.querySelectorAll("#retro .ver-mas-btn button")
+      .forEach(b => b.classList.remove("active"));
 
-// 🔥 LLAMADA INICIAL (IMPORTANTE)
-renderRetro();
-  
+    if (boton) boton.classList.add("active");
+
+    renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
+    document.getElementById("retro").scrollIntoView({ behavior: "smooth" });
+  };
+
+  window.toggleRetro = function() {
+    retroMostrados = retroMostrados < productosRetro.length ? retroMostrados + porBloque : porBloque;
+    renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
+    document.getElementById("retro").scrollIntoView({ behavior: "smooth" });
+  };
+
+  /* =====================
+     TALLA Y WHATSAPP
+  ====================== */
+  document.addEventListener("change", function(e) {
+    const select = e.target.closest(".talla-select");
+    if (!select) return;
+
+    const card = select.closest(".card");
+    const btn = card.querySelector(".btn-wsp");
+    if (!btn) return;
+
+    if (select.value !== "") {
+      btn.classList.remove("disabled");
+      btn.style.pointerEvents = "auto";
+      btn.style.opacity = "1";
+    } else {
+      btn.classList.add("disabled");
+      btn.style.pointerEvents = "none";
+      btn.style.opacity = "0.6";
+    }
+  });
+
+  window.enviarWhatsApp = function(btn) {
+    const card = btn.closest(".card");
+    const producto = card.querySelector("h3")?.textContent.trim();
+    const talla = card.querySelector(".talla-select")?.value;
+    const precio = card.querySelector(".price")?.textContent.trim();
+
+    if (!talla) {
+      alert("Por favor selecciona una talla");
+      return;
+    }
+
+    const mensaje = `Hola 👋, quiero comprar la camiseta:\n\n🏷 Producto: ${producto}\n📏 Talla: ${talla}\n💰 Precio: ${precio}`;
+    const numero = "51971245962";
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank");
+  };
+
+  /* =====================
+     LLAMADAS INICIALES
+  ====================== */
+  renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle");
+  renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
+
 });
 </script>
+
 
 
