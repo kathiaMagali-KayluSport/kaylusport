@@ -736,7 +736,7 @@ footer{
 </div>
 
 <div class="ver-mas-btn">
-  <button id="btnToggle" onclick="toggleProductos()">VER MÁS</button>
+  <button id="btnToggle" onclick="toggleMostrar()">VER MÁS</button>
 </div>
 </section>
 
@@ -1457,56 +1457,94 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================
      ACTUALES
-  ====================== */
-  const productos = [...document.querySelectorAll("#actuales .producto")];
-  let categoriaActual = "todos";
-  let mostrados = porBloque;
+====================== */
 
-  function renderActuales() {
-    let visibles = productos.filter(p =>
-      categoriaActual === "todos" || p.dataset.category === categoriaActual
-    );
+const productos = [...document.querySelectorAll("#actuales .producto")];
+let categoriaActual = "todos";
+let mostrados = porBloque;
 
-    productos.forEach(p => {
-      p.style.display = "none";
-      p.classList.remove("visible");
-    });
+/* =====================
+   BUSCADOR ACTUALES
+===================== */
+const buscador = document.getElementById("buscador");
 
-    visibles.slice(0, mostrados).forEach((p, i) => {
-      p.style.display = "block";
-      setTimeout(() => p.classList.add("visible"), i * 40);
-    });
-
-    const contador = document.getElementById("contador");
-    if (contador) {
-      contador.textContent = `Mostrando ${Math.min(mostrados, visibles.length)} de ${visibles.length} camisetas`;
-    }
+if (buscador) {
+  buscador.addEventListener("input", function () {
+    const texto = this.value.toLowerCase();
+    mostrados = productos.length;
+    renderActuales(texto);
 
     const btn = document.getElementById("btnToggle");
-    if (btn) {
-      btn.style.display = visibles.length > porBloque ? "inline-block" : "none";
-      btn.textContent = mostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
-    }
+    if (btn) btn.style.display = "none";
+  });
+}
+
+/* =====================
+   RENDER ACTUALES
+===================== */
+function renderActuales(textoBusqueda = "") {
+
+  const visibles = productos.filter(p => {
+    const nombre = p.querySelector("h3").textContent.toLowerCase();
+    const coincideCategoria =
+      categoriaActual === "todos" || p.dataset.category === categoriaActual;
+    const coincideTexto = nombre.includes(textoBusqueda);
+
+    return coincideCategoria && coincideTexto;
+  });
+
+  productos.forEach(p => {
+    p.style.display = "none";
+    p.classList.remove("visible");
+  });
+
+  visibles.slice(0, mostrados).forEach((p, i) => {
+    p.style.display = "block";
+    setTimeout(() => p.classList.add("visible"), i * 40);
+  });
+
+  const contador = document.getElementById("contador");
+  if (contador) {
+    contador.textContent =
+      `Mostrando ${Math.min(mostrados, visibles.length)} de ${visibles.length} camisetas`;
   }
 
-  window.filtrarCategoria = function (categoria, boton) {
-    categoriaActual = categoria;
-    mostrados = porBloque;
+  const btn = document.getElementById("btnToggle");
+  if (btn) {
+    btn.style.display = visibles.length > porBloque ? "inline-block" : "none";
+    btn.textContent = mostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
+  }
+}
 
-    document.querySelectorAll("#actuales .ver-mas-btn button")
-      .forEach(b => b.classList.remove("active"));
+/* =====================
+   FILTROS
+===================== */
+window.filtrarCategoria = function (categoria, boton) {
+  categoriaActual = categoria;
+  mostrados = porBloque;
+  if (buscador) buscador.value = "";
 
-    if (boton) boton.classList.add("active");
-    renderActuales();
-  };
+  document.querySelectorAll("#actuales .ver-mas-btn button")
+    .forEach(b => b.classList.remove("active"));
 
-  window.toggleMostrar = function () {
-    mostrados = mostrados < productos.length ? mostrados + porBloque : porBloque;
-    renderActuales();
-  };
-
+  if (boton) boton.classList.add("active");
   renderActuales();
+};
 
+/* =====================
+   VER MÁS / VER MENOS
+===================== */
+window.toggleMostrar = function () {
+  mostrados += porBloque;
+  renderActuales();
+};
+
+/* =====================
+   ESTADO INICIAL
+===================== */
+renderActuales();
+
+  
   /* =====================
      RETRO
   ====================== */
@@ -1564,6 +1602,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
 
 
 
