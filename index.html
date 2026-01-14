@@ -1384,9 +1384,8 @@ function closeLightbox() {
   <img id="lightbox-img">
 </div>
 
+ <script>
 document.addEventListener("DOMContentLoaded", () => {
-
-  <script>
 
   /* =====================
      CONFIGURACIÓN GENERAL
@@ -1395,7 +1394,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================
      FUNCION GENÉRICA DE RENDER
-     Acepta filtro por texto opcional
   ====================== */
   function renderProductos(productos, cantidadMostrada, categoria, contadorId, toggleBtnId, filtroTexto = "") {
     const visibles = productos.filter(p => {
@@ -1436,22 +1434,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const buscadorActuales = document.getElementById("buscador");
   if (buscadorActuales) {
     buscadorActuales.addEventListener("input", function () {
-      const texto = this.value.toLowerCase();
-      mostrados = porBloque; // reinicia cantidad mostrada
-      renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle", texto);
+      mostrados = porBloque;
+      renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle", this.value.toLowerCase());
     });
   }
 
   window.filtrar = function(categoria, boton) {
     categoriaActual = categoria;
     mostrados = porBloque;
-    if (buscadorActuales) buscadorActuales.value = ""; // limpiar buscador al cambiar categoría
+    if (buscadorActuales) buscadorActuales.value = "";
 
     document.querySelectorAll("#actuales .ver-mas-btn:first-of-type button")
       .forEach(b => b.classList.remove("active"));
 
     if (boton) boton.classList.add("active");
-
     renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle");
   };
 
@@ -1461,7 +1457,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     mostrados = mostrados < visibles.length ? mostrados + porBloque : porBloque;
     renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle");
-    document.getElementById("actuales").scrollIntoView({ behavior: "smooth" });
   };
 
   /* =====================
@@ -1474,33 +1469,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const buscadorRetro = document.getElementById("buscadorRetro");
   if (buscadorRetro) {
     buscadorRetro.addEventListener("input", function () {
-      const texto = this.value.toLowerCase();
-      retroMostrados = porBloque; // reinicia cantidad mostrada
-      renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle", texto);
+      retroMostrados = porBloque;
+      renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle", this.value.toLowerCase());
     });
   }
 
   window.filtrarRetro = function(categoria, boton) {
     categoriaRetro = categoria;
     retroMostrados = porBloque;
-    if (buscadorRetro) buscadorRetro.value = ""; // limpiar buscador al cambiar categoría
 
     document.querySelectorAll("#retro .ver-mas-btn button")
       .forEach(b => b.classList.remove("active"));
 
     if (boton) boton.classList.add("active");
-
     renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
   };
 
   window.toggleRetro = function() {
     retroMostrados = retroMostrados < productosRetro.length ? retroMostrados + porBloque : porBloque;
     renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
-    document.getElementById("retro").scrollIntoView({ behavior: "smooth" });
   };
 
   /* =====================
-     TALLA Y WHATSAPP
+     TALLA + WHATSAPP
   ====================== */
   document.addEventListener("change", function(e) {
     const select = e.target.closest(".talla-select");
@@ -1510,40 +1501,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn = card.querySelector(".btn-wsp");
     if (!btn) return;
 
-    if (select.value !== "") {
-      btn.classList.remove("disabled");
-      btn.style.pointerEvents = "auto";
-      btn.style.opacity = "1";
-    } else {
-      btn.classList.add("disabled");
-      btn.style.pointerEvents = "none";
-      btn.style.opacity = "0.6";
-    }
+    btn.classList.toggle("disabled", select.value === "");
+    btn.style.pointerEvents = select.value ? "auto" : "none";
+    btn.style.opacity = select.value ? "1" : "0.6";
   });
 
   window.enviarWhatsApp = function(btn) {
     const card = btn.closest(".card");
-    const producto = card.querySelector("h3")?.textContent.trim();
-    const talla = card.querySelector(".talla-select")?.value;
-    const precio = card.querySelector(".price")?.textContent.trim();
+    const producto = card.querySelector("h3").textContent;
+    const talla = card.querySelector(".talla-select").value;
+    const precio = card.querySelector(".price").textContent;
 
-    if (!talla) {
-      alert("Por favor selecciona una talla");
-      return;
-    }
+    if (!talla) return alert("Selecciona una talla");
 
-    const mensaje = `Hola 👋, quiero comprar la camiseta:\n\n🏷 Producto: ${producto}\n📏 Talla: ${talla}\n💰 Precio: ${precio}`;
-    const numero = "51971245962";
-    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, "_blank");
+    const msg = `Hola 👋 quiero comprar:\n${producto}\nTalla: ${talla}\nPrecio: ${precio}`;
+    window.open(`https://wa.me/51971245962?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   /* =====================
-     LLAMADAS INICIALES
+     INICIAL
   ====================== */
   renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle");
   renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
 
 });
 </script>
-
