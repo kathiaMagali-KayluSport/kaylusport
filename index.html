@@ -219,39 +219,8 @@ footer {
 }
 </style>
 </head>
-
-
-   // FILTRAR POR CATEGORÍA
-  function filtrarRetro(categoria, btn) {
-    const productos = document.querySelectorAll('.producto-retro');
-
-    // Quitar clase active de todos los botones
-    document.querySelectorAll('.ver-mas-btn button').forEach(b => b.classList.remove('active'));
-
-    // Poner active al botón clickeado
-    btn.classList.add('active');
-
-    productos.forEach(p => {
-      if (categoria === 'todos' || p.dataset.category === categoria) {
-        p.style.display = 'block';
-      } else {
-        p.style.display = 'none';
-      }
-    });
-
-    actualizarContador();
-  }
-
-  // ACTUALIZAR CONTADOR DE PRODUCTOS VISIBLES
-  function actualizarContador() {
-    const visibles = document.querySelectorAll('.producto-retro:not([style*="display: none"])').length;
-    document.getElementById('contadorRetro').innerText = `Mostrando ${visibles} camisetas`;
-  }
-
-  // Inicializar contador al cargar
-  document.addEventListener('DOMContentLoaded', actualizarContador);
-  
-</body>
+   
+<body>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
@@ -1569,7 +1538,39 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
 
 });
+
+   // FILTRAR POR CATEGORÍA
+  function filtrarRetro(categoria, btn) {
+    const productos = document.querySelectorAll('.producto-retro');
+
+    // Quitar clase active de todos los botones
+    document.querySelectorAll('.ver-mas-btn button').forEach(b => b.classList.remove('active'));
+
+    // Poner active al botón clickeado
+    btn.classList.add('active');
+
+    productos.forEach(p => {
+      if (categoria === 'todos' || p.dataset.category === categoria) {
+        p.style.display = 'block';
+      } else {
+        p.style.display = 'none';
+      }
+    });
+
+    actualizarContador();
+  }
+
+  // ACTUALIZAR CONTADOR DE PRODUCTOS VISIBLES
+  function actualizarContador() {
+    const visibles = document.querySelectorAll('.producto-retro:not([style*="display: none"])').length;
+    document.getElementById('contadorRetro').innerText = `Mostrando ${visibles} camisetas`;
+  }
+
+  // Inicializar contador al cargar
+  document.addEventListener('DOMContentLoaded', actualizarContador);
+  
 </script>
+
 
 
 
