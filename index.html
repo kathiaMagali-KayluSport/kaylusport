@@ -1559,18 +1559,21 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function renderRetro() {
-    productosRetro.forEach(p => p.style.display = "none");
+  productosRetro.forEach(p => {
+    p.style.display = "none";
+    p.classList.remove("visible");
+  });
 
-    productosRetro.slice(0, retroMostrados).forEach(p => {
-      p.style.display = "block";
-    });
+  productosRetro.slice(0, retroMostrados).forEach((p, i) => {
+    p.style.display = "block";
+    setTimeout(() => p.classList.add("visible"), 50 + i * 40);
+  });
 
-    btnRetroToggle.textContent =
-      retroMostrados >= productosRetro.length ? "VER MENOS" : "VER MÁS";
+  btnRetroToggle.textContent =
+    retroMostrados >= productosRetro.length ? "VER MENOS" : "VER MÁS";
 
-    actualizarContadorRetro();
-  }
-
+  actualizarContadorRetro();
+}
  buscadorRetro.addEventListener("input", function () {
   const texto = this.value.toLowerCase();
   let visibles = 0;
@@ -1660,16 +1663,6 @@ function enviarWhatsApp(btn) {
   window.open(url, "_blank");
 }
 </script>
-
-
-
-
-
-
-
-
-
-
 
 
 
