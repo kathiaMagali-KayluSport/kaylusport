@@ -1593,7 +1593,8 @@ window.toggleRetro = function () {
   renderRetro();
 
   window.filtrarRetro = function (categoria, boton) {
-  retroMostrados = porBloque;
+  categoriaRetroActual = categoria;
+  retroMostrados = 6;
 
   document
     .querySelectorAll("#retro .ver-mas-btn button")
@@ -1601,14 +1602,8 @@ window.toggleRetro = function () {
 
   if (boton) boton.classList.add("active");
 
-  productosRetro.forEach(p => {
-    if (categoria === "todos" || p.dataset.category === categoria) {
-      p.style.display = "block";
-    } else {
-      p.style.display = "none";
-    }
-  });
-
+  renderRetro();
+};
   actualizarContadorRetro();
 };
 
@@ -1667,6 +1662,7 @@ function enviarWhatsApp(btn) {
   window.open(url, "_blank");
 }
 </script>
+
 
 
 
