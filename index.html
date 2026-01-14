@@ -1598,6 +1598,25 @@ window.toggleMostrar = function () {
     btn.style.opacity = "0.6";
   }
 });
+
+  window.enviarWhatsApp = function (btn) {
+  const card = btn.closest(".card");
+
+  const nombre = card.querySelector("h3")?.textContent || "Producto";
+  const talla = card.querySelector(".talla-select")?.value || "";
+  const precio = card.querySelector(".precio")?.textContent || "";
+
+  if (!talla) {
+    alert("Selecciona una talla");
+    return;
+  }
+
+  const mensaje = `Hola 👋, quiero comprar:\n\n${nombre}\nTalla: ${talla}\nPrecio: ${precio}`;
+  const numero = "51917245962"; // ← CAMBIA AQUÍ TU NÚMERO
+  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+
+  window.open(url, "_blank");
+};
   
   /* =====================
      RETRO
@@ -1656,6 +1675,7 @@ window.toggleMostrar = function () {
 
 });
 </script>
+
 
 
 
