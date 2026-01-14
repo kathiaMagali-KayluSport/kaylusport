@@ -772,7 +772,7 @@ footer{
     <button onclick="filtrarRetro('peru', this)">PERÚ</button>
     <button onclick="filtrarRetro('europa', this)">EUROPA</button>
     <button onclick="filtrarRetro('selecciones', this)">SELECCIONES</button>
-    <button onclick="filtrarRetro('resto', this)">RESTO DEL MUNDO</button>
+    <button onclick="filtrarRetro('resto-del-mundo', this)">RESTO DEL MUNDO</button>
   </div>
 
   <!-- PRODUCTOS -->
@@ -1541,6 +1541,10 @@ document.addEventListener("DOMContentLoaded", function () {
      ================= CAMISETAS RETRO ===================
      ===================================================== */
 
+  const buscadorRetro = document.getElementById("buscadorRetro");
+  const contadorRetro = document.getElementById("contadorRetro");
+  const btnRetroToggle = document.getElementById("btnRetroToggle");
+
   const productosRetro = [...document.querySelectorAll("#productosRetro .producto")];
 
   if (productosRetro.length === 0) {
@@ -1548,11 +1552,7 @@ document.addEventListener("DOMContentLoaded", function () {
   contadorRetro.textContent = "No hay camisetas retro aún";
 }
   let retroMostrados = porBloque;
-
-  const buscadorRetro = document.getElementById("buscadorRetro");
-  const contadorRetro = document.getElementById("contadorRetro");
-  const btnRetroToggle = document.getElementById("btnRetroToggle");
-
+  
   function actualizarContadorRetro() {
     contadorRetro.textContent =
       `Mostrando ${Math.min(retroMostrados, productosRetro.length)} de ${productosRetro.length} camisetas retro`;
@@ -1607,6 +1607,26 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   renderRetro();
+
+  window.filtrarRetro = function (categoria, boton) {
+  retroMostrados = porBloque;
+
+  document
+    .querySelectorAll("#retro .ver-mas-btn button")
+    .forEach(b => b.classList.remove("active"));
+
+  if (boton) boton.classList.add("active");
+
+  productosRetro.forEach(p => {
+    if (categoria === "todos" || p.dataset.category === categoria) {
+      p.style.display = "block";
+    } else {
+      p.style.display = "none";
+    }
+  });
+
+  actualizarContadorRetro();
+};
 
   /* =====================================================
      ================= WHATSAPP + TALLA ==================
@@ -1663,6 +1683,7 @@ function enviarWhatsApp(btn) {
   window.open(url, "_blank");
 }
 </script>
+
 
 
 
