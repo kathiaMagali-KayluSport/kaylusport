@@ -1553,8 +1553,6 @@ window.toggleMostrar = function () {
 
   renderActuales();
 
-  onclick="openLightbox(this.src)"
-
   document.addEventListener("change", function (e) {
   const select = e.target.closest(".talla-select");
   if (!select) return;
@@ -1601,68 +1599,73 @@ window.toggleMostrar = function () {
 };
   
   /* =====================
-     RETRO
-  ====================== */
-  const productosRetro = [...document.querySelectorAll("#retro .producto")];
-  let categoriaRetro = "todos";
-  let retroMostrados = porBloque;
+   RETRO
+===================== */
+const productosRetro = [...document.querySelectorAll("#retro .producto")];
+let categoriaRetro = "todos";
+let retroMostrados = porBloque;
 
-  function renderRetro() {
-    let visibles = productosRetro.filter(p =>
-      categoriaRetro === "todos" || p.dataset.category === categoriaRetro
-    );
+function renderRetro() {
+  let visibles = productosRetro.filter(p =>
+    categoriaRetro === "todos" || p.dataset.category === categoriaRetro
+  );
 
-    productosRetro.forEach(p => {
-      p.style.display = "none";
-      p.classList.remove("visible");
-    });
+  productosRetro.forEach(p => {
+    p.style.display = "none";
+    p.classList.remove("visible");
+  });
 
-    visibles.slice(0, retroMostrados).forEach((p, i) => {
-      p.style.display = "block";
-      setTimeout(() => p.classList.add("visible"), i * 40);
-    });
+  visibles.slice(0, retroMostrados).forEach((p, i) => {
+    p.style.display = "block";
+    setTimeout(() => p.classList.add("visible"), i * 40);
+  });
 
-    const contador = document.getElementById("contadorRetro");
-    if (contador) {
-      contador.textContent =
-        `Mostrando ${Math.min(retroMostrados, visibles.length)} de ${visibles.length} camisetas retro`;
-    }
-
-    const btn = document.getElementById("btnRetroToggle");
-    if (btn) {
-      btn.style.display = visibles.length > porBloque ? "inline-block" : "none";
-      btn.textContent = retroMostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
-    }
+  const contador = document.getElementById("contadorRetro");
+  if (contador) {
+    contador.textContent =
+      `Mostrando ${Math.min(retroMostrados, visibles.length)} de ${visibles.length} camisetas retro`;
   }
 
-  window.filtrarRetro = function (categoria, boton) {
-    categoriaRetro = categoria;
-    retroMostrados = porBloque;
+  const btn = document.getElementById("btnRetroToggle");
+  if (btn) {
+    btn.style.display = visibles.length > porBloque ? "inline-block" : "none";
+    btn.textContent = retroMostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
+  }
+}
 
-    document.querySelectorAll("#retro .ver-mas-btn button")
-      .forEach(b => b.classList.remove("active"));
+window.filtrarRetro = function (categoria, boton) {
+  categoriaRetro = categoria;
+  retroMostrados = porBloque;
 
-    if (boton) boton.classList.add("active");
-    renderRetro();
-  };
+  document.querySelectorAll("#retro .ver-mas-btn button")
+    .forEach(b => b.classList.remove("active"));
 
-  window.toggleRetro = function () {
-    retroMostrados = retroMostrados < productosRetro.length
-      ? retroMostrados + porBloque
-      : porBloque;
-    renderRetro();
+  if (boton) boton.classList.add("active");
+  renderRetro();
 
-    // 🔽 SCROLL SUAVE AL INICIO DE RETRO
   document
     .getElementById("retro")
     .scrollIntoView({ behavior: "smooth" });
 };
-  };
+
+window.toggleRetro = function () {
+  retroMostrados = retroMostrados < productosRetro.length
+    ? retroMostrados + porBloque
+    : porBloque;
 
   renderRetro();
 
+  document
+    .getElementById("retro")
+    .scrollIntoView({ behavior: "smooth" });
+};
+
+// 🔥 LLAMADA INICIAL (IMPORTANTE)
+renderRetro();
+  
 });
 </script>
+
 
 
 
