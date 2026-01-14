@@ -1394,10 +1394,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================
      FUNCION GENÉRICA DE RENDER
+     Ahora acepta filtro de texto opcional
   ====================== */
-  function renderProductos(productos, cantidadMostrada, categoria, contadorId, toggleBtnId) {
+  function renderProductos(productos, cantidadMostrada, categoria, contadorId, toggleBtnId, filtroTexto = "") {
     const visibles = productos.filter(p => {
-      return categoria === "todos" || p.dataset.category === categoria;
+      const nombre = p.querySelector("h3").textContent.toLowerCase();
+      return (categoria === "todos" || p.dataset.category === categoria) &&
+             nombre.includes(filtroTexto);
     });
 
     productos.forEach(p => {
@@ -1433,21 +1436,15 @@ document.addEventListener("DOMContentLoaded", () => {
   if (buscador) {
     buscador.addEventListener("input", function () {
       const texto = this.value.toLowerCase();
-      mostrados = productos.length;
-      const visibles = productos.filter(p => {
-        const nombre = p.querySelector("h3").textContent.toLowerCase();
-        return nombre.includes(texto) && (categoriaActual === "todos" || p.dataset.category === categoriaActual);
-      });
-      renderProductos(visibles, mostrados, categoriaActual, "contador", "btnToggle");
-      const btn = document.getElementById("btnToggle");
-      if (btn) btn.style.display = "none";
+      mostrados = porBloque; // reinicia cantidad mostrada
+      renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle", texto);
     });
   }
 
   window.filtrar = function(categoria, boton) {
     categoriaActual = categoria;
     mostrados = porBloque;
-    if (buscador) buscador.value = "";
+    if (buscador) buscador.value = ""; // limpiar buscador al cambiar categoría
 
     document.querySelectorAll("#actuales .ver-mas-btn button")
       .forEach(b => b.classList.remove("active"));
@@ -1539,9 +1536,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
-
-
-
-
-
-
