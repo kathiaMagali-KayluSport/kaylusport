@@ -1387,7 +1387,7 @@ function closeLightbox() {
            loading="lazy"
            onclick="openLightbox(this.src)">
 
-      <h3>Camiseta Edición Especial</h3>
+      <h3 class="nombre-producto">Camiseta Edición Especial</h3>
       <div class="price">S/ 60.00</div>
       <span class="badge-stock">🔥 Últimas unidades</span>
 
@@ -1413,7 +1413,7 @@ function closeLightbox() {
            loading="lazy"
            onclick="openLightbox(this.src)">
 
-      <h3>Camiseta Edición Especial</h3>
+      <h3 class="nombre-producto">Camiseta Edición Especial</h3>
       <div class="price">S/ 60.00</div>
       <span class="badge-stock">🔥 Últimas unidades</span>
 
@@ -1439,7 +1439,7 @@ function closeLightbox() {
            loading="lazy"
            onclick="openLightbox(this.src)">
 
-      <h3>Camiseta Edición Especial</h3>
+     <h3 class="nombre-producto">Camiseta Edición Especial</h3>
       <div class="price">S/ 60.00</div>
       <span class="badge-stock">🔥 Últimas unidades</span>
 
@@ -1465,7 +1465,7 @@ function closeLightbox() {
            loading="lazy"
            onclick="openLightbox(this.src)">
 
-      <h3>Camiseta Edición Especial</h3>
+      <h3 class="nombre-producto">Camiseta Edición Especial</h3>
       <div class="price">S/ 60.00</div>
       <span class="badge-stock">🔥 Últimas unidades</span>
 
@@ -1493,7 +1493,7 @@ function closeLightbox() {
            loading="lazy"
            onclick="openLightbox(this.src)">
 
-      <h3>Camiseta Edición Especial</h3>
+      <h3 class="nombre-producto">Camiseta Edición Especial</h3>
       <div class="price">S/ 50.00</div>
       <span class="badge-stock">🔥 Últimas unidades</span>
 
@@ -1519,7 +1519,7 @@ function closeLightbox() {
            loading="lazy"
            onclick="openLightbox(this.src)">
 
-      <h3>Camiseta Edición Especial</h3>
+      <h3 class="nombre-producto">Camiseta Edición Especial</h3>
       <div class="price">S/ 50.00</div>
       <span class="badge-stock">🔥 Últimas unidades</span>
 
@@ -1545,7 +1545,7 @@ function closeLightbox() {
            loading="lazy"
            onclick="openLightbox(this.src)">
 
-      <h3>Camiseta Edición Especial</h3>
+      <h3 class="nombre-producto">Camiseta Edición Especial</h3>
       <div class="price">S/ 50.00</div>
       <span class="badge-stock">🔥 Últimas unidades</span>
 
@@ -1571,7 +1571,7 @@ function closeLightbox() {
            loading="lazy"
            onclick="openLightbox(this.src)">
 
-      <h3>Camiseta Edición Especial</h3>
+      <h3 class="nombre-producto">Camiseta Edición Especial</h3>
       <div class="price">S/ 50.00</div>
       <span class="badge-stock">🔥 Últimas unidades</span>
 
@@ -1779,7 +1779,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.enviarWhatsApp = function(btn) {
     const card = btn.closest(".card");
-    const producto = card.querySelector("h3").textContent;
+    const productoEl =
+  card.querySelector(".nombre-producto") ||
+  card.querySelector("h3");
+
+const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
     const talla = card.querySelector(".talla-select").value;
     const precio = card.querySelector(".price").textContent;
 
@@ -1797,6 +1801,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
 
 
 
