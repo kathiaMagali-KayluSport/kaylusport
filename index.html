@@ -1925,6 +1925,11 @@ function closeLightbox() {
       <img src="short-alemania.jpg">
       <h3>Short Local Alemania 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -1933,6 +1938,11 @@ function closeLightbox() {
       <img src="short-alianza.jpg">
       <h3>Short Local Alianza 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -1941,6 +1951,11 @@ function closeLightbox() {
       <img src="short-barza2.jpg">
       <h3>Short Visita Barcelona 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -1949,6 +1964,11 @@ function closeLightbox() {
       <img src="short-city.jpg">
       <h3>Short Local Manchester City 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -1957,6 +1977,11 @@ function closeLightbox() {
       <img src="short-espana.jpg">
       <h3>Short Local España 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -1965,6 +1990,11 @@ function closeLightbox() {
       <img src="short-juve.jpg">
       <h3>Short Local Juventus 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -1973,6 +2003,11 @@ function closeLightbox() {
       <img src="short-liverpool.jpg">
       <h3>Short Local Liverpool 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -1981,6 +2016,11 @@ function closeLightbox() {
       <img src="short-madrid1.jpg">
       <h3>Short Local Real Madrid 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -1989,6 +2029,11 @@ function closeLightbox() {
       <img src="short-madrid2.jpg">
       <h3>Short Visita Real Madrid 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -1997,6 +2042,11 @@ function closeLightbox() {
       <img src="short-peru.jpg">
       <h3>Short Local Perú 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -2005,6 +2055,11 @@ function closeLightbox() {
       <img src="short-portugal.jpg">
       <h3>Short Local Portugal 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -2013,6 +2068,11 @@ function closeLightbox() {
       <img src="short-portugal2.jpg">
       <h3>Short Visita Portugal 2026</h3>
       <div class="price">S/ 25.00</div>
+      <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsAppShort(this)">
+    Comprar por WhatsApp
+  </a>
       <!-- resto igual -->
     </article>
 
@@ -2221,8 +2281,25 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
   renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle");
   renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
 
+function enviarWhatsAppShort(btn) {
+  const card = btn.closest(".card");
+  const nombre = card.querySelector("h3").textContent;
+  const precio = card.querySelector(".price").textContent;
+
+  const mensaje = `Hola 👋, estoy interesado en el siguiente producto:%0A%0A` +
+                  `🩳 *${nombre}*%0A` +
+                  `💰 Precio: ${precio}%0A%0A` +
+                  `¿Me brindas más información?`;
+
+  const telefono = "51971245962"; // 🔴 CAMBIA POR TU NÚMERO
+  const url = `https://wa.me/${telefono}?text=${mensaje}`;
+
+  window.open(url, "_blank");
+}  
+  
 });
 </script>
+
 
 
 
