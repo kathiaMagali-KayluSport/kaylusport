@@ -432,6 +432,7 @@ function closeLightbox() {
       });
     }
 </script>
+    
 <script>
   document.addEventListener("DOMContentLoaded", function () {
 
@@ -441,15 +442,20 @@ function closeLightbox() {
 
     let shortVisible = 6;
     let textoBusqueda = "";
+    let filtroActual = "all";
 
     function mostrarShorts() {
       let visibles = 0;
 
       shortItems.forEach(item => {
         const nombre = item.querySelector("h3").textContent.toLowerCase();
-        const coincide = nombre.includes(textoBusqueda);
+        const categoria = item.dataset.cat;
 
-        if (coincide && visibles < shortVisible) {
+        const coincideTexto = nombre.includes(textoBusqueda);
+        const coincideFiltro =
+          filtroActual === "all" || categoria === filtroActual;
+
+        if (coincideTexto && coincideFiltro && visibles < shortVisible) {
           item.style.display = "block";
           visibles++;
         } else {
@@ -457,16 +463,20 @@ function closeLightbox() {
         }
       });
 
-      // Mostrar u ocultar botón Ver más
-      const totalCoinciden = shortItems.filter(item =>
-        item.querySelector("h3").textContent.toLowerCase().includes(textoBusqueda)
-      ).length;
+      const totalCoinciden = shortItems.filter(item => {
+        const nombre = item.querySelector("h3").textContent.toLowerCase();
+        const categoria = item.dataset.cat;
+        return (
+          nombre.includes(textoBusqueda) &&
+          (filtroActual === "all" || categoria === filtroActual)
+        );
+      }).length;
 
       btnMoreShort.style.display =
         totalCoinciden > 6 ? "block" : "none";
     }
 
-    // Botón Ver más / Ver menos
+    // Ver más / Ver menos
     btnMoreShort.addEventListener("click", () => {
       if (shortVisible === 6) {
         shortVisible = shortItems.length;
@@ -485,6 +495,14 @@ function closeLightbox() {
       btnMoreShort.textContent = "Ver más";
       mostrarShorts();
     });
+
+    // Filtros (llamado desde HTML)
+    window.filtrarShort = function (cat) {
+      filtroActual = cat;
+      shortVisible = 6;
+      btnMoreShort.textContent = "Ver más";
+      mostrarShorts();
+    };
 
     mostrarShorts();
   });
@@ -2128,6 +2146,7 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
 
 });
 </script>
+
 
 
 
