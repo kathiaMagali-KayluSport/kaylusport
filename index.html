@@ -435,17 +435,38 @@ function closeLightbox() {
 <script>
   document.addEventListener("DOMContentLoaded", function () {
 
-    const shortItems = document.querySelectorAll(".short-item");
+    const shortItems = Array.from(document.querySelectorAll(".short-item"));
     const btnMoreShort = document.getElementById("btn-more-short");
+    const searchShort = document.getElementById("search-short");
 
     let shortVisible = 6;
+    let textoBusqueda = "";
 
     function mostrarShorts() {
-      shortItems.forEach((item, index) => {
-        item.style.display = index < shortVisible ? "block" : "none";
+      let visibles = 0;
+
+      shortItems.forEach(item => {
+        const nombre = item.querySelector("h3").textContent.toLowerCase();
+        const coincide = nombre.includes(textoBusqueda);
+
+        if (coincide && visibles < shortVisible) {
+          item.style.display = "block";
+          visibles++;
+        } else {
+          item.style.display = "none";
+        }
       });
+
+      // Mostrar u ocultar botón Ver más
+      const totalCoinciden = shortItems.filter(item =>
+        item.querySelector("h3").textContent.toLowerCase().includes(textoBusqueda)
+      ).length;
+
+      btnMoreShort.style.display =
+        totalCoinciden > 6 ? "block" : "none";
     }
 
+    // Botón Ver más / Ver menos
     btnMoreShort.addEventListener("click", () => {
       if (shortVisible === 6) {
         shortVisible = shortItems.length;
@@ -457,9 +478,18 @@ function closeLightbox() {
       mostrarShorts();
     });
 
+    // Buscador
+    searchShort.addEventListener("input", () => {
+      textoBusqueda = searchShort.value.toLowerCase();
+      shortVisible = 6;
+      btnMoreShort.textContent = "Ver más";
+      mostrarShorts();
+    });
+
     mostrarShorts();
   });
 </script>
+    
   </main>
 
 </body>
@@ -1877,7 +1907,7 @@ function closeLightbox() {
 
     <!-- SHORT 11 -->
     <article class="card short-item" data-cat="local">
-      <img src="short-portugak.jpg">
+      <img src="short-portugal.jpg">
       <h3>Short Local Portugal 2026</h3>
       <div class="price">S/ 25.00</div>
       <!-- resto igual -->
@@ -2098,6 +2128,7 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
 
 });
 </script>
+
 
 
 
