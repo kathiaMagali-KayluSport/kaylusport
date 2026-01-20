@@ -1745,14 +1745,130 @@ function closeLightbox() {
   
 <section id="short">
 <h2>Short</h2>
-<div class="grid">
-<article class="card">
-<p>Short Deportivo</p>
-<div class="price">S/ 25.00</div>
-<div class="sizes">S - M - L</div>
-<a class="whatsapp" href="https://wa.me/51971245962">Comprar</a>
-</article>
-</div>
+ <!-- BUSCADOR -->
+  <input
+    type="text"
+    id="search-short"
+    placeholder="Buscar short..."
+    class="search-input"
+  >
+
+  <!-- FILTROS -->
+  <div class="filters">
+    <button onclick="filtrarShort('all')">Todos</button>
+    <button onclick="filtrarShort('local')">Local</button>
+    <button onclick="filtrarShort('visita')">Visita</button>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <div class="grid" id="grid-short">
+
+    <!-- SHORT 1 -->
+    <article class="card short-item" data-cat="local">
+      <img src="short-alemania.jpg">
+      <h3>Short Local Alemania 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+     <!-- SHORT 2 -->
+    <article class="card short-item" data-cat="local">
+      <img src="short-alianza.jpg">
+      <h3>Short Local Alianza 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+    <!-- SHORT 3 -->
+    <article class="card short-item" data-cat="visita">
+      <img src="short-barza2.jpg">
+      <h3>Short Visita Barcelona 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+    <!-- SHORT 4 -->
+    <article class="card short-item" data-cat="local">
+      <img src="short-city.jpg">
+      <h3>Short Local Manchester City 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+    <!-- SHORT 5 -->
+    <article class="card short-item" data-cat="local">
+      <img src="short-espana.jpg">
+      <h3>Short Local España 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+    <!-- SHORT 6 -->
+    <article class="card short-item" data-cat="local">
+      <img src="short-juve.jpg">
+      <h3>Short Local Juventus 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+    <!-- SHORT 7 -->
+    <article class="card short-item" data-cat="local">
+      <img src="short-liverpool.jpg">
+      <h3>Short Local Liverpool 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+     <!-- SHORT 8 -->
+    <article class="card short-item" data-cat="local">
+      <img src="short-madrid1.jpg">
+      <h3>Short Local Real Madrid 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+    <!-- SHORT 9 -->
+    <article class="card short-item" data-cat="visita">
+      <img src="short-madrid2.jpg">
+      <h3>Short Visita Real Madrid 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+    <!-- SHORT 10 -->
+    <article class="card short-item" data-cat="local">
+      <img src="short-peru.jpg">
+      <h3>Short Local Perú 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+    <!-- SHORT 11 -->
+    <article class="card short-item" data-cat="local">
+      <img src="short-portugak.jpg">
+      <h3>Short Local Portugal 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+    <!-- SHORT 12 -->
+    <article class="card short-item" data-cat="visita">
+      <img src="short-portugal2.jpg">
+      <h3>Short Visita Portugal 2026</h3>
+      <div class="price">S/ 25.00</div>
+      <!-- resto igual -->
+    </article>
+
+
+    <!-- DUPLICAS MÁS SHORTS -->
+
+  </div>
+
+  <!-- BOTÓN VER MÁS -->
+  <button id="btn-more-short" class="ver-mas-btn">
+  Ver más
+</button>
+
 </section>
 
 <section id="casacas">
@@ -1950,6 +2066,7 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
 
 });
 </script>
+
 
 
 
