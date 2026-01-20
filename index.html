@@ -325,6 +325,44 @@ footer {
     font-size: 18px;
   }
 }
+
+  /* ================= MENÚ SUPERIOR ================= */
+
+nav {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 14px 10px;
+  background: #0f0f0f;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+nav a {
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #eee;
+  text-decoration: none;
+  background: rgba(255,255,255,0.05);
+  transition: background 0.2s, transform 0.2s;
+}
+
+nav a:hover {
+  background: #ff4d4d;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* botón especial */
+nav a[href="#ediciones-especiales"] {
+  border: 2px solid #ff4d4d;
+  color: #ff4d4d;
+  background: transparent;
+}
 </style>
 </head>
    
@@ -1876,6 +1914,7 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
 
 });
 </script>
+
 
 
 
