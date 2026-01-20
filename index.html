@@ -436,6 +436,31 @@ nav a[href="#ediciones-especiales"] {
   background: #00c853;
   color: #000;
 }
+
+  /* ===== SHORT: USAR MISMO ESTILO QUE ACTUALES Y RETRO ===== */
+
+#short .filters button {
+  background: transparent;
+  border: 2px solid #111;
+  color: #111;
+  padding: 8px 22px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+#short .filters button:hover {
+  background: #111;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+#short .filters button.active {
+  background: #111;
+  color: #fff;
+}
   
 </style>
 </head>
@@ -2198,6 +2223,7 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
 
 });
 </script>
+
 
 
 
