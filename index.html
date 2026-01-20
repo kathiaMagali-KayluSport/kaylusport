@@ -263,6 +263,68 @@ footer {
   50%  { transform: scale(1.08); }
   100% { transform: scale(1); }
 }
+
+  /* ================= HERO ================= */
+
+.hero {
+  text-align: center;
+  padding: 40px 20px 50px;
+  background: linear-gradient(135deg, #111, #1c1c1c);
+  border-radius: 0 0 30px 30px;
+}
+
+.hero h1 {
+  font-size: 44px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.hero-sub {
+  font-size: 16px;
+  opacity: 0.85;
+  margin-bottom: 30px;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.hero-btn {
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hero-btn.primary {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+.hero-btn.secondary {
+  border: 2px solid #ff4d4d;
+  color: #ff4d4d;
+}
+
+.hero-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+}
+
+/* RESPONSIVE */
+@media (min-width:768px) {
+  .hero h1 {
+    font-size: 56px;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+  }
+}
 </style>
 </head>
    
@@ -295,8 +357,21 @@ function closeLightbox() {
   </div>
 
   <img src="logo-kaylusport.png" alt="KayluSport Logo">
+  <div class="hero">
   <h1>KayluSport</h1>
-  <p>Pasión por el fútbol • Camisetas y accesorios deportivos</p>
+  <p class="hero-sub">
+    Pasión por el fútbol • Camisetas y accesorios deportivos
+  </p>
+
+  <div class="hero-actions">
+    <a href="#actuales" class="hero-btn primary">
+      Ver camisetas
+    </a>
+    <a href="#ediciones-especiales" class="hero-btn secondary">
+      Ediciones Especiales
+    </a>
+  </div>
+</div>
 
   <nav>
     <a href="#actuales">Actuales</a>
@@ -1801,6 +1876,7 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
 
 });
 </script>
+
 
 
 
