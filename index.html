@@ -385,6 +385,58 @@ nav a[href="#ediciones-especiales"] {
 #btn-top:hover {
   transform: translateY(-3px);
 }  
+
+  /* ===== SHORT: BUSCADOR Y FILTROS ===== */
+
+#short .search-input {
+  width: 100%;
+  max-width: 420px;
+  padding: 12px 16px;
+  margin: 12px auto 20px;
+  display: block;
+  font-size: 15px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#short .search-input:focus {
+  border-color: #00c853;
+  box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.2);
+}
+
+/* Filtros */
+#short .filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+#short .filters button {
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: none;
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#short .filters button:hover {
+  background: #00c853;
+  transform: translateY(-2px);
+}
+
+/* Botón activo (opcional) */
+#short .filters button.active {
+  background: #00c853;
+  color: #000;
+}
+  
 </style>
 </head>
   <body>
@@ -2146,6 +2198,7 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
 
 });
 </script>
+
 
 
 
