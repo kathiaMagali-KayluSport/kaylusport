@@ -433,6 +433,69 @@ function closeLightbox() {
       });
     }
 </script>
+// ===== SHORT: filtros + buscador + ver más =====
+
+  const shortItems = Array.from(document.querySelectorAll(".short-item"));
+  const btnMoreShort = document.getElementById("btn-more-short");
+  const searchShort = document.getElementById("search-short");
+
+  let shortVisible = 6;
+  let filtroActual = "all";
+
+  function aplicarFiltrosShort() {
+    const texto = searchShort.value.toLowerCase();
+    let visibles = 0;
+
+    shortItems.forEach(item => {
+      const coincideTexto = item.textContent.toLowerCase().includes(texto);
+      const coincideFiltro =
+        filtroActual === "all" || item.dataset.cat === filtroActual;
+
+      if (coincideTexto && coincideFiltro && visibles < shortVisible) {
+        item.style.display = "block";
+        visibles++;
+      } else {
+        item.style.display = "none";
+      }
+    });
+
+    const totalFiltrados = shortItems.filter(item => {
+      const coincideTexto = item.textContent.toLowerCase().includes(texto);
+      const coincideFiltro =
+        filtroActual === "all" || item.dataset.cat === filtroActual;
+      return coincideTexto && coincideFiltro;
+    }).length;
+
+    btnMoreShort.style.display =
+      totalFiltrados > 6 ? "block" : "none";
+  }
+
+  btnMoreShort.addEventListener("click", () => {
+    if (shortVisible === 6) {
+      shortVisible = shortItems.length;
+      btnMoreShort.textContent = "Ver menos";
+    } else {
+      shortVisible = 6;
+      btnMoreShort.textContent = "Ver más";
+    }
+    aplicarFiltrosShort();
+  });
+
+  searchShort.addEventListener("input", () => {
+    shortVisible = 6;
+    btnMoreShort.textContent = "Ver más";
+    aplicarFiltrosShort();
+  });
+
+  function filtrarShort(cat) {
+    filtroActual = cat;
+    shortVisible = 6;
+    btnMoreShort.textContent = "Ver más";
+    aplicarFiltrosShort();
+  }
+
+  aplicarFiltrosShort();
+  </body>
 
 <header>
   <div style="background:#f9d423;color:#000;padding:10px;font-weight:700;">
@@ -2067,6 +2130,7 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
 
 });
 </script>
+
 
 
 
