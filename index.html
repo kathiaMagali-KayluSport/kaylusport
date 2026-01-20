@@ -433,29 +433,32 @@ function closeLightbox() {
     }
 </script>
 <script>
-  const shortItems = document.querySelectorAll(".short-item");
-  const btnMoreShort = document.getElementById("btn-more-short");
+  document.addEventListener("DOMContentLoaded", function () {
 
-  let shortVisible = 6;
+    const shortItems = document.querySelectorAll(".short-item");
+    const btnMoreShort = document.getElementById("btn-more-short");
 
-  function mostrarShorts() {
-    shortItems.forEach((item, index) => {
-      item.style.display = index < shortVisible ? "block" : "none";
-    });
-  }
+    let shortVisible = 6;
 
-  btnMoreShort.addEventListener("click", () => {
-    if (shortVisible === 6) {
-      shortVisible = shortItems.length;
-      btnMoreShort.textContent = "Ver menos";
-    } else {
-      shortVisible = 6;
-      btnMoreShort.textContent = "Ver más";
+    function mostrarShorts() {
+      shortItems.forEach((item, index) => {
+        item.style.display = index < shortVisible ? "block" : "none";
+      });
     }
+
+    btnMoreShort.addEventListener("click", () => {
+      if (shortVisible === 6) {
+        shortVisible = shortItems.length;
+        btnMoreShort.textContent = "Ver menos";
+      } else {
+        shortVisible = 6;
+        btnMoreShort.textContent = "Ver más";
+      }
+      mostrarShorts();
+    });
+
     mostrarShorts();
   });
-
-  mostrarShorts();
 </script>
   </main>
 
@@ -2095,6 +2098,7 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
 
 });
 </script>
+
 
 
 
