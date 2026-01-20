@@ -363,9 +363,35 @@ nav a[href="#ediciones-especiales"] {
   color: #ff4d4d;
   background: transparent;
 }
+
+/* ===== BOTÓN VOLVER ARRIBA ===== */
+#btn-top {
+  position: fixed;
+  bottom: 20px;
+  right: 18px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: #ff4d4d;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  display: none;
+  z-index: 999;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+}
+
+#btn-top:hover {
+  transform: translateY(-3px);
+}  
 </style>
 </head>
-   
+
+ <button id="btn-top" onclick="volverArriba()" aria-label="Volver arriba">
+  ⬆
+</button>
+  
 <body>
 
 <!-- LIGHTBOX -->
@@ -387,6 +413,24 @@ function closeLightbox() {
   const lightbox = document.getElementById("lightbox");
   if (lightbox) lightbox.style.display = "none";
 }
+
+  // Botón volver arriba
+    const btnTop = document.getElementById("btn-top");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        btnTop.style.display = "block";
+      } else {
+        btnTop.style.display = "none";
+      }
+    });
+
+    function volverArriba() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
 </script>
 
 <header>
@@ -1906,6 +1950,7 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
 
 });
 </script>
+
 
 
 
