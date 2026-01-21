@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>KayluSport | Camisetas de Fútbol</title>
+<title>KayluSport | Camisetas de Fútbol y Tienda Deportiva en Tarapoto - Perú</title>
+<meta name="keywords" content="KayluSport es una tienda deportiva especializada en camisetas de fútbol actuales y retro. Envíos a todo el Perú. Compra fácil por WhatsApp.">
+<meta name="author" content="KayluSport">
 
 <style>
 body {
@@ -17,7 +18,36 @@ body {
   color:#fff;
 }
 
-/* ===== ESTRUCTURA ===== */
+header {
+  text-align:center;
+  padding:20px;
+}
+
+header img {
+  max-width:140px;
+  margin:20px auto;
+  display:block;
+}
+
+header h1 {
+  margin:0;
+}
+
+header p {
+  margin:5px 0 15px;
+  font-size:16px;
+}
+
+nav a {
+  color:#fff;
+  margin:0 10px;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+nav a:hover {
+  color:#f9d423;
+}
 
 section {
   padding:40px 20px;
@@ -37,8 +67,6 @@ h2 {
   gap:20px;
 }
 
-/* ===== CARD (UNICA DEFINICIÓN) ===== */
-
 .card {
   background:#fff;
   color:#000;
@@ -46,9 +74,25 @@ h2 {
   border-radius:14px;
   text-align:center;
   box-shadow:0 8px 20px rgba(0,0,0,0.15);
-  display:flex;
-  flex-direction:column;
-  height:100%;
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform:translateY(-6px);
+  box-shadow:0 14px 35px rgba(0,0,0,0.25);
+}
+
+#actuales .card,
+#retro .card {
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 0.6s ease, transform 0.6s ease;
+}
+
+#actuales .card.visible,
+#retro .card.visible {
+  opacity:1;
+  transform:translateY(0);
 }
 
 .card img {
@@ -57,136 +101,505 @@ h2 {
   object-fit:cover;
   border-radius:12px;
   margin-bottom:12px;
+  transition:transform 0.3s ease;
   cursor:pointer;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===== FIX GRID CASACAS ===== */
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+} 
+
+.card:hover img {
+  transform:scale(1.05);
+}
+
+.card p {
+  font-size:16px;
+  font-weight:600;
+  margin:8px 0;
 }
 
 .price {
   font-weight:700;
   font-size:18px;
   color:#25D366;
+  margin:10px 0;
+}
+
+.sizes {
+  font-size:0.9rem;
+  margin-bottom:10px;
 }
 
 .whatsapp {
-  margin-top:auto;
+  display:inline-block;
   background:#25D366;
   color:#fff;
-  padding:10px;
+  padding:10px 16px;
   border-radius:8px;
   text-decoration:none;
-  font-weight:bold;
+  font-weight:600;
+  transition:background 0.3s ease, transform 0.2s ease;
 }
 
-/* ===== BOTÓN VER MÁS ===== */
+.whatsapp:hover {
+  background:#1ebe5d;
+  transform:scale(1.03);
+}
 
 .ver-mas-btn {
-  display:block;
-  margin:30px auto 0;
-  padding:12px 30px;
-  font-weight:bold;
-  border:none;
-  border-radius:30px;
+  text-align:center;
+  margin-top:30px;
+}
+
+.ver-mas-btn button {
   background:#f9d423;
+  color:#000;
+  border:none;
+  padding:12px 30px;
+  font-size:16px;
+  font-weight:bold;
+  border-radius:30px;
   cursor:pointer;
 }
 
-/* ===== LIGHTBOX ===== */
+footer {
+  text-align:center;
+  padding:20px;
+}
 
+.whatsapp-float {
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#25D366;
+  color:white;
+  padding:15px 18px;
+  border-radius:50%;
+  font-size:22px;
+  text-decoration:none;
+  box-shadow:0 6px 15px rgba(0,0,0,0.3);
+  z-index:1000;
+}
+
+/* LIGHTBOX */
 .lightbox {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.85);
   display: none;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  z-index: 2000;
 }
 
 .lightbox img {
   max-width: 95%;
   max-height: 95%;
+  border-radius: 12px;
+  object-fit: contain;
 }
+
+.lightbox span {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+@media (min-width:1024px){
+  section {
+    max-width:1100px;
+  }
+  .card {
+    max-width:260px;
+    margin:auto;
+  }
+}
+
+/* ===============================
+   EDICIONES ESPECIALES (ESTILO)
+================================ */
+
+#ediciones-especiales {
+  background: rgba(255, 77, 77, 0.08);
+  border-radius: 18px;
+}
+
+#ediciones-especiales h2 {
+  color: #ff4d4d;
+  letter-spacing: 1px;
+}
+
+#ediciones-especiales .card {
+  border: 2px solid #ff4d4d;
+}
+
+#ediciones-especiales .price {
+  color: #ff4d4d;
+  font-size: 20px;
+}
+
+#ediciones-especiales p {
+  color: #ffd6d6;
+}  
+
+/* ===== BADGE STOCK LIMITADO ===== */
+.badge-stock {
+  display: inline-block;
+  margin: 10px 0;
+  padding: 6px 12px;
+  background: #ff4d4d;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 20px;
+  animation: pulse 1.6s infinite;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* ================= HERO ================= */
+
+.hero {
+  text-align: center;
+  padding: 20px 15px 25px;
+  background: linear-gradient(135deg, #111, #1c1c1c);
+  border-radius: 0 0 22px 22px;
+}
+
+.hero h1 {
+  font-size: 44px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.hero-sub {
+  font-size: 16px;
+  opacity: 0.85;
+  margin-bottom: 30px;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.hero-btn {
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hero-btn.primary {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+.hero-btn.secondary {
+  border: 2px solid #ff4d4d;
+  color: #ff4d4d;
+}
+
+.hero-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+}
+
+/* RESPONSIVE */
+@media (min-width:768px) {
+  .hero h1 {
+    font-size: 56px;
+  }
+  .hero-sub {
+    font-size: 18px;
+  }
+}
+
+/* ================= MENÚ SUPERIOR ================= */
+
+nav {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 14px 10px;
+  background: #0f0f0f;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+nav a {
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #eee;
+  text-decoration: none;
+  background: rgba(255,255,255,0.05);
+  transition: background 0.2s, transform 0.2s;
+}
+
+nav a:hover {
+  background: #ff4d4d;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+nav a[href="#ediciones-especiales"] {
+  border: 2px solid #ff4d4d;
+  color: #ff4d4d;
+  background: transparent;
+}
+
+/* ===== BOTÓN VOLVER ARRIBA ===== */
+#btn-top {
+  position: fixed;
+  bottom: 85px;
+  right: 18px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: #ff4d4d;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  display: none;
+  z-index: 999;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+}
+
+#btn-top:hover {
+  transform: translateY(-3px);
+}
+
+/* ===== SHORT: BUSCADOR ===== */
+
+#short .search-input {
+  width: 100%;
+  max-width: 420px;
+  padding: 12px 16px;
+  margin: 12px auto 20px;
+  display: block;
+  font-size: 15px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+  /* ===== FIX GRID (evita que se peguen después del 5) ===== */
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+}
+  
 </style>
 </head>
 
 <body>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img">
-</div>
+<button id="btn-top" onclick="volverArriba()">⬆</button>
 
-<!-- ===== ACTUALES ===== -->
-<section id="actuales">
-<h2>Actuales</h2>
-<div class="grid">
-  <!-- cards actuales -->
+<div class="lightbox" id="lightbox">
+  <span onclick="closeLightbox()">&times;</span>
+  <img id="lightbox-img" src="">
 </div>
-<button class="ver-mas-btn" onclick="toggle('actuales')">Ver más</button>
-</section>
-
-<!-- ===== RETRO ===== -->
-<section id="retro">
-<h2>Retro</h2>
-<div class="grid">
-  <!-- cards retro -->
-</div>
-<button class="ver-mas-btn" onclick="toggle('retro')">Ver más</button>
-</section>
-
-<!-- ===== CASACAS ===== -->
-<section id="casacas">
-<h2>Casacas</h2>
-<div class="grid">
-  <!-- cards casacas -->
-</div>
-<button class="ver-mas-btn" onclick="toggle('casacas')">Ver más</button>
-</section>
 
 <script>
-/* ===== LIGHTBOX ===== */
-function openLightbox(src){
-  document.getElementById("lightbox-img").src = src;
-  document.getElementById("lightbox").style.display = "flex";
+function openLightbox(src) {
+  const img = document.getElementById("lightbox-img");
+  const lightbox = document.getElementById("lightbox");
+  img.src = src;
+  lightbox.style.display = "flex";
 }
-function closeLightbox(){
+
+function closeLightbox() {
   document.getElementById("lightbox").style.display = "none";
 }
 
-/* ===== LOGICA 6 + VER MAS ===== */
-const state = {
-  actuales: 6,
-  retro: 6,
-  casacas: 6
-};
+const btnTop = document.getElementById("btn-top");
+window.addEventListener("scroll", () => {
+  btnTop.style.display = window.scrollY > 300 ? "block" : "none";
+});
 
-function render(section){
-  const cards = document.querySelectorAll(`#${section} .card`);
-  cards.forEach((card, i) => {
-    card.style.display = i < state[section] ? "" : "none";
-  });
+function volverArriba() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
+</script>
 
-function toggle(section){
-  const cards = document.querySelectorAll(`#${section} .card`);
-  const btn = document.querySelector(`#${section} .ver-mas-btn`);
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-  if(state[section] === 6){
-    state[section] = cards.length;
-    btn.textContent = "Ver menos";
-  } else {
-    state[section] = 6;
-    btn.textContent = "Ver más";
+  const shortItems = Array.from(document.querySelectorAll(".short-item"));
+  const btnMoreShort = document.getElementById("btn-more-short");
+  const searchShort = document.getElementById("search-short");
+
+  let shortVisible = 6;
+  let textoBusqueda = "";
+  let filtroActual = "all";
+
+  function mostrarShorts() {
+    let visibles = 0;
+
+    shortItems.forEach(item => {
+      const nombre = item.querySelector("h3").textContent.toLowerCase();
+      const categoria = item.dataset.cat;
+
+      const coincideTexto = nombre.includes(textoBusqueda);
+      const coincideFiltro =
+        filtroActual === "all" || categoria === filtroActual;
+
+      if (coincideTexto && coincideFiltro && visibles < shortVisible) {
+        item.style.display = "";
+        visibles++;
+      } else {
+        item.style.display = "none";
+      }
+    });
+
+    const totalCoinciden = shortItems.filter(item => {
+      const nombre = item.querySelector("h3").textContent.toLowerCase();
+      const categoria = item.dataset.cat;
+      return (
+        nombre.includes(textoBusqueda) &&
+        (filtroActual === "all" || categoria === filtroActual)
+      );
+    }).length;
+
+    btnMoreShort.style.display =
+      totalCoinciden > 6 ? "block" : "none";
   }
-  render(section);
-}
 
-document.addEventListener("DOMContentLoaded", () => {
-  render("actuales");
-  render("retro");
-  render("casacas");
+  btnMoreShort.addEventListener("click", () => {
+    if (shortVisible === 6) {
+      shortVisible = shortItems.length;
+      btnMoreShort.textContent = "Ver menos";
+    } else {
+      shortVisible = 6;
+      btnMoreShort.textContent = "Ver más";
+    }
+    mostrarShorts();
+  });
+
+  searchShort.addEventListener("input", () => {
+    textoBusqueda = searchShort.value.toLowerCase();
+    shortVisible = 6;
+    btnMoreShort.textContent = "Ver más";
+    mostrarShorts();
+  });
+
+  window.filtrarShort = function (cat) {
+    filtroActual = cat;
+    shortVisible = 6;
+    btnMoreShort.textContent = "Ver más";
+    mostrarShorts();
+  };
+
+  mostrarShorts();
 });
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document
+    .querySelectorAll("#actuales .card, #retro .card")
+    .forEach(card => card.classList.add("visible"));
+});
+</script>
+
+<script src="script.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  function setupSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    const cards = Array.from(section.querySelectorAll(".card"));
+    const btn = section.querySelector(".ver-mas-btn");
+    if (!btn) return;
+
+    let visibles = 6;
+
+    function render() {
+      cards.forEach((card, i) => {
+        card.style.display = i < visibles ? "" : "none";
+      });
+
+      if (cards.length <= 6) {
+        btn.style.display = "none";
+      }
+    }
+
+    btn.addEventListener("click", () => {
+      if (visibles === 6) {
+        visibles = cards.length;
+        btn.textContent = "Ver menos";
+      } else {
+        visibles = 6;
+        btn.textContent = "Ver más";
+      }
+      render();
+    });
+
+    render();
+  }
+
+  /* ACTIVAR SECCIONES */
+  setupSection("actuales");
+  setupSection("retro");
+  setupSection("casacas");
+
+});
+</script>
+  
+  
 </body>
 </html>
 
@@ -2204,6 +2617,7 @@ window.enviarWhatsAppCasaca = function (btn) {
 };
    
 </script>
+
 
 
 
