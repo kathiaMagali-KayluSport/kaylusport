@@ -478,7 +478,7 @@ function closeLightbox() {
           filtroActual === "all" || categoria === filtroActual;
 
         if (coincideTexto && coincideFiltro && visibles < shortVisible) {
-          item.style.display = "block";
+          item.style.display = "";
           visibles++;
         } else {
           item.style.display = "none";
@@ -2062,6 +2062,7 @@ function closeLightbox() {
   <h2>Casacas</h2>
 
   <!-- BUSCADOR -->
+  <!-- BUSCADOR -->
   <input
     type="text"
     id="search-casaca"
@@ -2070,7 +2071,7 @@ function closeLightbox() {
     oninput="buscarCasaca()"
   >
 
-  <!-- FILTRO TIPO -->
+  <!-- BOTONES TODOS / LOCAL / VISITA -->
   <div class="ver-mas-btn">
     <button onclick="filtrarCasaca('all')">TODOS</button>
     <button onclick="filtrarCasaca('local')">LOCAL</button>
@@ -2468,13 +2469,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnMoreCasaca = document.getElementById("btn-more-casaca");
 
   function renderCasacas() {
-    casacas.forEach((item, index) => {
-      item.style.display = index < visiblesCasaca ? "" : "none";
-    });
+  casacas.forEach((item, index) => {
+    item.style.display = index < visiblesCasaca ? "" : "none";
+  });
+}
 
-    btnMoreCasaca.textContent =
-      visiblesCasaca >= casacas.length ? "Ver menos" : "Ver más";
-  }
+  btnMoreCasaca.textContent =
+    visiblesCasaca >= casacas.length ? "Ver menos" : "Ver más";
+}
 
   renderCasacas();
 
@@ -2547,6 +2549,7 @@ window.enviarWhatsAppCasaca = function (btn) {
 };
    
 </script>
+
 
 
 
