@@ -2059,15 +2059,218 @@ function closeLightbox() {
 </section>
 
 <section id="casacas">
-<h2>Casacas y Buzos</h2>
-<div class="grid">
-<article class="card">
-<p>Casaca Oficial</p>
-<div class="price">S/ 130.00</div>
-<div class="sizes">M - L - XL</div>
-<a class="whatsapp" href="https://wa.me/51971245962">Comprar</a>
-</article>
-</div>
+  <h2>Casacas</h2>
+
+  <!-- BUSCADOR -->
+  <input
+    type="text"
+    id="search-casaca"
+    class="search-input"
+    placeholder="Buscar casaca..."
+    oninput="buscarCasaca()"
+  >
+
+  <!-- FILTRO TIPO -->
+  <div class="ver-mas-btn">
+    <button onclick="filtrarCasaca('all')">TODOS</button>
+    <button onclick="filtrarCasaca('local')">LOCAL</button>
+    <button onclick="filtrarCasaca('visita')">VISITA</button>
+  </div>
+
+  <!-- FILTRO TALLA -->
+  <div class="ver-mas-btn">
+    <select id="filter-talla-casaca" class="talla-select" onchange="filtrarTallaCasaca()">
+      <option value="all">Todas las tallas</option>
+      <option value="S">S</option>
+      <option value="M">M</option>
+      <option value="L">L</option>
+      <option value="XL">XL</option>
+    </select>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <div class="grid" id="grid-casaca">
+
+    <!-- CASACA 1 -->
+    <article class="card casaca-item" data-cat="local">
+      <img src="casaca-alianza-azul.jpg"
+           loading="lazy"
+           onclick="openLightbox(this.src)">
+
+      <h3>Casaca y Buzo Alianza Lima azul</h3>
+      <div class="price">S/ 130.00</div>
+
+      <select class="talla-select">
+        <option value="">Selecciona talla</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+
+      <a class="whatsapp btn-wsp"
+         href="#"
+         onclick="enviarWhatsAppCasaca(this)">
+        Comprar por WhatsApp
+      </a>
+    </article>
+
+    <!-- CASACA 2 -->
+    <article class="card casaca-item" data-cat="local">
+      <img src="casaca-barza-negro.jpg"
+           loading="lazy"
+           onclick="openLightbox(this.src)">
+
+      <h3>Casaca y Buzo Barcelona negro</h3>
+      <div class="price">S/ 130.00</div>
+
+      <select class="talla-select">
+        <option value="">Selecciona talla</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+
+      <a class="whatsapp btn-wsp"
+         href="#"
+         onclick="enviarWhatsAppCasaca(this)">
+        Comprar por WhatsApp
+      </a>
+    </article>
+
+    <!-- CASACA 3 -->
+    <article class="card casaca-item" data-cat="local">
+      <img src="casaca-madrid.jpg"
+           loading="lazy"
+           onclick="openLightbox(this.src)">
+
+      <h3>Casaca y Buzo Real Madrid</h3>
+      <div class="price">S/ 130.00</div>
+
+      <select class="talla-select">
+        <option value="">Selecciona talla</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+
+      <a class="whatsapp btn-wsp"
+         href="#"
+         onclick="enviarWhatsAppCasaca(this)">
+        Comprar por WhatsApp
+      </a>
+    </article>
+
+    <!-- CASACA 4 -->
+    <article class="card casaca-item" data-cat="local">
+      <img src="casaca-peru-rojo.jpg"
+           loading="lazy"
+           onclick="openLightbox(this.src)">
+
+      <h3>Casaca y Buzo Perú rojo</h3>
+      <div class="price">S/ 130.00</div>
+
+      <select class="talla-select">
+        <option value="">Selecciona talla</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+
+      <a class="whatsapp btn-wsp"
+         href="#"
+         onclick="enviarWhatsAppCasaca(this)">
+        Comprar por WhatsApp
+      </a>
+    </article>
+
+    <!-- CASACA 5 -->
+    <article class="card casaca-item" data-cat="local">
+      <img src="casaca-u-negro.jpg"
+           loading="lazy"
+           onclick="openLightbox(this.src)">
+
+      <h3>Casaca y Buzo Universitario negro</h3>
+      <div class="price">S/ 130.00</div>
+
+      <select class="talla-select">
+        <option value="">Selecciona talla</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+
+      <!-- CASACA 6 -->
+    <article class="card casaca-item" data-cat="local">
+      <img src="casaca-nike-dama.jpg"
+           loading="lazy"
+           onclick="openLightbox(this.src)">
+
+      <h3>Casaca y Buzo Nike Dry Fit Dama</h3>
+      <div class="price">S/ 120.00</div>
+
+      <select class="talla-select">
+        <option value="">Selecciona talla</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+
+      <!-- CASACA 7 -->
+    <article class="card casaca-item" data-cat="local">
+      <img src="casaca-nike-hombre.jpg"
+           loading="lazy"
+           onclick="openLightbox(this.src)">
+
+      <h3>Casaca y Buzo Nike Dry Fit Caballero</h3>
+      <div class="price">S/ 120.00</div>
+
+      <select class="talla-select">
+        <option value="">Selecciona talla</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+
+      <!-- CASACA 8 -->
+    <article class="card casaca-item" data-cat="local">
+      <img src="casaca-madrid-acero.jpg"
+           loading="lazy"
+           onclick="openLightbox(this.src)">
+
+      <h3>Casaca y Buzo Real Madrid Niños acero </h3>
+      <div class="price">S/ 110.00</div>
+
+      <select class="talla-select">
+        <option value="">Selecciona talla</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+
+      <a class="whatsapp btn-wsp"
+         href="#"
+         onclick="enviarWhatsAppCasaca(this)">
+        Comprar por WhatsApp
+      </a>
+    </article>
+
+    <!-- DUPLICA HASTA TENER 12 CASACAS -->
+  </div>
+
+  <!-- VER MÁS -->
+  <div class="ver-mas-btn">
+    <button id="btn-more-casaca" onclick="toggleCasaca()">
+      Ver más
+    </button>
+  </div>
 </section>
 
 <section id="medias">
@@ -2268,7 +2471,94 @@ window.enviarWhatsAppShort = function (btn) {
 }  
   
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  let visiblesCasaca = 6;
+  const casacas = document.querySelectorAll(".casaca-item");
+  const btnMoreCasaca = document.getElementById("btn-more-casaca");
+
+  function renderCasacas() {
+    casacas.forEach((item, index) => {
+      item.style.display = index < visiblesCasaca ? "block" : "none";
+    });
+
+    btnMoreCasaca.textContent =
+      visiblesCasaca >= casacas.length ? "Ver menos" : "Ver más";
+  }
+
+  renderCasacas();
+
+  window.toggleCasaca = function () {
+    visiblesCasaca =
+      visiblesCasaca >= casacas.length ? 6 : visiblesCasaca + 6;
+    renderCasacas();
+  };
+
+});
+
+// FILTRO LOCAL / VISITA
+window.filtrarCasaca = function (cat) {
+  const casacas = document.querySelectorAll(".casaca-item");
+
+  casacas.forEach(item => {
+    const match = cat === "all" || item.dataset.cat === cat;
+    item.style.display = match ? "block" : "none";
+  });
+};
+
+// BUSCADOR
+window.buscarCasaca = function () {
+  const texto = document
+    .getElementById("search-casaca")
+    .value
+    .toLowerCase();
+
+  document.querySelectorAll(".casaca-item").forEach(item => {
+    const nombre = item.querySelector("h3").textContent.toLowerCase();
+    item.style.display = nombre.includes(texto) ? "block" : "none";
+  });
+};
+
+// FILTRO POR TALLA (IGUAL A ACTUALES)
+window.filtrarTallaCasaca = function () {
+  const talla = document.getElementById("filter-talla-casaca").value;
+
+  document.querySelectorAll(".casaca-item").forEach(item => {
+    const select = item.querySelector(".talla-select");
+
+    if (talla === "all") {
+      item.style.display = "block";
+    } else {
+      item.style.display =
+        select && select.value === talla ? "block" : "none";
+    }
+  });
+};
+
+window.enviarWhatsAppCasaca = function (btn) {
+  const card = btn.closest(".card");
+  const nombre = card.querySelector("h3").textContent;
+  const precio = card.querySelector(".price").textContent;
+  const talla = card.querySelector(".talla-select").value;
+
+  if (!talla) {
+    alert("Por favor selecciona una talla");
+    return;
+  }
+
+  const mensaje =
+    `Hola 👋, estoy interesado en:%0A%0A` +
+    `🧥 *${nombre}*%0A` +
+    `📏 Talla: ${talla}%0A` +
+    `💰 Precio: ${precio}`;
+
+  const telefono = "51971245962"; // TU NÚMERO
+  window.open(`https://wa.me/${telefono}?text=${mensaje}`, "_blank");
+};
+   
 </script>
+
 
 
 
