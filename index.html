@@ -105,6 +105,18 @@ h2 {
   cursor:pointer;
 }
 
+  .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+}
  /* ===== FIX GRID CASACAS ===== */
 
 .card {
@@ -556,6 +568,8 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 </head>
+
+ <script src="script.js"></script>  
 </body>
 </html>
 
@@ -2348,7 +2362,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     visibles.slice(0, cantidadMostrada).forEach((p, i) => {
-      p.style.display = "block";
+      item.style.display = "";
       setTimeout(() => p.classList.add("visible"), i * 40);
     });
 
@@ -2573,4 +2587,5 @@ window.enviarWhatsAppCasaca = function (btn) {
 };
    
 </script>
+
 
