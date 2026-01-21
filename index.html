@@ -1892,9 +1892,9 @@ function closeLightbox() {
 
   <!-- FILTROS -->
   <div class="filters">
-    <button onclick="filtrarShort('all')">Todos</button>
-    <button onclick="filtrarShort('local')">Local</button>
-    <button onclick="filtrarShort('visita')">Visita</button>
+    <button class="filter-btn" onclick="filtrarShort('all')">Todos</button>
+<button class="filter-btn" onclick="filtrarShort('local')">Local</button>
+<button class="filter-btn" onclick="filtrarShort('visita')">Visita</button>
   </div>
 
   <!-- PRODUCTOS -->
@@ -2086,7 +2086,7 @@ function closeLightbox() {
   </div>
 
   <!-- BOTÓN VER MÁS -->
-  <button id="btn-more-short" class="ver-mas-btn">
+  <button id="btn-more-short" class="ver-mas-btn filter-btn">
   Ver más
 </button>
 
@@ -2303,6 +2303,7 @@ function enviarWhatsAppShort(btn) {
   
 });
 </script>
+
 
 
 
