@@ -105,6 +105,20 @@ h2 {
   cursor:pointer;
 }
 
+ /* ===== FIX GRID CASACAS ===== */
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+} 
+
 .card:hover img {
   transform:scale(1.05);
 }
@@ -409,7 +423,8 @@ nav a[href="#ediciones-especiales"] {
   
 </style>
 </head>
-  <body>
+ 
+ <body>
 
  <button id="btn-top" onclick="volverArriba()" aria-label="Volver arriba">
   ⬆
@@ -531,7 +546,16 @@ function closeLightbox() {
 </script>
     
   </main>
+   
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document
+    .querySelectorAll("#actuales .card, #retro .card")
+    .forEach(card => card.classList.add("visible"));
+});
+</script>
 
+</head>
 </body>
 </html>
 
@@ -2549,38 +2573,4 @@ window.enviarWhatsAppCasaca = function (btn) {
 };
    
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
