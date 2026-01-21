@@ -2251,7 +2251,7 @@ const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
   renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle");
   renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
 
-function enviarWhatsAppShort(btn) {
+window.enviarWhatsAppShort = function (btn) {
   const card = btn.closest(".card");
   const nombre = card.querySelector("h3").textContent;
   const precio = card.querySelector(".price").textContent;
@@ -2269,6 +2269,7 @@ function enviarWhatsAppShort(btn) {
   
 });
 </script>
+
 
 
 
