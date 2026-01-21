@@ -406,29 +406,7 @@ nav a[href="#ediciones-especiales"] {
   box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.2);
 }
 
-/* Filtros */
-#short .filters {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 25px;
-  flex-wrap: wrap;
-}
-
-
-  /* ===== SHORT: USAR MISMO ESTILO QUE ACTUALES Y RETRO ===== */
-
-#short .filters button {
-  background: transparent;
-  border: 2px solid #111;
-  color: #111;
-  padding: 8px 22px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
+/* ===== SHORT: USAR MISMO ESTILO QUE ACTUALES Y RETRO ===== */
 
 #short .filters button:hover {
   background: #111;
@@ -1892,9 +1870,9 @@ function closeLightbox() {
 
   <!-- FILTROS -->
   <div class="filters">
-    <button class="filter-btn" onclick="filtrarShort('all')">Todos</button>
-<button class="filter-btn" onclick="filtrarShort('local')">Local</button>
-<button class="filter-btn" onclick="filtrarShort('visita')">Visita</button>
+    <<button onclick="filtrarShort('all')" class="active">TODOS</button>
+  <button onclick="filtrarShort('local')">LOCAL</button>
+  <button onclick="filtrarShort('visita')">VISITA</button>
   </div>
 
   <!-- PRODUCTOS -->
@@ -2086,9 +2064,9 @@ function closeLightbox() {
   </div>
 
   <!-- BOTÓN VER MÁS -->
-  <button id="btn-more-short" class="ver-mas-btn filter-btn">
-  Ver más
-</button>
+  <div class="ver-mas-btn">
+  <button id="btn-more-short">VER MÁS</button>
+</div>
 
 </section>
 
@@ -2303,6 +2281,7 @@ function enviarWhatsAppShort(btn) {
   
 });
 </script>
+
 
 
 
