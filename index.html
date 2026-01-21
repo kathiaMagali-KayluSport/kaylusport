@@ -2077,17 +2077,6 @@ function closeLightbox() {
     <button onclick="filtrarCasaca('visita')">VISITA</button>
   </div>
 
-  <!-- FILTRO TALLA -->
-  <div class="ver-mas-btn">
-    <select id="filter-talla-casaca" class="talla-select" onchange="filtrarTallaCasaca()">
-      <option value="all">Todas las tallas</option>
-      <option value="S">S</option>
-      <option value="M">M</option>
-      <option value="L">L</option>
-      <option value="XL">XL</option>
-    </select>
-  </div>
-
   <!-- PRODUCTOS -->
   <div class="grid" id="grid-casaca">
 
@@ -2480,7 +2469,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderCasacas() {
     casacas.forEach((item, index) => {
-      item.style.display = index < visiblesCasaca ? "block" : "none";
+      item.style.display = index < visiblesCasaca ? "" : "none";
     });
 
     btnMoreCasaca.textContent =
@@ -2528,7 +2517,7 @@ window.filtrarTallaCasaca = function () {
     const select = item.querySelector(".talla-select");
 
     if (talla === "all") {
-      item.style.display = "block";
+      item.style.display = match ? "" : "none";
     } else {
       item.style.display =
         select && select.value === talla ? "block" : "none";
@@ -2558,6 +2547,7 @@ window.enviarWhatsAppCasaca = function (btn) {
 };
    
 </script>
+
 
 
 
