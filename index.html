@@ -1947,7 +1947,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const cat = item.dataset.cat || item.dataset.category;
 
         const okTexto = nombre.includes(texto);
-        const okCat = categoria === "all" || cat === categoria;
+        const okCat = categoria === "todos" || cat === categoria;
 
         if (okTexto && okCat) {
           total++;
@@ -2026,6 +2026,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
 
 
 
