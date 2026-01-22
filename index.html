@@ -2338,137 +2338,121 @@ document.addEventListener("DOMContentLoaded", () => {
   const TELEFONO = "51971245962";
 
   /* =====================================================
-     FUNCIÓN GENÉRICA (ACTUALES / RETRO)
+     FUNCIONES BASE (NO TOCAN EL DOM)
   ===================================================== */
-  function renderLista({ items, visibles, categoria, texto, contadorId, btnId }) {
-    const filtrados = items.filter(item => {
-      const nombre = item.querySelector("h3").textContent.toLowerCase();
-      return (categoria === "todos" || item.dataset.category === categoria)
-        && nombre.includes(texto);
+  function filtrarItems(items, categoria, texto) {
+    return items.filter(item => {
+      const nombre = item.querySelector("h3")?.textContent.toLowerCase() || "";
+      const cat = item.dataset.category || "todos";
+      return (categoria === "todos" || cat === categoria) &&
+             nombre.includes(texto);
     });
+  }
 
-    items.forEach(i => {
-      i.style.display = "none";
-      i.classList.remove("visible");
-    });
+  function render(items, visibles, contadorId, btnId) {
+    const total = items.length;
 
-    filtrados.slice(0, visibles).forEach((item, i) => {
-      item.style.display = "";
-      setTimeout(() => item.classList.add("visible"), i * 40);
-    });
+    items.forEach(i => i.style.display = "none");
+    items.slice(0, visibles).forEach(i => i.style.display = "");
 
     const contador = document.getElementById(contadorId);
     if (contador) {
-      contador.textContent = `Mostrando ${Math.min(visibles, filtrados.length)} de ${filtrados.length}`;
+      contador.textContent = `Mostrando ${Math.min(visibles, total)} de ${total}`;
     }
 
     const btn = document.getElementById(btnId);
     if (btn) {
-      btn.style.display = filtrados.length > POR_BLOQUE ? "inline-block" : "none";
-      btn.textContent = visibles >= filtrados.length ? "VER MENOS" : "VER MÁS";
+      btn.style.display = total > POR_BLOQUE ? "inline-block" : "none";
+      btn.textContent = visibles >= total ? "VER MENOS" : "VER MÁS";
     }
-
-    return filtrados.length;
   }
 
   /* ================= ACTUALES ================= */
   const actuales = [...document.querySelectorAll("#actuales .producto")];
   let actCat = "todos";
-  let actVis = POR_BLOQUE;
   let actTxt = "";
+  let actVis = POR_BLOQUE;
 
-  const buscadorAct = document.getElementById("buscador");
-  buscadorAct?.addEventListener("input", e => {
+  function actualizarActuales() {
+    const filtrados = filtrarItems(actuales, actCat, actTxt);
+    render(filtrados, actVis, "contador", "btnToggle");
+  }
+
+  document.getElementById("buscador")?.addEventListener("input", e => {
     actTxt = e.target.value.toLowerCase();
     actVis = POR_BLOQUE;
-    renderLista({ items: actuales, visibles: actVis, categoria: actCat, texto: actTxt, contadorId:"contador", btnId:"btnToggle" });
+    actualizarActuales();
   });
 
-  window.filtrar = function(cat, btn){
+  window.filtrar = function(cat, btn) {
     actCat = cat;
-    actVis = POR_BLOQUE;
     actTxt = "";
-    if (buscadorAct) buscadorAct.value = "";
-    document.querySelectorAll("#actuales .ver-mas-btn button").forEach(b=>b.classList.remove("active"));
+    actVis = POR_BLOQUE;
+
+    document.getElementById("buscador").value = "";
+    document.querySelectorAll("#actuales .ver-mas-btn button")
+      .forEach(b => b.classList.remove("active"));
+
     btn?.classList.add("active");
-    renderLista({ items: actuales, visibles: actVis, categoria: actCat, texto: "", contadorId:"contador", btnId:"btnToggle" });
+    actualizarActuales();
   };
 
-  window.toggleMostrar = function(){
-  const totalFiltrados = renderLista({
-    items: actuales,
-    visibles: Infinity, // 👈 calculamos total real
-    categoria: actCat,
-    texto: actTxt,
-    contadorId:"contador",
-    btnId:"btnToggle"
-  });
+  window.toggleMostrar = function() {
+    const total = filtrarItems(actuales, actCat, actTxt).length;
+    actVis = actVis < total ? actVis + POR_BLOQUE : POR_BLOQUE;
+    actualizarActuales();
+  };
 
-  actVis = actVis < totalFiltrados ? actVis + POR_BLOQUE : POR_BLOQUE;
-
-  renderLista({
-    items: actuales,
-    visibles: actVis,
-    categoria: actCat,
-    texto: actTxt,
-    contadorId:"contador",
-    btnId:"btnToggle"
-  });
-};
+  actualizarActuales();
 
   /* ================= RETRO ================= */
   const retro = [...document.querySelectorAll("#retro .producto-retro")];
   let retCat = "todos";
-  let retVis = POR_BLOQUE;
   let retTxt = "";
+  let retVis = POR_BLOQUE;
+
+  function actualizarRetro() {
+    const filtrados = filtrarItems(retro, retCat, retTxt);
+    render(filtrados, retVis, "contadorRetro", "btnRetroToggle");
+  }
 
   document.getElementById("buscadorRetro")?.addEventListener("input", e => {
     retTxt = e.target.value.toLowerCase();
     retVis = POR_BLOQUE;
-    renderLista({ items: retro, visibles: retVis, categoria: retCat, texto: retTxt, contadorId:"contadorRetro", btnId:"btnRetroToggle" });
+    actualizarRetro();
   });
 
-  window.filtrarRetro = function(cat, btn){
+  window.filtrarRetro = function(cat, btn) {
     retCat = cat;
-    retVis = POR_BLOQUE;
     retTxt = "";
-    document.querySelectorAll("#retro .ver-mas-btn button").forEach(b=>b.classList.remove("active"));
+    retVis = POR_BLOQUE;
+
+    document.querySelectorAll("#retro .ver-mas-btn button")
+      .forEach(b => b.classList.remove("active"));
+
     btn?.classList.add("active");
-    renderLista({ items: retro, visibles: retVis, categoria: retCat, texto: "", contadorId:"contadorRetro", btnId:"btnRetroToggle" });
+    actualizarRetro();
   };
 
-  window.toggleRetro = function(){
-  const totalFiltrados = renderLista({
-    items: retro,
-    visibles: Infinity,
-    categoria: retCat,
-    texto: retTxt,
-    contadorId:"contadorRetro",
-    btnId:"btnRetroToggle"
-  });
+  window.toggleRetro = function() {
+    const total = filtrarItems(retro, retCat, retTxt).length;
+    retVis = retVis < total ? retVis + POR_BLOQUE : POR_BLOQUE;
+    actualizarRetro();
+  };
 
-  retVis = retVis < totalFiltrados ? retVis + POR_BLOQUE : POR_BLOQUE;
-
-  renderLista({
-    items: retro,
-    visibles: retVis,
-    categoria: retCat,
-    texto: retTxt,
-    contadorId:"contadorRetro",
-    btnId:"btnRetroToggle"
-  });
-};
+  actualizarRetro();
 
   /* ================= CASACAS ================= */
   const casacas = [...document.querySelectorAll(".casaca-item")];
-  let casVis = POR_BLOQUE;
   let casCat = "all";
   let casTxt = "";
+  let casVis = POR_BLOQUE;
 
-  function renderCasacas(){
+  function actualizarCasacas() {
     const filtradas = casacas.filter(c => {
       const nombre = c.querySelector("h3").textContent.toLowerCase();
-      return (casCat === "all" || c.dataset.cat === casCat) && nombre.includes(casTxt);
+      return (casCat === "all" || c.dataset.cat === casCat) &&
+             nombre.includes(casTxt);
     });
 
     casacas.forEach(c => c.style.display = "none");
@@ -2476,40 +2460,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const btn = document.getElementById("btn-more-casaca");
     if (btn) btn.textContent = casVis >= filtradas.length ? "VER MENOS" : "VER MÁS";
-
-    return filtradas.length;
   }
 
-  window.toggleCasaca = function(){
-    const total = renderCasacas();
+  window.toggleCasaca = function() {
+    const total = casacas.length;
     casVis = casVis < total ? casVis + POR_BLOQUE : POR_BLOQUE;
-    renderCasacas();
+    actualizarCasacas();
   };
 
-  window.filtrarCasaca = function(cat){
+  window.filtrarCasaca = function(cat) {
     casCat = cat;
     casVis = POR_BLOQUE;
-    renderCasacas();
+    actualizarCasacas();
   };
 
-  window.buscarCasaca = function(){
+  window.buscarCasaca = function() {
     casTxt = document.getElementById("search-casaca").value.toLowerCase();
     casVis = POR_BLOQUE;
-    renderCasacas();
+    actualizarCasacas();
   };
 
-  renderCasacas();
+  actualizarCasacas();
 
   /* ================= WHATSAPP ================= */
-  function enviar(btn, emoji){
+  function enviar(btn, emoji) {
     event.preventDefault();
     const card = btn.closest(".card");
     const nombre = card.querySelector("h3").textContent;
     const precio = card.querySelector(".price").textContent;
-    const tallaSel = card.querySelector(".talla-select");
-    const talla = tallaSel ? tallaSel.value : "";
+    const talla = card.querySelector(".talla-select")?.value;
 
-    if (tallaSel && !talla) {
+    if (card.querySelector(".talla-select") && !talla) {
       alert("Selecciona una talla");
       return;
     }
@@ -2526,12 +2507,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
-
-
-
-
-
-
 
 
 
