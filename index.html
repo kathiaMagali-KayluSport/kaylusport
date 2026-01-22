@@ -2334,289 +2334,167 @@ document.addEventListener("DOMContentLoaded", () => {
  <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* =====================
-     CONFIGURACIÓN GENERAL
-  ====================== */
-  const porBloque = 6;
+  const POR_BLOQUE = 6;
+  const TELEFONO = "51971245962";
 
-  /* =====================
-     FUNCION GENÉRICA DE RENDER
-  ====================== */
-  function renderProductos(productos, cantidadMostrada, categoria, contadorId, toggleBtnId, filtroTexto = "") {
-    const visibles = productos.filter(p => {
-      const nombre = p.querySelector("h3").textContent.toLowerCase();
-      return (categoria === "todos" || p.dataset.category === categoria) &&
-             nombre.includes(filtroTexto);
+  /* =====================================================
+     FUNCIÓN GENÉRICA (ACTUALES / RETRO)
+  ===================================================== */
+  function renderLista({ items, visibles, categoria, texto, contadorId, btnId }) {
+    const filtrados = items.filter(item => {
+      const nombre = item.querySelector("h3").textContent.toLowerCase();
+      return (categoria === "todos" || item.dataset.category === categoria)
+        && nombre.includes(texto);
     });
 
-    productos.forEach(p => {
-      p.style.display = "none";
-      p.classList.remove("visible");
+    items.forEach(i => {
+      i.style.display = "none";
+      i.classList.remove("visible");
     });
 
-    visibles.slice(0, cantidadMostrada).forEach((p, i) => {
+    filtrados.slice(0, visibles).forEach((item, i) => {
       item.style.display = "";
-      setTimeout(() => p.classList.add("visible"), i * 40);
+      setTimeout(() => item.classList.add("visible"), i * 40);
     });
 
     const contador = document.getElementById(contadorId);
     if (contador) {
-      contador.textContent = `Mostrando ${Math.min(cantidadMostrada, visibles.length)} de ${visibles.length} productos`;
+      contador.textContent = `Mostrando ${Math.min(visibles, filtrados.length)} de ${filtrados.length}`;
     }
 
-    const btn = document.getElementById(toggleBtnId);
+    const btn = document.getElementById(btnId);
     if (btn) {
-      btn.style.display = visibles.length > porBloque ? "inline-block" : "none";
-      btn.textContent = cantidadMostrada >= visibles.length ? "VER MENOS" : "VER MÁS";
+      btn.style.display = filtrados.length > POR_BLOQUE ? "inline-block" : "none";
+      btn.textContent = visibles >= filtrados.length ? "VER MENOS" : "VER MÁS";
     }
+
+    return filtrados.length;
   }
 
-  /* =====================
-     ACTUALES
-  ====================== */
-  const productos = [...document.querySelectorAll("#actuales .producto")];
-  let categoriaActual = "todos";
-  let mostrados = porBloque;
+  /* ================= ACTUALES ================= */
+  const actuales = [...document.querySelectorAll("#actuales .producto")];
+  let actCat = "todos";
+  let actVis = POR_BLOQUE;
+  let actTxt = "";
 
-  const buscadorActuales = document.getElementById("buscador");
-  if (buscadorActuales) {
-    buscadorActuales.addEventListener("input", function () {
-      mostrados = porBloque;
-      renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle", this.value.toLowerCase());
-    });
-  }
-
-  window.filtrar = function(categoria, boton) {
-    categoriaActual = categoria;
-    mostrados = porBloque;
-    if (buscadorActuales) buscadorActuales.value = "";
-
-    document.querySelectorAll("#actuales .ver-mas-btn:first-of-type button")
-      .forEach(b => b.classList.remove("active"));
-
-    if (boton) boton.classList.add("active");
-    renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle");
-  };
-
-  window.toggleMostrar = function() {
-    const visibles = productos.filter(p =>
-      categoriaActual === "todos" || p.dataset.category === categoriaActual
-    );
-    mostrados = mostrados < visibles.length ? mostrados + porBloque : porBloque;
-    renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle");
-  };
-
-  /* =====================
-     RETRO
-  ====================== */
-  const productosRetro = [...document.querySelectorAll("#retro .producto-retro")];
-  let categoriaRetro = "todos";
-  let retroMostrados = porBloque;
-
-  const buscadorRetro = document.getElementById("buscadorRetro");
-  if (buscadorRetro) {
-    buscadorRetro.addEventListener("input", function () {
-      retroMostrados = porBloque;
-      renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle", this.value.toLowerCase());
-    });
-  }
-
-  window.filtrarRetro = function(categoria, boton) {
-    categoriaRetro = categoria;
-    retroMostrados = porBloque;
-
-    document.querySelectorAll("#retro .ver-mas-btn button")
-      .forEach(b => b.classList.remove("active"));
-
-    if (boton) boton.classList.add("active");
-    renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
-  };
-
-  window.toggleRetro = function() {
-    retroMostrados = retroMostrados < productosRetro.length ? retroMostrados + porBloque : porBloque;
-    renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
-  };
-
-  /* =====================
-     TALLA + WHATSAPP
-  ====================== */
-  document.addEventListener("change", function(e) {
-    const select = e.target.closest(".talla-select");
-    if (!select) return;
-
-    const card = select.closest(".card");
-    const btn = card.querySelector(".btn-wsp");
-    if (!btn) return;
-
-    btn.classList.toggle("disabled", select.value === "");
-    btn.style.pointerEvents = select.value ? "auto" : "none";
-    btn.style.opacity = select.value ? "1" : "0.6";
+  const buscadorAct = document.getElementById("buscador");
+  buscadorAct?.addEventListener("input", e => {
+    actTxt = e.target.value.toLowerCase();
+    actVis = POR_BLOQUE;
+    renderLista({ items: actuales, visibles: actVis, categoria: actCat, texto: actTxt, contadorId:"contador", btnId:"btnToggle" });
   });
 
-  document.addEventListener("DOMContentLoaded", () => {
+  window.filtrar = function(cat, btn){
+    actCat = cat;
+    actVis = POR_BLOQUE;
+    actTxt = "";
+    if (buscadorAct) buscadorAct.value = "";
+    document.querySelectorAll("#actuales .ver-mas-btn button").forEach(b=>b.classList.remove("active"));
+    btn?.classList.add("active");
+    renderLista({ items: actuales, visibles: actVis, categoria: actCat, texto: "", contadorId:"contador", btnId:"btnToggle" });
+  };
 
-  let visiblesCasaca = 6;
-  const casacas = document.querySelectorAll(".casaca-item");
-  const btnMoreCasaca = document.getElementById("btn-more-casaca");
+  window.toggleMostrar = function(){
+    const total = renderLista({ items: actuales, visibles: actVis, categoria: actCat, texto: actTxt, contadorId:"contador", btnId:"btnToggle" });
+    actVis = actVis < total ? actVis + POR_BLOQUE : POR_BLOQUE;
+    renderLista({ items: actuales, visibles: actVis, categoria: actCat, texto: actTxt, contadorId:"contador", btnId:"btnToggle" });
+  };
 
-  function renderCasacas() {
-  casacas.forEach((item, index) => {
-    item.style.display = index < visiblesCasaca ? "" : "none";
+  /* ================= RETRO ================= */
+  const retro = [...document.querySelectorAll("#retro .producto-retro")];
+  let retCat = "todos";
+  let retVis = POR_BLOQUE;
+  let retTxt = "";
+
+  document.getElementById("buscadorRetro")?.addEventListener("input", e => {
+    retTxt = e.target.value.toLowerCase();
+    retVis = POR_BLOQUE;
+    renderLista({ items: retro, visibles: retVis, categoria: retCat, texto: retTxt, contadorId:"contadorRetro", btnId:"btnRetroToggle" });
   });
-}
 
-  btnMoreCasaca.textContent =
-    visiblesCasaca >= casacas.length ? "Ver menos" : "Ver más";
-}
+  window.filtrarRetro = function(cat, btn){
+    retCat = cat;
+    retVis = POR_BLOQUE;
+    retTxt = "";
+    document.querySelectorAll("#retro .ver-mas-btn button").forEach(b=>b.classList.remove("active"));
+    btn?.classList.add("active");
+    renderLista({ items: retro, visibles: retVis, categoria: retCat, texto: "", contadorId:"contadorRetro", btnId:"btnRetroToggle" });
+  };
 
-  renderCasacas();
+  window.toggleRetro = function(){
+    const total = renderLista({ items: retro, visibles: retVis, categoria: retCat, texto: retTxt, contadorId:"contadorRetro", btnId:"btnRetroToggle" });
+    retVis = retVis < total ? retVis + POR_BLOQUE : POR_BLOQUE;
+    renderLista({ items: retro, visibles: retVis, categoria: retCat, texto: retTxt, contadorId:"contadorRetro", btnId:"btnRetroToggle" });
+  };
 
-  window.toggleCasaca = function () {
-    visiblesCasaca =
-      visiblesCasaca >= casacas.length ? 6 : visiblesCasaca + 6;
+  /* ================= CASACAS ================= */
+  const casacas = [...document.querySelectorAll(".casaca-item")];
+  let casVis = POR_BLOQUE;
+  let casCat = "all";
+  let casTxt = "";
+
+  function renderCasacas(){
+    const filtradas = casacas.filter(c => {
+      const nombre = c.querySelector("h3").textContent.toLowerCase();
+      return (casCat === "all" || c.dataset.cat === casCat) && nombre.includes(casTxt);
+    });
+
+    casacas.forEach(c => c.style.display = "none");
+    filtradas.slice(0, casVis).forEach(c => c.style.display = "");
+
+    const btn = document.getElementById("btn-more-casaca");
+    if (btn) btn.textContent = casVis >= filtradas.length ? "VER MENOS" : "VER MÁS";
+
+    return filtradas.length;
+  }
+
+  window.toggleCasaca = function(){
+    const total = renderCasacas();
+    casVis = casVis < total ? casVis + POR_BLOQUE : POR_BLOQUE;
     renderCasacas();
   };
 
-});
+  window.filtrarCasaca = function(cat){
+    casCat = cat;
+    casVis = POR_BLOQUE;
+    renderCasacas();
+  };
 
-// FILTRO LOCAL / VISITA
-window.filtrarCasaca = function (cat) {
-  const casacas = document.querySelectorAll(".casaca-item");
+  window.buscarCasaca = function(){
+    casTxt = document.getElementById("search-casaca").value.toLowerCase();
+    casVis = POR_BLOQUE;
+    renderCasacas();
+  };
 
-  casacas.forEach(item => {
-    const match = cat === "all" || item.dataset.cat === cat;
-    item.style.display = match ? "block" : "none";
-  });
-};
+  renderCasacas();
 
-// BUSCADOR
-window.buscarCasaca = function () {
-  const texto = document
-    .getElementById("search-casaca")
-    .value
-    .toLowerCase();
+  /* ================= WHATSAPP ================= */
+  function enviar(btn, emoji){
+    event.preventDefault();
+    const card = btn.closest(".card");
+    const nombre = card.querySelector("h3").textContent;
+    const precio = card.querySelector(".price").textContent;
+    const tallaSel = card.querySelector(".talla-select");
+    const talla = tallaSel ? tallaSel.value : "";
 
-  document.querySelectorAll(".casaca-item").forEach(item => {
-    const nombre = item.querySelector("h3").textContent.toLowerCase();
-    item.style.display = nombre.includes(texto) ? "block" : "none";
-  });
-};
-
-// FILTRO POR TALLA (IGUAL A ACTUALES)
-window.filtrarTallaCasaca = function () {
-  const talla = document.getElementById("filter-talla-casaca").value;
-
-  document.querySelectorAll(".casaca-item").forEach(item => {
-    const select = item.querySelector(".talla-select");
-
-    if (talla === "all") {
-      item.style.display = match ? "" : "none";
-    } else {
-      item.style.display =
-        select && select.value === talla ? "block" : "none";
+    if (tallaSel && !talla) {
+      alert("Selecciona una talla");
+      return;
     }
-  });
-};
 
-window.enviarWhatsAppCasaca = function (btn) {
-  const card = btn.closest(".card");
-  const nombre = card.querySelector("h3").textContent;
-  const precio = card.querySelector(".price").textContent;
-  const talla = card.querySelector(".talla-select").value;
+    let msg = `Hola 👋 estoy interesado en:\n\n${emoji} ${nombre}\n💰 Precio: ${precio}`;
+    if (talla) msg += `\n📏 Talla: ${talla}`;
 
-  if (!talla) {
-    alert("Por favor selecciona una talla");
-    return;
+    window.open(`https://wa.me/${TELEFONO}?text=${encodeURIComponent(msg)}`, "_blank");
   }
 
-  const mensaje =
-    `Hola 👋, estoy interesado en:%0A%0A` +
-    `🧥 *${nombre}*%0A` +
-    `📏 Talla: ${talla}%0A` +
-    `💰 Precio: ${precio}`;
+  window.enviarWhatsApp = btn => enviar(btn,"🧢");
+  window.enviarWhatsAppShort = btn => enviar(btn,"🩳");
+  window.enviarWhatsAppCasaca = btn => enviar(btn,"🧥");
 
-  const telefono = "51971245962"; // TU NÚMERO
-  window.open(`https://wa.me/${telefono}?text=${mensaje}`, "_blank");
-};
-
-
- /* =========================
-   WHATSAPP - GENERAL
-========================= */
-function enviarWhatsApp(btn) {
-  const card = btn.closest(".card");
-  if (!card) return;
-
-  const nombre =
-    card.querySelector(".nombre-producto")?.textContent ||
-    card.querySelector("h3")?.textContent ||
-    "Producto KayluSport";
-
-  const precio = card.querySelector(".price")?.textContent || "";
-  const tallaSelect = card.querySelector(".talla-select");
-  const talla = tallaSelect ? tallaSelect.value : "";
-
-  if (tallaSelect && !talla) {
-    alert("Selecciona una talla");
-    return;
-  }
-
-  const mensaje =
-    `Hola 👋 quiero comprar:%0A%0A` +
-    `🧢 *${nombre}*%0A` +
-    (talla ? `📏 Talla: ${talla}%0A` : "") +
-    `💰 Precio: ${precio}`;
-
-  const telefono = "51971245962";
-  window.open(`https://wa.me/${telefono}?text=${mensaje}`, "_blank");
-}
-
-/* =========================
-   WHATSAPP - SHORT
-========================= */
-function enviarWhatsAppShort(btn) {
-  const card = btn.closest(".card");
-  if (!card) return;
-
-  const nombre = card.querySelector("h3").textContent;
-  const precio = card.querySelector(".price").textContent;
-
-  const mensaje =
-    `Hola 👋 estoy interesado en:%0A%0A` +
-    `🩳 *${nombre}*%0A` +
-    `💰 Precio: ${precio}`;
-
-  const telefono = "51971245962";
-  window.open(`https://wa.me/${telefono}?text=${mensaje}`, "_blank");
-}
-
-/* =========================
-   WHATSAPP - CASACAS
-========================= */
-function enviarWhatsAppCasaca(btn) {
-  const card = btn.closest(".card");
-  if (!card) return;
-
-  const nombre = card.querySelector("h3").textContent;
-  const precio = card.querySelector(".price").textContent;
-  const talla = card.querySelector(".talla-select")?.value;
-
-  if (!talla) {
-    alert("Selecciona una talla");
-    return;
-  }
-
-  const mensaje =
-    `Hola 👋 estoy interesado en:%0A%0A` +
-    `🧥 *${nombre}*%0A` +
-    `📏 Talla: ${talla}%0A` +
-    `💰 Precio: ${precio}`;
-
-  const telefono = "51971245962";
-  window.open(`https://wa.me/${telefono}?text=${mensaje}`, "_blank");
-}
-   
+});
 </script>
+
 
 
 
