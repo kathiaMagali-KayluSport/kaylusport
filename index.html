@@ -2093,7 +2093,6 @@ document.addEventListener("DOMContentLoaded", () => {
   <h2>Casacas</h2>
 
   <!-- BUSCADOR -->
-  <!-- BUSCADOR -->
   <input
     type="text"
     id="search-casaca"
@@ -2335,148 +2334,158 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
 
   const POR_BLOQUE = 6;
-  const TELEFONO = "51971245962";
 
-  /* =====================================================
-     UTILIDADES
-  ===================================================== */
-  function normalizar(txt = "") {
-    return txt
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/\s+/g, "-")
-      .trim();
-  }
+  /* ======================
+     FUNCIÓN BASE
+  ====================== */
+  function render({ items, categoria, mostrados, contadorId, btnId }) {
+    const visibles = items.filter(el =>
+      categoria === "todos" || el.dataset.category === categoria
+    );
 
-  function filtrarItems(items, categoria, texto) {
-    const cat = normalizar(categoria);
-    const txt = normalizar(texto);
-
-    return items.filter(item => {
-      const nombre = normalizar(item.querySelector("h3")?.textContent || "");
-      const itemCat = normalizar(
-        item.dataset.category || item.dataset.cat || "todos"
-      );
-
-      const okCat = cat === "todos" || itemCat === cat;
-      const okTxt = nombre.includes(txt);
-
-      return okCat && okTxt;
+    items.forEach(el => {
+      el.style.display = "none";
+      el.classList.remove("visible");
     });
-  }
 
-  function render(items, filtrados, visibles, contadorId, btnId) {
-    items.forEach(i => i.style.display = "none");
-    filtrados.slice(0, visibles).forEach(i => i.style.display = "");
+    visibles.slice(0, mostrados).forEach((el, i) => {
+      el.style.display = "";
+      setTimeout(() => el.classList.add("visible"), i * 40);
+    });
 
     const contador = document.getElementById(contadorId);
     if (contador) {
-      contador.textContent =
-        `Mostrando ${Math.min(visibles, filtrados.length)} de ${filtrados.length}`;
+      contador.textContent = `Mostrando ${Math.min(mostrados, visibles.length)} de ${visibles.length}`;
     }
 
     const btn = document.getElementById(btnId);
     if (btn) {
-      btn.style.display =
-        filtrados.length > POR_BLOQUE ? "inline-block" : "none";
-      btn.textContent =
-        visibles >= filtrados.length ? "VER MENOS" : "VER MÁS";
+      btn.style.display = visibles.length > POR_BLOQUE ? "inline-block" : "none";
+      btn.textContent = mostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
     }
+
+    return visibles.length;
   }
 
-  /* ================= ACTUALES ================= */
-  const actuales = [...document.querySelectorAll("#actuales .producto")];
-  let actCat = "todos";
-  let actTxt = "";
-  let actVis = POR_BLOQUE;
+  /* ======================
+     ACTUALES
+  ====================== */
+  const actuales = Array.from(document.querySelectorAll("#actuales .producto"));
+  let catActual = "todos";
+  let mostradosActuales = POR_BLOQUE;
 
-  function actualizarActuales() {
-    const filtrados = filtrarItems(actuales, actCat, actTxt);
-    render(actuales, filtrados, actVis, "contador", "btnToggle");
-  }
+  window.filtrar = (cat, btn) => {
+    catActual = cat;
+    mostradosActuales = POR_BLOQUE;
 
-  document.getElementById("buscador")?.addEventListener("input", e => {
-    actTxt = e.target.value;
-    actVis = POR_BLOQUE;
-    actualizarActuales();
-  });
+    document
+      .querySelectorAll("#actuales .ver-mas-btn button")
+      .forEach(b => b.classList.remove("active"));
+    if (btn) btn.classList.add("active");
 
-  window.filtrar = function(cat) {
-    actCat = cat; // 👈 SOLO USAMOS ESTO
-    actTxt = "";
-    actVis = POR_BLOQUE;
-    actualizarActuales();
+    render({
+      items: actuales,
+      categoria: catActual,
+      mostrados: mostradosActuales,
+      contadorId: "contador",
+      btnId: "btnToggle"
+    });
   };
 
-  window.toggleMostrar = function() {
-    const total = filtrarItems(actuales, actCat, actTxt).length;
-    actVis = actVis < total ? actVis + POR_BLOQUE : POR_BLOQUE;
-    actualizarActuales();
+  window.toggleMostrar = () => {
+    const total = render({
+      items: actuales,
+      categoria: catActual,
+      mostrados: mostradosActuales,
+      contadorId: "contador",
+      btnId: "btnToggle"
+    });
+
+    mostradosActuales =
+      mostradosActuales >= total ? POR_BLOQUE : mostradosActuales + POR_BLOQUE;
   };
 
-  actualizarActuales();
+  filtrar("todos");
 
-  /* ================= RETRO ================= */
-  const retro = [...document.querySelectorAll("#retro .producto-retro")];
-  let retCat = "todos";
-  let retTxt = "";
-  let retVis = POR_BLOQUE;
+  /* ======================
+     RETRO
+  ====================== */
+  const retro = Array.from(document.querySelectorAll("#retro .producto-retro"));
+  let catRetro = "todos";
+  let mostradosRetro = POR_BLOQUE;
 
-  function actualizarRetro() {
-    const filtrados = filtrarItems(retro, retCat, retTxt);
-    render(retro, filtrados, retVis, "contadorRetro", "btnRetroToggle");
-  }
+  window.filtrarRetro = (cat, btn) => {
+    catRetro = cat;
+    mostradosRetro = POR_BLOQUE;
 
-  window.filtrarRetro = function(cat) {
-    retCat = cat;
-    retTxt = "";
-    retVis = POR_BLOQUE;
-    actualizarRetro();
+    document
+      .querySelectorAll("#retro .ver-mas-btn button")
+      .forEach(b => b.classList.remove("active"));
+    if (btn) btn.classList.add("active");
+
+    render({
+      items: retro,
+      categoria: catRetro,
+      mostrados: mostradosRetro,
+      contadorId: "contadorRetro",
+      btnId: "btnToggleRetro"
+    });
   };
 
-  window.toggleRetro = function() {
-    const total = filtrarItems(retro, retCat, retTxt).length;
-    retVis = retVis < total ? retVis + POR_BLOQUE : POR_BLOQUE;
-    actualizarRetro();
+  window.toggleMostrarRetro = () => {
+    const total = render({
+      items: retro,
+      categoria: catRetro,
+      mostrados: mostradosRetro,
+      contadorId: "contadorRetro",
+      btnId: "btnToggleRetro"
+    });
+
+    mostradosRetro =
+      mostradosRetro >= total ? POR_BLOQUE : mostradosRetro + POR_BLOQUE;
   };
 
-  actualizarRetro();
+  filtrarRetro("todos");
 
-  /* ================= CASACAS ================= */
-  const casacas = [...document.querySelectorAll(".casaca-item")];
-  let casCat = "todos";
-  let casTxt = "";
-  let casVis = POR_BLOQUE;
+  /* ======================
+     CASACAS
+  ====================== */
+  const casacas = Array.from(document.querySelectorAll("#casacas .producto"));
+  let catCasaca = "todos";
+  let mostradosCasacas = POR_BLOQUE;
 
-  function actualizarCasacas() {
-    const filtradas = filtrarItems(casacas, casCat, casTxt);
-    casacas.forEach(c => c.style.display = "none");
-    filtradas.slice(0, casVis).forEach(c => c.style.display = "");
+  window.filtrarCasaca = (cat, btn) => {
+    catCasaca = cat;
+    mostradosCasacas = POR_BLOQUE;
 
-    const btn = document.getElementById("btn-more-casaca");
-    if (btn) {
-      btn.textContent =
-        casVis >= filtradas.length ? "VER MENOS" : "VER MÁS";
-      btn.style.display =
-        filtradas.length > POR_BLOQUE ? "inline-block" : "none";
-    }
-  }
+    document
+      .querySelectorAll("#casacas .ver-mas-btn button")
+      .forEach(b => b.classList.remove("active"));
+    if (btn) btn.classList.add("active");
 
-  window.filtrarCasaca = function(cat) {
-    casCat = cat;
-    casTxt = "";
-    casVis = POR_BLOQUE;
-    actualizarCasacas();
+    render({
+      items: casacas,
+      categoria: catCasaca,
+      mostrados: mostradosCasacas,
+      contadorId: "contadorCasacas",
+      btnId: "btnToggleCasacas"
+    });
   };
 
-  window.toggleCasaca = function() {
-    const total = filtrarItems(casacas, casCat, casTxt).length;
-    casVis = casVis < total ? casVis + POR_BLOQUE : POR_BLOQUE;
-    actualizarCasacas();
+  window.toggleMostrarCasaca = () => {
+    const total = render({
+      items: casacas,
+      categoria: catCasaca,
+      mostrados: mostradosCasacas,
+      contadorId: "contadorCasacas",
+      btnId: "btnToggleCasacas"
+    });
+
+    mostradosCasacas =
+      mostradosCasacas >= total ? POR_BLOQUE : mostradosCasacas + POR_BLOQUE;
   };
 
-  actualizarCasacas();
+  filtrarCasaca("todos");
 
 });
 </script>
