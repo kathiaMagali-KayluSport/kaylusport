@@ -2338,55 +2338,58 @@ document.addEventListener("DOMContentLoaded", () => {
   const TELEFONO = "51971245962";
 
   /* =====================================================
-     FUNCIONES BASE (NO TOCAN EL DOM)
+     UTILIDADES
   ===================================================== */
-  function normalizar(texto) {
-  return texto
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, "");
-}
+  function normalizar(txt = "") {
+    return txt
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, "");
+  }
 
-function filtrarItems(items, categoria, texto) {
-  const catNorm = normalizar(categoria);
+  function filtrarItems(items, categoria, texto) {
+    const catNorm = normalizar(categoria);
+    const txtNorm = normalizar(texto);
 
-  return items.filter(item => {
-    const nombre = item.querySelector("h3")?.textContent.toLowerCase() || "";
-    const itemCat = normalizar(item.dataset.category || "todos");
+    return items.filter(item => {
+      const nombre = normalizar(
+        item.querySelector("h3")?.textContent || ""
+      );
+      const itemCat = normalizar(item.dataset.category || "todos");
 
-    const coincideCategoria =
-      catNorm === "todos" || itemCat === catNorm;
+      const okCategoria =
+        catNorm === "todos" || itemCat === catNorm;
 
-    return coincideCategoria && nombre.includes(texto);
-  });
-}
+      const okTexto = nombre.includes(txtNorm);
+
+      return okCategoria && okTexto;
+    });
+  }
+
   function render(itemsOriginales, filtrados, visibles, contadorId, btnId) {
+    // ocultar todos
+    itemsOriginales.forEach(i => (i.style.display = "none"));
 
-  // 1. Ocultamos TODOS (pero conservamos estructura)
-  itemsOriginales.forEach(i => {
-    i.style.display = "none";
-  });
+    // mostrar solo los visibles filtrados
+    filtrados.slice(0, visibles).forEach(i => (i.style.display = ""));
 
-  // 2. Mostramos solo los filtrados visibles
-  filtrados.slice(0, visibles).forEach(i => {
-    i.style.display = "";
-  });
+    // contador
+    const contador = document.getElementById(contadorId);
+    if (contador) {
+      contador.textContent =
+        `Mostrando ${Math.min(visibles, filtrados.length)} de ${filtrados.length}`;
+    }
 
-  // 3. Contador
-  const contador = document.getElementById(contadorId);
-  if (contador) {
-    contador.textContent =
-      `Mostrando ${Math.min(visibles, filtrados.length)} de ${filtrados.length}`;
+    // botón ver más / menos
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      btn.style.display =
+        filtrados.length > POR_BLOQUE ? "inline-block" : "none";
+      btn.textContent =
+        visibles >= filtrados.length ? "VER MENOS" : "VER MÁS";
+    }
   }
-
-  // 4. Botón VER MÁS / VER MENOS (no pierde formato)
-  const btn = document.getElementById(btnId);
-  if (btn) {
-    btn.style.display = filtrados.length > POR_BLOQUE ? "inline-block" : "none";
-    btn.textContent = visibles >= filtrados.length ? "VER MENOS" : "VER MÁS";
-  }
-}
 
   /* ================= ACTUALES ================= */
   const actuales = [...document.querySelectorAll("#actuales .producto")];
@@ -2395,30 +2398,33 @@ function filtrarItems(items, categoria, texto) {
   let actVis = POR_BLOQUE;
 
   function actualizarActuales() {
-  const filtrados = filtrarItems(actuales, actCat, actTxt);
-  render(actuales, filtrados, actVis, "contador", "btnToggle");
-}
+    const filtrados = filtrarItems(actuales, actCat, actTxt);
+    render(actuales, filtrados, actVis, "contador", "btnToggle");
+  }
 
   document.getElementById("buscador")?.addEventListener("input", e => {
-    actTxt = e.target.value.toLowerCase();
+    actTxt = e.target.value;
     actVis = POR_BLOQUE;
     actualizarActuales();
   });
 
-  window.filtrar = function(cat, btn) {
-    actCat = cat;
+  window.filtrar = function (btn) {
+    actCat = btn.dataset.filter || "todos";
     actTxt = "";
     actVis = POR_BLOQUE;
 
-    document.getElementById("buscador").value = "";
-    document.querySelectorAll("#actuales .ver-mas-btn button")
+    const buscador = document.getElementById("buscador");
+    if (buscador) buscador.value = "";
+
+    document
+      .querySelectorAll("#actuales .ver-mas-btn button")
       .forEach(b => b.classList.remove("active"));
 
-    btn?.classList.add("active");
+    btn.classList.add("active");
     actualizarActuales();
   };
 
-  window.toggleMostrar = function() {
+  window.toggleMostrar = function () {
     const total = filtrarItems(actuales, actCat, actTxt).length;
     actVis = actVis < total ? actVis + POR_BLOQUE : POR_BLOQUE;
     actualizarActuales();
@@ -2433,29 +2439,30 @@ function filtrarItems(items, categoria, texto) {
   let retVis = POR_BLOQUE;
 
   function actualizarRetro() {
-  const filtrados = filtrarItems(retro, retCat, retTxt);
-  render(retro, filtrados, retVis, "contadorRetro", "btnRetroToggle");
-}
+    const filtrados = filtrarItems(retro, retCat, retTxt);
+    render(retro, filtrados, retVis, "contadorRetro", "btnRetroToggle");
+  }
 
   document.getElementById("buscadorRetro")?.addEventListener("input", e => {
-    retTxt = e.target.value.toLowerCase();
+    retTxt = e.target.value;
     retVis = POR_BLOQUE;
     actualizarRetro();
   });
 
-  window.filtrarRetro = function(cat, btn) {
-    retCat = cat;
+  window.filtrarRetro = function (btn) {
+    retCat = btn.dataset.filter || "todos";
     retTxt = "";
     retVis = POR_BLOQUE;
 
-    document.querySelectorAll("#retro .ver-mas-btn button")
+    document
+      .querySelectorAll("#retro .ver-mas-btn button")
       .forEach(b => b.classList.remove("active"));
 
-    btn?.classList.add("active");
+    btn.classList.add("active");
     actualizarRetro();
   };
 
-  window.toggleRetro = function() {
+  window.toggleRetro = function () {
     const total = filtrarItems(retro, retCat, retTxt).length;
     retVis = retVis < total ? retVis + POR_BLOQUE : POR_BLOQUE;
     actualizarRetro();
@@ -2465,39 +2472,45 @@ function filtrarItems(items, categoria, texto) {
 
   /* ================= CASACAS ================= */
   const casacas = [...document.querySelectorAll(".casaca-item")];
-  let casCat = "all";
+  let casCat = "todos";
   let casTxt = "";
   let casVis = POR_BLOQUE;
 
   function actualizarCasacas() {
-    const filtradas = casacas.filter(c => {
-      const nombre = c.querySelector("h3").textContent.toLowerCase();
-      return (casCat === "all" || c.dataset.cat === casCat) &&
-             nombre.includes(casTxt);
-    });
+    const filtradas = filtrarItems(casacas, casCat, casTxt);
 
-    casacas.forEach(c => c.style.display = "none");
-    filtradas.slice(0, casVis).forEach(c => c.style.display = "");
+    casacas.forEach(c => (c.style.display = "none"));
+    filtradas.slice(0, casVis).forEach(c => (c.style.display = ""));
 
     const btn = document.getElementById("btn-more-casaca");
-    if (btn) btn.textContent = casVis >= filtradas.length ? "VER MENOS" : "VER MÁS";
+    if (btn) {
+      btn.textContent =
+        casVis >= filtradas.length ? "VER MENOS" : "VER MÁS";
+    }
   }
 
-  window.toggleCasaca = function() {
-    const total = casacas.length;
+  window.filtrarCasaca = function (btn) {
+    casCat = btn.dataset.filter || "todos";
+    casTxt = "";
+    casVis = POR_BLOQUE;
+
+    document
+      .querySelectorAll(".casaca-filtros button")
+      .forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+    actualizarCasacas();
+  };
+
+  window.buscarCasaca = function () {
+    casTxt = document.getElementById("search-casaca").value;
+    casVis = POR_BLOQUE;
+    actualizarCasacas();
+  };
+
+  window.toggleCasaca = function () {
+    const total = filtrarItems(casacas, casCat, casTxt).length;
     casVis = casVis < total ? casVis + POR_BLOQUE : POR_BLOQUE;
-    actualizarCasacas();
-  };
-
-  window.filtrarCasaca = function(cat) {
-    casCat = cat;
-    casVis = POR_BLOQUE;
-    actualizarCasacas();
-  };
-
-  window.buscarCasaca = function() {
-    casTxt = document.getElementById("search-casaca").value.toLowerCase();
-    casVis = POR_BLOQUE;
     actualizarCasacas();
   };
 
@@ -2516,18 +2529,26 @@ function filtrarItems(items, categoria, texto) {
       return;
     }
 
-    let msg = `Hola 👋 estoy interesado en:\n\n${emoji} ${nombre}\n💰 Precio: ${precio}`;
+    let msg =
+      `Hola 👋 estoy interesado en:\n\n` +
+      `${emoji} ${nombre}\n` +
+      `💰 Precio: ${precio}`;
+
     if (talla) msg += `\n📏 Talla: ${talla}`;
 
-    window.open(`https://wa.me/${TELEFONO}?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(
+      `https://wa.me/${TELEFONO}?text=${encodeURIComponent(msg)}`,
+      "_blank"
+    );
   }
 
-  window.enviarWhatsApp = btn => enviar(btn,"🧢");
-  window.enviarWhatsAppShort = btn => enviar(btn,"🩳");
-  window.enviarWhatsAppCasaca = btn => enviar(btn,"🧥");
+  window.enviarWhatsApp = btn => enviar(btn, "🧢");
+  window.enviarWhatsAppShort = btn => enviar(btn, "🩳");
+  window.enviarWhatsAppCasaca = btn => enviar(btn, "🧥");
 
 });
 </script>
+
 
 
 
