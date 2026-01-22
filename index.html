@@ -562,6 +562,132 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
   
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const POR_BLOQUE = 6;
+
+  function crearSeccion({
+    sectionId,
+    itemSelector,
+    searchId,
+    moreBtnId,
+    filterBtnSelector
+  }) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    const items = Array.from(section.querySelectorAll(itemSelector));
+    const search = document.getElementById(searchId);
+    const btnMore = document.getElementById(moreBtnId);
+    const filterBtns = section.querySelectorAll(filterBtnSelector);
+
+    let texto = "";
+    let categoria = "all";
+    let visibles = POR_BLOQUE;
+
+    function render() {
+      let mostrados = 0;
+      let total = 0;
+
+      items.forEach(item => {
+        const nombre = item.querySelector("h3")
+          .textContent.toLowerCase();
+        const cat = item.dataset.cat;
+
+        const okTexto = nombre.includes(texto);
+        const okCat = categoria === "all" || cat === categoria;
+
+        if (okTexto && okCat) {
+          total++;
+          if (mostrados < visibles) {
+            item.style.display = "";
+            mostrados++;
+          } else {
+            item.style.display = "none";
+          }
+        } else {
+          item.style.display = "none";
+        }
+      });
+
+      if (btnMore) {
+        btnMore.style.display = total > POR_BLOQUE ? "block" : "none";
+        btnMore.textContent =
+          visibles >= total ? "Ver menos" : "Ver más";
+      }
+    }
+
+    /* 🔍 BUSCADOR */
+    if (search) {
+      search.addEventListener("input", () => {
+        texto = search.value.toLowerCase();
+        visibles = POR_BLOQUE;
+        render();
+      });
+    }
+
+    /* 🎯 FILTROS */
+    filterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        categoria = btn.dataset.filter;
+        visibles = POR_BLOQUE;
+
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        render();
+      });
+    });
+
+    /* ➕ VER MÁS / ➖ VER MENOS */
+    if (btnMore) {
+      btnMore.addEventListener("click", () => {
+        visibles =
+          visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
+        render();
+      });
+    }
+
+    render();
+  }
+
+  /* ================= CONFIGURACIÓN ================= */
+
+  crearSeccion({
+    sectionId: "short",
+    itemSelector: ".short-item",
+    searchId: "search-short",
+    moreBtnId: "btn-more-short",
+    filterBtnSelector: ".ver-mas-btn button"
+  });
+
+  crearSeccion({
+    sectionId: "actuales",
+    itemSelector: ".producto",
+    searchId: "buscador",
+    moreBtnId: "btnToggle",
+    filterBtnSelector: ".ver-mas-btn button"
+  });
+
+  crearSeccion({
+    sectionId: "retro",
+    itemSelector: ".producto-retro",
+    searchId: "buscadorRetro",
+    moreBtnId: "btnRetroToggle",
+    filterBtnSelector: ".ver-mas-btn button"
+  });
+
+  crearSeccion({
+    sectionId: "casacas",
+    itemSelector: ".casaca-item",
+    searchId: "search-casaca",
+    moreBtnId: "btn-more-casaca",
+    filterBtnSelector: ".ver-mas-btn button"
+  });
+
+});
+</script>
   
 </body>
 </html>
@@ -2458,3 +2584,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
