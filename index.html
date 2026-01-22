@@ -521,7 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-<script src="script.js"></script>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -2334,158 +2334,134 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
 
   const POR_BLOQUE = 6;
+  const TELEFONO = "51971245962";
 
-  /* ======================
-     FUNCIÓN BASE
-  ====================== */
-  function render({ items, categoria, mostrados, contadorId, btnId }) {
-    const visibles = items.filter(el =>
-      categoria === "todos" || el.dataset.category === categoria
-    );
+  /* ========= UTILIDADES ========= */
+  const norm = t =>
+    t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-    items.forEach(el => {
-      el.style.display = "none";
-      el.classList.remove("visible");
-    });
+  function crearFiltro({
+    items,
+    btnSelector,
+    input,
+    btnMore,
+    dataAttr = "category"
+  }) {
+    let categoria = "todos";
+    let texto = "";
+    let visibles = POR_BLOQUE;
 
-    visibles.slice(0, mostrados).forEach((el, i) => {
-      el.style.display = "";
-      setTimeout(() => el.classList.add("visible"), i * 40);
-    });
+    function render() {
+      let mostrados = 0;
 
-    const contador = document.getElementById(contadorId);
-    if (contador) {
-      contador.textContent = `Mostrando ${Math.min(mostrados, visibles.length)} de ${visibles.length}`;
+      items.forEach(item => {
+        const nombre = norm(item.querySelector("h3").textContent);
+        const cat = norm(item.dataset[dataAttr]);
+
+        const okCat = categoria === "todos" || cat === categoria;
+        const okTxt = nombre.includes(texto);
+
+        if (okCat && okTxt && mostrados < visibles) {
+          item.style.display = "";
+          mostrados++;
+        } else {
+          item.style.display = "none";
+        }
+      });
+
+      if (btnMore) {
+        btnMore.style.display = mostrados >= POR_BLOQUE ? "inline-block" : "none";
+        btnMore.textContent =
+          visibles > POR_BLOQUE ? "VER MENOS" : "VER MÁS";
+      }
     }
 
-    const btn = document.getElementById(btnId);
-    if (btn) {
-      btn.style.display = visibles.length > POR_BLOQUE ? "inline-block" : "none";
-      btn.textContent = mostrados >= visibles.length ? "VER MENOS" : "VER MÁS";
+    if (input) {
+      input.addEventListener("input", e => {
+        texto = norm(e.target.value);
+        visibles = POR_BLOQUE;
+        render();
+      });
     }
 
-    return visibles.length;
+    if (btnSelector) {
+      document.querySelectorAll(btnSelector).forEach(btn => {
+        btn.addEventListener("click", () => {
+          categoria = norm(btn.dataset.filter || btn.textContent);
+          visibles = POR_BLOQUE;
+
+          document.querySelectorAll(btnSelector)
+            .forEach(b => b.classList.remove("active"));
+
+          btn.classList.add("active");
+          render();
+        });
+      });
+    }
+
+    if (btnMore) {
+      btnMore.addEventListener("click", () => {
+        visibles =
+          visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
+        render();
+      });
+    }
+
+    render();
   }
 
-  /* ======================
-     ACTUALES
-  ====================== */
-  const actuales = Array.from(document.querySelectorAll("#actuales .producto"));
-  let catActual = "todos";
-  let mostradosActuales = POR_BLOQUE;
+  /* ========= ACTUALES ========= */
+  crearFiltro({
+    items: [...document.querySelectorAll("#actuales .producto")],
+    btnSelector: "#actuales .ver-mas-btn button",
+    input: document.getElementById("buscador"),
+    btnMore: document.getElementById("btnToggle"),
+    dataAttr: "category"
+  });
 
-  window.filtrar = (cat, btn) => {
-    catActual = cat;
-    mostradosActuales = POR_BLOQUE;
+  /* ========= RETRO ========= */
+  crearFiltro({
+    items: [...document.querySelectorAll("#retro .producto-retro")],
+    btnSelector: "#retro .ver-mas-btn button",
+    input: document.getElementById("buscadorRetro"),
+    btnMore: document.getElementById("btnRetroToggle"),
+    dataAttr: "category"
+  });
 
-    document
-      .querySelectorAll("#actuales .ver-mas-btn button")
-      .forEach(b => b.classList.remove("active"));
-    if (btn) btn.classList.add("active");
+  /* ========= CASACAS ========= */
+  crearFiltro({
+    items: [...document.querySelectorAll(".casaca-item")],
+    btnSelector: "#casacas .ver-mas-btn button",
+    input: document.getElementById("search-casaca"),
+    btnMore: document.getElementById("btn-more-casaca"),
+    dataAttr: "cat"
+  });
 
-    render({
-      items: actuales,
-      categoria: catActual,
-      mostrados: mostradosActuales,
-      contadorId: "contador",
-      btnId: "btnToggle"
-    });
-  };
+  /* ========= WHATSAPP ========= */
+  function enviar(btn, emoji) {
+    btn.preventDefault;
+    const card = btn.closest(".card");
+    const nombre = card.querySelector("h3").textContent;
+    const precio = card.querySelector(".price").textContent;
+    const talla = card.querySelector(".talla-select")?.value;
 
-  window.toggleMostrar = () => {
-    const total = render({
-      items: actuales,
-      categoria: catActual,
-      mostrados: mostradosActuales,
-      contadorId: "contador",
-      btnId: "btnToggle"
-    });
+    if (card.querySelector(".talla-select") && !talla) {
+      alert("Selecciona una talla");
+      return;
+    }
 
-    mostradosActuales =
-      mostradosActuales >= total ? POR_BLOQUE : mostradosActuales + POR_BLOQUE;
-  };
+    let msg = `Hola 👋 estoy interesado en:\n\n${emoji} ${nombre}\n💰 ${precio}`;
+    if (talla) msg += `\n📏 Talla: ${talla}`;
 
-  filtrar("todos");
+    window.open(
+      `https://wa.me/${TELEFONO}?text=${encodeURIComponent(msg)}`,
+      "_blank"
+    );
+  }
 
-  /* ======================
-     RETRO
-  ====================== */
-  const retro = Array.from(document.querySelectorAll("#retro .producto-retro"));
-  let catRetro = "todos";
-  let mostradosRetro = POR_BLOQUE;
-
-  window.filtrarRetro = (cat, btn) => {
-    catRetro = cat;
-    mostradosRetro = POR_BLOQUE;
-
-    document
-      .querySelectorAll("#retro .ver-mas-btn button")
-      .forEach(b => b.classList.remove("active"));
-    if (btn) btn.classList.add("active");
-
-    render({
-      items: retro,
-      categoria: catRetro,
-      mostrados: mostradosRetro,
-      contadorId: "contadorRetro",
-      btnId: "btnToggleRetro"
-    });
-  };
-
-  window.toggleMostrarRetro = () => {
-    const total = render({
-      items: retro,
-      categoria: catRetro,
-      mostrados: mostradosRetro,
-      contadorId: "contadorRetro",
-      btnId: "btnToggleRetro"
-    });
-
-    mostradosRetro =
-      mostradosRetro >= total ? POR_BLOQUE : mostradosRetro + POR_BLOQUE;
-  };
-
-  filtrarRetro("todos");
-
-  /* ======================
-     CASACAS
-  ====================== */
-  const casacas = Array.from(document.querySelectorAll("#casacas .producto"));
-  let catCasaca = "todos";
-  let mostradosCasacas = POR_BLOQUE;
-
-  window.filtrarCasaca = (cat, btn) => {
-    catCasaca = cat;
-    mostradosCasacas = POR_BLOQUE;
-
-    document
-      .querySelectorAll("#casacas .ver-mas-btn button")
-      .forEach(b => b.classList.remove("active"));
-    if (btn) btn.classList.add("active");
-
-    render({
-      items: casacas,
-      categoria: catCasaca,
-      mostrados: mostradosCasacas,
-      contadorId: "contadorCasacas",
-      btnId: "btnToggleCasacas"
-    });
-  };
-
-  window.toggleMostrarCasaca = () => {
-    const total = render({
-      items: casacas,
-      categoria: catCasaca,
-      mostrados: mostradosCasacas,
-      contadorId: "contadorCasacas",
-      btnId: "btnToggleCasacas"
-    });
-
-    mostradosCasacas =
-      mostradosCasacas >= total ? POR_BLOQUE : mostradosCasacas + POR_BLOQUE;
-  };
-
-  filtrarCasaca("todos");
+  window.enviarWhatsApp = btn => enviar(btn, "👕");
+  window.enviarWhatsAppShort = btn => enviar(btn, "🩳");
+  window.enviarWhatsAppCasaca = btn => enviar(btn, "🧥");
 
 });
 </script>
