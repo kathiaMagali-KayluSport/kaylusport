@@ -2407,20 +2407,20 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarActuales();
   });
 
-  window.filtrar = function(cat, btn) {
-    actCat = cat;
-    actTxt = "";
-    actVis = POR_BLOQUE;
+ window.filtrar = function(_, btn) {
+  actCat = btn.dataset.category; // 👈 AQUÍ ESTABA TODO EL PROBLEMA
+  actTxt = "";
+  actVis = POR_BLOQUE;
 
-    document.getElementById("buscador").value = "";
+  document.getElementById("buscador").value = "";
 
-    document
-      .querySelectorAll("#actuales .ver-mas-btn button")
-      .forEach(b => b.classList.remove("active"));
+  document
+    .querySelectorAll("#actuales .ver-mas-btn button")
+    .forEach(b => b.classList.remove("active"));
 
-    btn?.classList.add("active");
-    actualizarActuales();
-  };
+  btn.classList.add("active");
+  actualizarActuales();
+};
 
   window.toggleMostrar = function() {
     const total = filtrarItems(actuales, actCat, actTxt).length;
@@ -2447,18 +2447,18 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarRetro();
   });
 
-  window.filtrarRetro = function(cat, btn) {
-    retCat = cat;
-    retTxt = "";
-    retVis = POR_BLOQUE;
+  window.filtrarRetro = function(_, btn) {
+  retCat = btn.dataset.category;
+  retTxt = "";
+  retVis = POR_BLOQUE;
 
-    document
-      .querySelectorAll("#retro .ver-mas-btn button")
-      .forEach(b => b.classList.remove("active"));
+  document
+    .querySelectorAll("#retro .ver-mas-btn button")
+    .forEach(b => b.classList.remove("active"));
 
-    btn?.classList.add("active");
-    actualizarRetro();
-  };
+  btn.classList.add("active");
+  actualizarRetro();
+};
 
   window.toggleRetro = function() {
     const total = filtrarItems(retro, retCat, retTxt).length;
@@ -2489,18 +2489,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  window.filtrarCasaca = function(cat, btn) {
-    casCat = cat;
-    casTxt = "";
-    casVis = POR_BLOQUE;
+  window.filtrarCasaca = function(_, btn) {
+  casCat = btn.dataset.category;
+  casTxt = "";
+  casVis = POR_BLOQUE;
 
-    document
-      .querySelectorAll(".casaca-filtros button")
-      .forEach(b => b.classList.remove("active"));
+  document
+    .querySelectorAll(".casaca-filtros button")
+    .forEach(b => b.classList.remove("active"));
 
-    btn?.classList.add("active");
-    actualizarCasacas();
-  };
+  btn.classList.add("active");
+  actualizarCasacas();
+};
 
   window.buscarCasaca = function() {
     casTxt = document.getElementById("search-casaca").value;
@@ -2546,5 +2546,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
 
 
