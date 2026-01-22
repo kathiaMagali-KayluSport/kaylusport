@@ -2338,50 +2338,49 @@ document.addEventListener("DOMContentLoaded", () => {
   const TELEFONO = "51971245962";
 
   /* =====================================================
-     UTILIDADES
+     UTILIDADES (UNIFICADAS)
   ===================================================== */
   function normalizar(txt = "") {
     return txt
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
-      .replace(/\s+/g, "");
+      .trim();
   }
 
   function filtrarItems(items, categoria, texto) {
-    const catNorm = normalizar(categoria);
-    const txtNorm = normalizar(texto);
+    const cat = normalizar(categoria);
+    const txt = normalizar(texto);
 
     return items.filter(item => {
       const nombre = normalizar(
         item.querySelector("h3")?.textContent || ""
       );
-      const itemCat = normalizar(item.dataset.category || "todos");
 
-      const okCategoria =
-        catNorm === "todos" || itemCat === catNorm;
+      const itemCat = normalizar(
+        item.dataset.category || item.dataset.cat || "todos"
+      );
 
-      const okTexto = nombre.includes(txtNorm);
+      const okCat = cat === "todos" || itemCat === cat;
+      const okTxt = nombre.includes(txt);
 
-      return okCategoria && okTexto;
+      return okCat && okTxt;
     });
   }
 
-  function render(itemsOriginales, filtrados, visibles, contadorId, btnId) {
-    // ocultar todos
-    itemsOriginales.forEach(i => (i.style.display = "none"));
+  function render(items, filtrados, visibles, contadorId, btnId) {
+    items.forEach(i => i.style.display = "none");
 
-    // mostrar solo los visibles filtrados
-    filtrados.slice(0, visibles).forEach(i => (i.style.display = ""));
+    filtrados.slice(0, visibles).forEach(i => {
+      i.style.display = "";
+    });
 
-    // contador
     const contador = document.getElementById(contadorId);
     if (contador) {
       contador.textContent =
         `Mostrando ${Math.min(visibles, filtrados.length)} de ${filtrados.length}`;
     }
 
-    // botón ver más / menos
     const btn = document.getElementById(btnId);
     if (btn) {
       btn.style.display =
@@ -2408,23 +2407,22 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarActuales();
   });
 
-  window.filtrar = function (btn) {
-    actCat = btn.dataset.filter || "todos";
+  window.filtrar = function(cat, btn) {
+    actCat = cat;
     actTxt = "";
     actVis = POR_BLOQUE;
 
-    const buscador = document.getElementById("buscador");
-    if (buscador) buscador.value = "";
+    document.getElementById("buscador").value = "";
 
     document
       .querySelectorAll("#actuales .ver-mas-btn button")
       .forEach(b => b.classList.remove("active"));
 
-    btn.classList.add("active");
+    btn?.classList.add("active");
     actualizarActuales();
   };
 
-  window.toggleMostrar = function () {
+  window.toggleMostrar = function() {
     const total = filtrarItems(actuales, actCat, actTxt).length;
     actVis = actVis < total ? actVis + POR_BLOQUE : POR_BLOQUE;
     actualizarActuales();
@@ -2449,8 +2447,8 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarRetro();
   });
 
-  window.filtrarRetro = function (btn) {
-    retCat = btn.dataset.filter || "todos";
+  window.filtrarRetro = function(cat, btn) {
+    retCat = cat;
     retTxt = "";
     retVis = POR_BLOQUE;
 
@@ -2458,11 +2456,11 @@ document.addEventListener("DOMContentLoaded", () => {
       .querySelectorAll("#retro .ver-mas-btn button")
       .forEach(b => b.classList.remove("active"));
 
-    btn.classList.add("active");
+    btn?.classList.add("active");
     actualizarRetro();
   };
 
-  window.toggleRetro = function () {
+  window.toggleRetro = function() {
     const total = filtrarItems(retro, retCat, retTxt).length;
     retVis = retVis < total ? retVis + POR_BLOQUE : POR_BLOQUE;
     actualizarRetro();
@@ -2479,18 +2477,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function actualizarCasacas() {
     const filtradas = filtrarItems(casacas, casCat, casTxt);
 
-    casacas.forEach(c => (c.style.display = "none"));
-    filtradas.slice(0, casVis).forEach(c => (c.style.display = ""));
+    casacas.forEach(c => c.style.display = "none");
+    filtradas.slice(0, casVis).forEach(c => c.style.display = "");
 
     const btn = document.getElementById("btn-more-casaca");
     if (btn) {
       btn.textContent =
         casVis >= filtradas.length ? "VER MENOS" : "VER MÁS";
+      btn.style.display =
+        filtradas.length > POR_BLOQUE ? "inline-block" : "none";
     }
   }
 
-  window.filtrarCasaca = function (btn) {
-    casCat = btn.dataset.filter || "todos";
+  window.filtrarCasaca = function(cat, btn) {
+    casCat = cat;
     casTxt = "";
     casVis = POR_BLOQUE;
 
@@ -2498,17 +2498,17 @@ document.addEventListener("DOMContentLoaded", () => {
       .querySelectorAll(".casaca-filtros button")
       .forEach(b => b.classList.remove("active"));
 
-    btn.classList.add("active");
+    btn?.classList.add("active");
     actualizarCasacas();
   };
 
-  window.buscarCasaca = function () {
+  window.buscarCasaca = function() {
     casTxt = document.getElementById("search-casaca").value;
     casVis = POR_BLOQUE;
     actualizarCasacas();
   };
 
-  window.toggleCasaca = function () {
+  window.toggleCasaca = function() {
     const total = filtrarItems(casacas, casCat, casTxt).length;
     casVis = casVis < total ? casVis + POR_BLOQUE : POR_BLOQUE;
     actualizarCasacas();
@@ -2522,18 +2522,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = btn.closest(".card");
     const nombre = card.querySelector("h3").textContent;
     const precio = card.querySelector(".price").textContent;
-    const talla = card.querySelector(".talla-select")?.value;
+    const tallaSel = card.querySelector(".talla-select");
+    const talla = tallaSel ? tallaSel.value : "";
 
-    if (card.querySelector(".talla-select") && !talla) {
+    if (tallaSel && !talla) {
       alert("Selecciona una talla");
       return;
     }
 
     let msg =
-      `Hola 👋 estoy interesado en:\n\n` +
-      `${emoji} ${nombre}\n` +
-      `💰 Precio: ${precio}`;
-
+      `Hola 👋 estoy interesado en:\n\n${emoji} ${nombre}\n💰 Precio: ${precio}`;
     if (talla) msg += `\n📏 Talla: ${talla}`;
 
     window.open(
@@ -2548,9 +2546,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
-
-
-
-
 
 
