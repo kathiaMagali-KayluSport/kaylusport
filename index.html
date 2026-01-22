@@ -2453,47 +2453,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.style.opacity = select.value ? "1" : "0.6";
   });
 
-  window.enviarWhatsApp = function(btn) {
-    const card = btn.closest(".card");
-    const productoEl =
-  card.querySelector(".nombre-producto") ||
-  card.querySelector("h3");
-
-const producto = productoEl ? productoEl.textContent : "Producto KayluSport";
-    const talla = card.querySelector(".talla-select").value;
-    const precio = card.querySelector(".price").textContent;
-
-    if (!talla) return alert("Selecciona una talla");
-
-    const msg = `Hola 👋 quiero comprar:\n${producto}\nTalla: ${talla}\nPrecio: ${precio}`;
-    window.open(`https://wa.me/51971245962?text=${encodeURIComponent(msg)}`, "_blank");
-  };
-
-  /* =====================
-     INICIAL
-  ====================== */
-  renderProductos(productos, mostrados, categoriaActual, "contador", "btnToggle");
-  renderProductos(productosRetro, retroMostrados, categoriaRetro, "contadorRetro", "btnRetroToggle");
-
-window.enviarWhatsAppShort = function (btn) {
-  const card = btn.closest(".card");
-  const nombre = card.querySelector("h3").textContent;
-  const precio = card.querySelector(".price").textContent;
-
-  const mensaje = `Hola 👋, estoy interesado en el siguiente producto:%0A%0A` +
-                  `🩳 *${nombre}*%0A` +
-                  `💰 Precio: ${precio}%0A%0A` +
-                  `¿Me brindas más información?`;
-
-  const telefono = "51971245962"; // 🔴 CAMBIA POR TU NÚMERO
-  const url = `https://wa.me/${telefono}?text=${mensaje}`;
-
-  window.open(url, "_blank");
-}  
-  
-});
-
-document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
 
   let visiblesCasaca = 6;
   const casacas = document.querySelectorAll(".casaca-item");
@@ -2578,8 +2538,86 @@ window.enviarWhatsAppCasaca = function (btn) {
   const telefono = "51971245962"; // TU NÚMERO
   window.open(`https://wa.me/${telefono}?text=${mensaje}`, "_blank");
 };
+
+
+ /* =========================
+   WHATSAPP - GENERAL
+========================= */
+function enviarWhatsApp(btn) {
+  const card = btn.closest(".card");
+  if (!card) return;
+
+  const nombre =
+    card.querySelector(".nombre-producto")?.textContent ||
+    card.querySelector("h3")?.textContent ||
+    "Producto KayluSport";
+
+  const precio = card.querySelector(".price")?.textContent || "";
+  const tallaSelect = card.querySelector(".talla-select");
+  const talla = tallaSelect ? tallaSelect.value : "";
+
+  if (tallaSelect && !talla) {
+    alert("Selecciona una talla");
+    return;
+  }
+
+  const mensaje =
+    `Hola 👋 quiero comprar:%0A%0A` +
+    `🧢 *${nombre}*%0A` +
+    (talla ? `📏 Talla: ${talla}%0A` : "") +
+    `💰 Precio: ${precio}`;
+
+  const telefono = "51971245962";
+  window.open(`https://wa.me/${telefono}?text=${mensaje}`, "_blank");
+}
+
+/* =========================
+   WHATSAPP - SHORT
+========================= */
+function enviarWhatsAppShort(btn) {
+  const card = btn.closest(".card");
+  if (!card) return;
+
+  const nombre = card.querySelector("h3").textContent;
+  const precio = card.querySelector(".price").textContent;
+
+  const mensaje =
+    `Hola 👋 estoy interesado en:%0A%0A` +
+    `🩳 *${nombre}*%0A` +
+    `💰 Precio: ${precio}`;
+
+  const telefono = "51971245962";
+  window.open(`https://wa.me/${telefono}?text=${mensaje}`, "_blank");
+}
+
+/* =========================
+   WHATSAPP - CASACAS
+========================= */
+function enviarWhatsAppCasaca(btn) {
+  const card = btn.closest(".card");
+  if (!card) return;
+
+  const nombre = card.querySelector("h3").textContent;
+  const precio = card.querySelector(".price").textContent;
+  const talla = card.querySelector(".talla-select")?.value;
+
+  if (!talla) {
+    alert("Selecciona una talla");
+    return;
+  }
+
+  const mensaje =
+    `Hola 👋 estoy interesado en:%0A%0A` +
+    `🧥 *${nombre}*%0A` +
+    `📏 Talla: ${talla}%0A` +
+    `💰 Precio: ${precio}`;
+
+  const telefono = "51971245962";
+  window.open(`https://wa.me/${telefono}?text=${mensaje}`, "_blank");
+}
    
 </script>
+
 
 
 
