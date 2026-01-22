@@ -2395,10 +2395,26 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   window.toggleMostrar = function(){
-    const total = renderLista({ items: actuales, visibles: actVis, categoria: actCat, texto: actTxt, contadorId:"contador", btnId:"btnToggle" });
-    actVis = actVis < total ? actVis + POR_BLOQUE : POR_BLOQUE;
-    renderLista({ items: actuales, visibles: actVis, categoria: actCat, texto: actTxt, contadorId:"contador", btnId:"btnToggle" });
-  };
+  const totalFiltrados = renderLista({
+    items: actuales,
+    visibles: Infinity, // 👈 calculamos total real
+    categoria: actCat,
+    texto: actTxt,
+    contadorId:"contador",
+    btnId:"btnToggle"
+  });
+
+  actVis = actVis < totalFiltrados ? actVis + POR_BLOQUE : POR_BLOQUE;
+
+  renderLista({
+    items: actuales,
+    visibles: actVis,
+    categoria: actCat,
+    texto: actTxt,
+    contadorId:"contador",
+    btnId:"btnToggle"
+  });
+};
 
   /* ================= RETRO ================= */
   const retro = [...document.querySelectorAll("#retro .producto-retro")];
@@ -2422,10 +2438,26 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   window.toggleRetro = function(){
-    const total = renderLista({ items: retro, visibles: retVis, categoria: retCat, texto: retTxt, contadorId:"contadorRetro", btnId:"btnRetroToggle" });
-    retVis = retVis < total ? retVis + POR_BLOQUE : POR_BLOQUE;
-    renderLista({ items: retro, visibles: retVis, categoria: retCat, texto: retTxt, contadorId:"contadorRetro", btnId:"btnRetroToggle" });
-  };
+  const totalFiltrados = renderLista({
+    items: retro,
+    visibles: Infinity,
+    categoria: retCat,
+    texto: retTxt,
+    contadorId:"contadorRetro",
+    btnId:"btnRetroToggle"
+  });
+
+  retVis = retVis < totalFiltrados ? retVis + POR_BLOQUE : POR_BLOQUE;
+
+  renderLista({
+    items: retro,
+    visibles: retVis,
+    categoria: retCat,
+    texto: retTxt,
+    contadorId:"contadorRetro",
+    btnId:"btnRetroToggle"
+  });
+};
 
   /* ================= CASACAS ================= */
   const casacas = [...document.querySelectorAll(".casaca-item")];
@@ -2494,6 +2526,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
 
 
 
