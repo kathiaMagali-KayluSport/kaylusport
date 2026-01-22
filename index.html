@@ -2338,7 +2338,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ========= UTILIDADES ========= */
   const norm = t =>
-    t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    (t || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
 
   function crearFiltro({
     items,
@@ -2355,7 +2359,7 @@ document.addEventListener("DOMContentLoaded", () => {
       let mostrados = 0;
 
       items.forEach(item => {
-        const nombre = norm(item.querySelector("h3").textContent);
+        const nombre = norm(item.querySelector("h3")?.textContent);
         const cat = norm(item.dataset[dataAttr]);
 
         const okCat = categoria === "todos" || cat === categoria;
@@ -2370,7 +2374,16 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (btnMore) {
-        btnMore.style.display = mostrados >= POR_BLOQUE ? "inline-block" : "none";
+        btnMore.style.display =
+          items.filter(i => {
+            const cat = norm(i.dataset[dataAttr]);
+            const nombre = norm(i.querySelector("h3")?.textContent);
+            return (categoria === "todos" || cat === categoria) &&
+                   nombre.includes(texto);
+          }).length > POR_BLOQUE
+            ? "inline-block"
+            : "none";
+
         btnMore.textContent =
           visibles > POR_BLOQUE ? "VER MENOS" : "VER MÁS";
       }
@@ -2387,10 +2400,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnSelector) {
       document.querySelectorAll(btnSelector).forEach(btn => {
         btn.addEventListener("click", () => {
-          categoria = norm(btn.dataset.filter || btn.textContent);
+          categoria = norm(btn.dataset.filter || "todos");
           visibles = POR_BLOQUE;
 
-          document.querySelectorAll(btnSelector)
+          document
+            .querySelectorAll(btnSelector)
             .forEach(b => b.classList.remove("active"));
 
           btn.classList.add("active");
@@ -2439,7 +2453,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ========= WHATSAPP ========= */
   function enviar(btn, emoji) {
-    btn.preventDefault;
+    event.preventDefault();
+
     const card = btn.closest(".card");
     const nombre = card.querySelector("h3").textContent;
     const precio = card.querySelector(".price").textContent;
@@ -2450,7 +2465,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    let msg = `Hola 👋 estoy interesado en:\n\n${emoji} ${nombre}\n💰 ${precio}`;
+    let msg =
+      `Hola 👋 estoy interesado en:\n\n${emoji} ${nombre}\n💰 ${precio}`;
     if (talla) msg += `\n📏 Talla: ${talla}`;
 
     window.open(
