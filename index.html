@@ -1929,88 +1929,99 @@ document.addEventListener("DOMContentLoaded", () => {
   const POR_BLOQUE = 6;
 
   /* ================= FUNCIÓN GENÉRICA PARA BLOQUES ================= */
-  function activarSeccion({ sectionId, itemClass, searchId, btnMoreId }) {
-    const section = document.getElementById(sectionId);
-    if (!section) return;
+  function activarSeccion({
+  sectionId,
+  itemClass,
+  searchId,
+  btnMoreId
+}) {
+  const section = document.getElementById(sectionId);
+  if (!section) return;
 
-    const items = Array.from(section.querySelectorAll(itemClass));
-    const search = searchId ? document.getElementById(searchId) : null;
-    const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
-    const filterBtns = section.querySelectorAll("[data-cat]");
+  const items = Array.from(section.querySelectorAll(itemClass));
+  const search = searchId ? document.getElementById(searchId) : null;
+  const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
+  const filterBtns = section.querySelectorAll("[data-cat]");
 
-    let visibles = POR_BLOQUE;
-    let texto = "";
-    let catelet categoria = "todos"; // debe coincidir con el botón activogoria = "all";
+  let visibles = POR_BLOQUE; // SOLO mostrar los 6 primeros al inicio
+  let texto = "";
+  let categoria = "todos";
 
-    // ✅ COMPROBAR BOTÓN ACTIVO AL CARGAR
-filterBtns.forEach(btn => {
-  if (btn.classList.contains("active")) {
-    categoria = btn.dataset.cat; // asigna la categoría inicial
-  }
-});
+  // 🔹 Detectar botón activo inicial
+  filterBtns.forEach(btn => {
+    if (btn.classList.contains("active")) {
+      categoria = btn.dataset.cat;
+    }
+  });
 
-    function render() {
-      let mostrados = 0;
-      let total = 0;
+  function render() {
+    let mostrados = 0;
+    let total = 0;
 
-      items.forEach(item => {
-        const nombre = item.querySelector("h3") ? item.querySelector("h3").textContent.toLowerCase() : "";
-        const cat = item.dataset.cat || item.dataset.category;
+    items.forEach(item => {
+      const nombre = item.querySelector("h3").textContent.toLowerCase();
+      const cat = item.dataset.cat || item.dataset.category;
 
-        const okTexto = nombre.includes(texto);
-        const okCat = categoria === "todos" || cat === categoria;
+      const okTexto = nombre.includes(texto);
+      const okCat = categoria === "todos" || cat === categoria;
 
-        if (okTexto && okCat) {
-          total++;
-          if (mostrados < visibles) {
-            item.style.display = "";
-            mostrados++;
-          } else {
-            item.style.display = "none";
-          }
+      if (okTexto && okCat) {
+        total++;
+        if (mostrados < visibles) {
+          item.style.display = "";
+          mostrados++;
         } else {
           item.style.display = "none";
         }
-      });
-
-      if (btnMore) {
-        btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
-        btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
+      } else {
+        item.style.display = "none";
       }
-    }
-
-    // Buscador
-    if (search) {
-      search.addEventListener("input", () => {
-        texto = search.value.toLowerCase();
-        visibles = POR_BLOQUE;
-        render();
-      });
-    }
-
-    // Filtros
-    filterBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        categoria = btn.dataset.cat;
-        visibles = POR_BLOQUE;
-
-        filterBtns.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-
-        render();
-      });
     });
 
-    // Ver más / Ver menos
     if (btnMore) {
-      btnMore.addEventListener("click", () => {
-        visibles = visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
-        render();
-      });
+      btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
+      btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
     }
-
-    render();
   }
+
+  // 🔍 BUSCADOR
+  if (search) {
+    search.addEventListener("input", () => {
+      texto = search.value.toLowerCase();
+      visibles = POR_BLOQUE;
+      render();
+    });
+  }
+
+  // 🎯 FILTROS
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      categoria = btn.dataset.cat;
+      visibles = POR_BLOQUE; // reinicia para mostrar solo los 6 primeros
+      filterBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      render();
+    });
+  });
+
+  // ➕ VER MÁS / ➖ VER MENOS
+  if (btnMore) {
+    btnMore.addEventListener("click", () => {
+      const totalFiltrados = items.filter(item => {
+        const cat = item.dataset.cat || item.dataset.category;
+        const nombre = item.querySelector("h3").textContent.toLowerCase();
+        const okTexto = nombre.includes(texto);
+        const okCat = categoria === "todos" || cat === categoria;
+        return okTexto && okCat;
+      }).length;
+
+      visibles = visibles === POR_BLOQUE ? totalFiltrados : POR_BLOQUE;
+      render();
+    });
+  }
+
+  render();
+}
 
   /* ================= FUNCION WHATSAPP GENÉRICA ================= */
   window.enviarWhatsAppGeneric = function(el) {
@@ -2037,6 +2048,7 @@ filterBtns.forEach(btn => {
 
 });
 </script>
+
 
 
 
