@@ -2338,14 +2338,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const TELEFONO = "51971245962";
 
   /* =====================================================
-     UTILIDADES (UNIFICADAS)
+     UTILIDADES
   ===================================================== */
   function normalizar(txt = "") {
     return txt
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, "-")
       .trim();
+  }
+
+  function obtenerCategoria(btn) {
+    return normalizar(
+      btn.dataset.category ||
+      btn.dataset.cat ||
+      btn.textContent
+    );
   }
 
   function filtrarItems(items, categoria, texto) {
@@ -2353,10 +2362,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const txt = normalizar(texto);
 
     return items.filter(item => {
-      const nombre = normalizar(
-        item.querySelector("h3")?.textContent || ""
-      );
-
+      const nombre = normalizar(item.querySelector("h3")?.textContent || "");
       const itemCat = normalizar(
         item.dataset.category || item.dataset.cat || "todos"
       );
@@ -2407,20 +2413,20 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarActuales();
   });
 
- window.filtrar = function(_, btn) {
-  actCat = btn.dataset.category; // 👈 AQUÍ ESTABA TODO EL PROBLEMA
-  actTxt = "";
-  actVis = POR_BLOQUE;
+  window.filtrar = function(_, btn) {
+    actCat = obtenerCategoria(btn);
+    actTxt = "";
+    actVis = POR_BLOQUE;
 
-  document.getElementById("buscador").value = "";
+    document.getElementById("buscador").value = "";
 
-  document
-    .querySelectorAll("#actuales .ver-mas-btn button")
-    .forEach(b => b.classList.remove("active"));
+    document
+      .querySelectorAll("#actuales .ver-mas-btn button")
+      .forEach(b => b.classList.remove("active"));
 
-  btn.classList.add("active");
-  actualizarActuales();
-};
+    btn.classList.add("active");
+    actualizarActuales();
+  };
 
   window.toggleMostrar = function() {
     const total = filtrarItems(actuales, actCat, actTxt).length;
@@ -2448,17 +2454,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.filtrarRetro = function(_, btn) {
-  retCat = btn.dataset.category;
-  retTxt = "";
-  retVis = POR_BLOQUE;
+    retCat = obtenerCategoria(btn);
+    retTxt = "";
+    retVis = POR_BLOQUE;
 
-  document
-    .querySelectorAll("#retro .ver-mas-btn button")
-    .forEach(b => b.classList.remove("active"));
+    document
+      .querySelectorAll("#retro .ver-mas-btn button")
+      .forEach(b => b.classList.remove("active"));
 
-  btn.classList.add("active");
-  actualizarRetro();
-};
+    btn.classList.add("active");
+    actualizarRetro();
+  };
 
   window.toggleRetro = function() {
     const total = filtrarItems(retro, retCat, retTxt).length;
@@ -2490,17 +2496,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   window.filtrarCasaca = function(_, btn) {
-  casCat = btn.dataset.category;
-  casTxt = "";
-  casVis = POR_BLOQUE;
+    casCat = obtenerCategoria(btn);
+    casTxt = "";
+    casVis = POR_BLOQUE;
 
-  document
-    .querySelectorAll(".casaca-filtros button")
-    .forEach(b => b.classList.remove("active"));
+    document
+      .querySelectorAll(".casaca-filtros button")
+      .forEach(b => b.classList.remove("active"));
 
-  btn.classList.add("active");
-  actualizarCasacas();
-};
+    btn.classList.add("active");
+    actualizarCasacas();
+  };
 
   window.buscarCasaca = function() {
     casTxt = document.getElementById("search-casaca").value;
@@ -2546,6 +2552,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
-
-
-
