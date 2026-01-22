@@ -2331,90 +2331,102 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
   const POR_BLOQUE = 6;
-  const TELEFONO = "51971245962";
 
-  /* ========= UTILIDADES ========= */
-  const norm = t =>
-    (t || "")
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .trim();
-
-  function crearFiltro({
-    items,
+  /* ==================================================
+     FUNCIÓN BASE (MISMA LÓGICA QUE SHORT)
+  ================================================== */
+  function crearFiltroSeccion({
+    sectionId,
+    itemSelector,
+    buscadorId,
+    contadorId,
     btnSelector,
-    input,
-    btnMore,
-    dataAttr = "category"
+    btnToggleId
   }) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    const items = Array.from(section.querySelectorAll(itemSelector));
+    const buscador = document.getElementById(buscadorId);
+    const contador = document.getElementById(contadorId);
+    const btnToggle = document.getElementById(btnToggleId);
+    const botones = section.querySelectorAll(btnSelector);
+
     let categoria = "todos";
     let texto = "";
     let visibles = POR_BLOQUE;
 
     function render() {
       let mostrados = 0;
+      let totalCoinciden = 0;
 
       items.forEach(item => {
-        const nombre = norm(item.querySelector("h3")?.textContent);
-        const cat = norm(item.dataset[dataAttr]);
+        const nombre = item.querySelector("h3").textContent.toLowerCase();
+        const catItem = item.dataset.category;
 
-        const okCat = categoria === "todos" || cat === categoria;
-        const okTxt = nombre.includes(texto);
+        const okTexto = nombre.includes(texto);
+        const okCategoria =
+          categoria === "todos" || catItem === categoria;
 
-        if (okCat && okTxt && mostrados < visibles) {
-          item.style.display = "";
-          mostrados++;
+        if (okTexto && okCategoria) {
+          totalCoinciden++;
+
+          if (mostrados < visibles) {
+            item.style.display = "";
+            mostrados++;
+          } else {
+            item.style.display = "none";
+          }
         } else {
           item.style.display = "none";
         }
       });
 
-      if (btnMore) {
-        btnMore.style.display =
-          items.filter(i => {
-            const cat = norm(i.dataset[dataAttr]);
-            const nombre = norm(i.querySelector("h3")?.textContent);
-            return (categoria === "todos" || cat === categoria) &&
-                   nombre.includes(texto);
-          }).length > POR_BLOQUE
-            ? "inline-block"
-            : "none";
+      if (contador) {
+        contador.textContent =
+          `Mostrando ${Math.min(visibles, totalCoinciden)} de ${totalCoinciden}`;
+      }
 
-        btnMore.textContent =
-          visibles > POR_BLOQUE ? "VER MENOS" : "VER MÁS";
+      if (btnToggle) {
+        btnToggle.style.display =
+          totalCoinciden > POR_BLOQUE ? "inline-block" : "none";
+        btnToggle.textContent =
+          visibles >= totalCoinciden ? "Ver menos" : "Ver más";
       }
     }
 
-    if (input) {
-      input.addEventListener("input", e => {
-        texto = norm(e.target.value);
+    /* ===== BUSCADOR ===== */
+    if (buscador) {
+      buscador.addEventListener("input", () => {
+        texto = buscador.value.toLowerCase();
         visibles = POR_BLOQUE;
         render();
       });
     }
 
-    if (btnSelector) {
-      document.querySelectorAll(btnSelector).forEach(btn => {
-        btn.addEventListener("click", () => {
-          categoria = norm(btn.dataset.filter || "todos");
-          visibles = POR_BLOQUE;
+    /* ===== BOTONES DE FILTRO ===== */
+    botones.forEach(btn => {
+      btn.addEventListener("click", () => {
+        categoria = btn.getAttribute("onclick")
+          .match(/'(.*?)'/)[1]; // 👈 toma 'peru', 'europa', etc.
 
-          document
-            .querySelectorAll(btnSelector)
-            .forEach(b => b.classList.remove("active"));
+        visibles = POR_BLOQUE;
+        texto = "";
+        if (buscador) buscador.value = "";
 
-          btn.classList.add("active");
-          render();
-        });
+        botones.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        render();
       });
-    }
+    });
 
-    if (btnMore) {
-      btnMore.addEventListener("click", () => {
+    /* ===== VER MÁS / VER MENOS ===== */
+    if (btnToggle) {
+      btnToggle.addEventListener("click", () => {
         visibles =
           visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
         render();
@@ -2424,60 +2436,25 @@ document.addEventListener("DOMContentLoaded", () => {
     render();
   }
 
-  /* ========= ACTUALES ========= */
-  crearFiltro({
-    items: [...document.querySelectorAll("#actuales .producto")],
-    btnSelector: "#actuales .ver-mas-btn button",
-    input: document.getElementById("buscador"),
-    btnMore: document.getElementById("btnToggle"),
-    dataAttr: "category"
+  /* ================= ACTUALES ================= */
+  crearFiltroSeccion({
+    sectionId: "actuales",
+    itemSelector: ".producto",
+    buscadorId: "buscador",
+    contadorId: "contador",
+    btnSelector: ".ver-mas-btn button",
+    btnToggleId: "btnToggle"
   });
 
-  /* ========= RETRO ========= */
-  crearFiltro({
-    items: [...document.querySelectorAll("#retro .producto-retro")],
-    btnSelector: "#retro .ver-mas-btn button",
-    input: document.getElementById("buscadorRetro"),
-    btnMore: document.getElementById("btnRetroToggle"),
-    dataAttr: "category"
+  /* ================= RETRO ================= */
+  crearFiltroSeccion({
+    sectionId: "retro",
+    itemSelector: ".producto-retro",
+    buscadorId: "buscadorRetro",
+    contadorId: "contadorRetro",
+    btnSelector: ".ver-mas-btn button",
+    btnToggleId: "btnRetroToggle"
   });
-
-  /* ========= CASACAS ========= */
-  crearFiltro({
-    items: [...document.querySelectorAll(".casaca-item")],
-    btnSelector: "#casacas .ver-mas-btn button",
-    input: document.getElementById("search-casaca"),
-    btnMore: document.getElementById("btn-more-casaca"),
-    dataAttr: "cat"
-  });
-
-  /* ========= WHATSAPP ========= */
-  function enviar(btn, emoji) {
-    event.preventDefault();
-
-    const card = btn.closest(".card");
-    const nombre = card.querySelector("h3").textContent;
-    const precio = card.querySelector(".price").textContent;
-    const talla = card.querySelector(".talla-select")?.value;
-
-    if (card.querySelector(".talla-select") && !talla) {
-      alert("Selecciona una talla");
-      return;
-    }
-
-    let msg =
-      `Hola 👋 estoy interesado en:\n\n${emoji} ${nombre}\n💰 ${precio}`;
-    if (talla) msg += `\n📏 Talla: ${talla}`;
-
-    window.open(
-      `https://wa.me/${TELEFONO}?text=${encodeURIComponent(msg)}`,
-      "_blank"
-    );
-  }
-
-  window.enviarWhatsApp = btn => enviar(btn, "👕");
-  window.enviarWhatsAppShort = btn => enviar(btn, "🩳");
-  window.enviarWhatsAppCasaca = btn => enviar(btn, "🧥");
 
 });
 </script>
