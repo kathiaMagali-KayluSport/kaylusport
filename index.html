@@ -1940,7 +1940,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let visibles = POR_BLOQUE;
     let texto = "";
-    let categoria = "all";
+    let catelet categoria = "todos"; // debe coincidir con el botón activogoria = "all";
+
+    // ✅ COMPROBAR BOTÓN ACTIVO AL CARGAR
+filterBtns.forEach(btn => {
+  if (btn.classList.contains("active")) {
+    categoria = btn.dataset.cat; // asigna la categoría inicial
+  }
+});
 
     function render() {
       let mostrados = 0;
@@ -2030,6 +2037,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
 
 
 
