@@ -2349,23 +2349,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function render(items, visibles, contadorId, btnId) {
-    const total = items.length;
+  function render(itemsOriginales, filtrados, visibles, contadorId, btnId) {
 
-    items.forEach(i => i.style.display = "none");
-    items.slice(0, visibles).forEach(i => i.style.display = "");
+  // 1. Ocultamos TODOS (pero conservamos estructura)
+  itemsOriginales.forEach(i => {
+    i.style.display = "none";
+  });
 
-    const contador = document.getElementById(contadorId);
-    if (contador) {
-      contador.textContent = `Mostrando ${Math.min(visibles, total)} de ${total}`;
-    }
+  // 2. Mostramos solo los filtrados visibles
+  filtrados.slice(0, visibles).forEach(i => {
+    i.style.display = "";
+  });
 
-    const btn = document.getElementById(btnId);
-    if (btn) {
-      btn.style.display = total > POR_BLOQUE ? "inline-block" : "none";
-      btn.textContent = visibles >= total ? "VER MENOS" : "VER MÁS";
-    }
+  // 3. Contador
+  const contador = document.getElementById(contadorId);
+  if (contador) {
+    contador.textContent =
+      `Mostrando ${Math.min(visibles, filtrados.length)} de ${filtrados.length}`;
   }
+
+  // 4. Botón VER MÁS / VER MENOS (no pierde formato)
+  const btn = document.getElementById(btnId);
+  if (btn) {
+    btn.style.display = filtrados.length > POR_BLOQUE ? "inline-block" : "none";
+    btn.textContent = visibles >= filtrados.length ? "VER MENOS" : "VER MÁS";
+  }
+}
 
   /* ================= ACTUALES ================= */
   const actuales = [...document.querySelectorAll("#actuales .producto")];
@@ -2374,9 +2383,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let actVis = POR_BLOQUE;
 
   function actualizarActuales() {
-    const filtrados = filtrarItems(actuales, actCat, actTxt);
-    render(filtrados, actVis, "contador", "btnToggle");
-  }
+  const filtrados = filtrarItems(actuales, actCat, actTxt);
+  render(actuales, filtrados, actVis, "contador", "btnToggle");
+}
 
   document.getElementById("buscador")?.addEventListener("input", e => {
     actTxt = e.target.value.toLowerCase();
@@ -2412,9 +2421,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let retVis = POR_BLOQUE;
 
   function actualizarRetro() {
-    const filtrados = filtrarItems(retro, retCat, retTxt);
-    render(filtrados, retVis, "contadorRetro", "btnRetroToggle");
-  }
+  const filtrados = filtrarItems(retro, retCat, retTxt);
+  render(retro, filtrados, retVis, "contadorRetro", "btnRetroToggle");
+}
 
   document.getElementById("buscadorRetro")?.addEventListener("input", e => {
     retTxt = e.target.value.toLowerCase();
@@ -2507,6 +2516,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
 
 
 
