@@ -7,704 +7,203 @@
 <meta name="keywords" content="KayluSport es una tienda deportiva especializada en camisetas de fútbol actuales y retro. Envíos a todo el Perú. Compra fácil por WhatsApp.">
 <meta name="author" content="KayluSport">
 
-<style>
-body {
-  margin:0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-  url("cesped-nocturno.jpg");
-  background-size: cover;
-  background-attachment: fixed;
-  color:#fff;
-}
+<!-- ESTILOS -->
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-header {
-  text-align:center;
-  padding:20px;
-}
+    body {
+      background: #f5f5f5;
+      color: #111;
+    }
 
-header img {
-  max-width:140px;
-  margin:20px auto;
-  display:block;
-}
+    header {
+      background: #000;
+      color: #fff;
+      padding: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-header h1 {
-  margin:0;
-}
+    header h1 {
+      text-align: center;
+      font-size: 24px;
+    }
 
-header p {
-  margin:5px 0 15px;
-  font-size:16px;
-}
+    nav {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-nav a {
-  color:#fff;
-  margin:0 10px;
-  text-decoration:none;
-  font-weight:bold;
-}
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 4px;
+    }
 
-nav a:hover {
-  color:#f9d423;
-}
+    nav a:hover {
+      background: #ff0000;
+    }
 
-section {
-  padding:40px 20px;
-  max-width:1200px;
-  margin:auto;
-}
+    main {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
 
-h2 {
-  text-align:center;
-  color:#f9d423;
-}
+    h2 {
+      text-align: center;
+      margin: 30px 0 15px;
+      font-size: 26px;
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 260px));
-  justify-content: center;
-  gap: 20px;
-  align-items: stretch;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+    }
 
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
 
-.card:hover {
-  transform:translateY(-6px);
-  box-shadow:0 14px 35px rgba(0,0,0,0.25);
-}
+    .card img {
+      width: 100%;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-#actuales .card,
-#retro .card {
-  opacity:0;
-  transform:translateY(20px);
-  transition:opacity 0.6s ease, transform 0.6s ease;
-}
+    .price {
+      font-weight: bold;
+      margin: 8px 0;
+      color: #e60000;
+    }
 
-#actuales .card.visible,
-#retro .card.visible {
-  opacity:1;
-  transform:translateY(0);
-}
+    .talla-select {
+      width: 100%;
+      padding: 6px;
+      margin: 8px 0;
+    }
 
+    .whatsapp {
+      display: block;
+      margin-top: 8px;
+      background: #25d366;
+      color: #fff;
+      text-decoration: none;
+      padding: 8px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
 
-/* ===== CARD FINAL (NO DUPLICAR) ===== */
-.card {
-  background: #fff;
-  color: #000;
-  padding: 15px;
-  border-radius: 14px;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
+    .whatsapp.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
 
-.card img {
-  width: 100%;
-  height: 230px;
-  object-fit: cover;
-  border-radius: 12px;
-  display: block;
-}
-  
-.card:hover img {
-  transform:scale(1.05);
-}
+    .badge-stock {
+      display: inline-block;
+      background: #ff9800;
+      color: #fff;
+      padding: 4px 6px;
+      font-size: 12px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
 
-.card p {
-  font-size:16px;
-  font-weight:600;
-  margin:8px 0;
-}
+    .ver-mas-btn {
+      text-align: center;
+      margin: 20px 0;
+    }
 
-.price {
-  font-weight:700;
-  font-size:18px;
-  color:#25D366;
-  margin:10px 0;
-}
+    .ver-mas-btn button {
+      padding: 8px 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+    }
 
-.sizes {
-  font-size:0.9rem;
-  margin-bottom:10px;
-}
+    .ver-mas-btn button.active {
+      background: #e60000;
+    }
 
-.whatsapp {
-  display:inline-block;
-  background:#25D366;
-  color:#fff;
-  padding:10px 16px;
-  border-radius:8px;
-  text-decoration:none;
-  font-weight:600;
-  transition:background 0.3s ease, transform 0.2s ease;
-}
+    .search-input {
+      width: 100%;
+      max-width: 400px;
+      display: block;
+      margin: 10px auto 20px;
+      padding: 8px;
+    }
 
-.whatsapp:hover {
-  background:#1ebe5d;
-  transform:scale(1.03);
-}
+    footer {
+      background: #000;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
 
-.ver-mas-btn {
-  text-align:center;
-  margin-top:30px;
-}
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
 
-.ver-mas-btn button {
-  background:#f9d423;
-  color:#000;
-  border:none;
-  padding:12px 30px;
-  font-size:16px;
-  font-weight:bold;
-  border-radius:30px;
-  cursor:pointer;
-}
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+    }
 
-footer {
-  text-align:center;
-  padding:20px;
-}
+    .lightbox span {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: #fff;
+      font-size: 30px;
+      cursor: pointer;
+    }
 
-.whatsapp-float {
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#25D366;
-  color:white;
-  padding:15px 18px;
-  border-radius:50%;
-  font-size:22px;
-  text-decoration:none;
-  box-shadow:0 6px 15px rgba(0,0,0,0.3);
-  z-index:1000;
-}
-
-/* LIGHTBOX */
-.lightbox {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.85);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-
-.lightbox img {
-  max-width: 95%;
-  max-height: 95%;
-  border-radius: 12px;
-  object-fit: contain;
-}
-
-.lightbox span {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  color: #fff;
-  font-size: 30px;
-  cursor: pointer;
-}
-
-@media (min-width:1024px){
-  section {
-    max-width:1100px;
-  }
-  .card {
-    max-width:260px;
-    margin:auto;
-  }
-}
-
-/* ===============================
-   EDICIONES ESPECIALES (ESTILO)
-================================ */
-
-#ediciones-especiales {
-  background: rgba(255, 77, 77, 0.08);
-  border-radius: 18px;
-}
-
-#ediciones-especiales h2 {
-  color: #ff4d4d;
-  letter-spacing: 1px;
-}
-
-#ediciones-especiales .card {
-  border: 2px solid #ff4d4d;
-}
-
-#ediciones-especiales .price {
-  color: #ff4d4d;
-  font-size: 20px;
-}
-
-#ediciones-especiales p {
-  color: #ffd6d6;
-}  
-
-/* ===== BADGE STOCK LIMITADO ===== */
-.badge-stock {
-  display: inline-block;
-  margin: 10px 0;
-  padding: 6px 12px;
-  background: #ff4d4d;
-  color: #fff;
-  font-size: 13px;
-  font-weight: bold;
-  border-radius: 20px;
-  animation: pulse 1.6s infinite;
-}
-
-@keyframes pulse {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.08); }
-  100% { transform: scale(1); }
-}
-
-/* ================= HERO ================= */
-
-.hero {
-  text-align: center;
-  padding: 20px 15px 25px;
-  background: linear-gradient(135deg, #111, #1c1c1c);
-  border-radius: 0 0 22px 22px;
-}
-
-.hero h1 {
-  font-size: 44px;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-}
-
-.hero-sub {
-  font-size: 16px;
-  opacity: 0.85;
-  margin-bottom: 30px;
-}
-
-.hero-actions {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-.hero-btn {
-  padding: 12px 26px;
-  border-radius: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.hero-btn.primary {
-  background: #ff4d4d;
-  color: #fff;
-}
-
-.hero-btn.secondary {
-  border: 2px solid #ff4d4d;
-  color: #ff4d4d;
-}
-
-.hero-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.4);
-}
-
-/* RESPONSIVE */
-@media (min-width:768px) {
-  .hero h1 {
-    font-size: 56px;
-  }
-  .hero-sub {
-    font-size: 18px;
-  }
-}
-
-/* ================= MENÚ SUPERIOR ================= */
-
-nav {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 14px 10px;
-  background: #0f0f0f;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-nav a {
-  padding: 8px 18px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #eee;
-  text-decoration: none;
-  background: rgba(255,255,255,0.05);
-  transition: background 0.2s, transform 0.2s;
-}
-
-nav a:hover {
-  background: #ff4d4d;
-  color: #fff;
-  transform: translateY(-2px);
-}
-
-nav a[href="#ediciones-especiales"] {
-  border: 2px solid #ff4d4d;
-  color: #ff4d4d;
-  background: transparent;
-}
-
-/* ===== BOTÓN VOLVER ARRIBA ===== */
-#btn-top {
-  position: fixed;
-  bottom: 85px;
-  right: 18px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: none;
-  background: #ff4d4d;
-  color: #fff;
-  font-size: 22px;
-  cursor: pointer;
-  display: none;
-  z-index: 999;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-}
-
-#btn-top:hover {
-  transform: translateY(-3px);
-}
-
-/* ===== SHORT: BUSCADOR ===== */
-
-#short .search-input {
-  width: 100%;
-  max-width: 420px;
-  padding: 12px 16px;
-  margin: 12px auto 20px;
-  display: block;
-  font-size: 15px;
-  border-radius: 30px;
-  border: 1px solid #ccc;
-  outline: none;
-}
-
-  /* ===== FIX GRID (evita que se peguen después del 5) ===== */
-
-
-
-  
-</style>
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25d366;
+      color: #fff;
+      font-size: 26px;
+      padding: 12px 15px;
+      border-radius: 50%;
+      text-decoration: none;
+      z-index: 3000;
+    }
+  </style>
 </head>
 
 <body>
 
-<button id="btn-top" onclick="volverArriba()">⬆</button>
-
-<div class="lightbox" id="lightbox">
-  <span onclick="closeLightbox()">&times;</span>
-  <img id="lightbox-img" src="">
-</div>
-
-<script>
-function openLightbox(src) {
-  const img = document.getElementById("lightbox-img");
-  const lightbox = document.getElementById("lightbox");
-  img.src = src;
-  lightbox.style.display = "flex";
-}
-
-function closeLightbox() {
-  document.getElementById("lightbox").style.display = "none";
-}
-
-const btnTop = document.getElementById("btn-top");
-window.addEventListener("scroll", () => {
-  btnTop.style.display = window.scrollY > 300 ? "block" : "none";
-});
-
-function volverArriba() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-  const shortItems = Array.from(document.querySelectorAll(".short-item"));
-  const btnMoreShort = document.getElementById("btn-more-short");
-  const searchShort = document.getElementById("search-short");
-
-  let shortVisible = 6;
-  let textoBusqueda = "";
-  let filtroActual = "all";
-
-  function mostrarShorts() {
-    let visibles = 0;
-
-    shortItems.forEach(item => {
-      const nombre = item.querySelector("h3").textContent.toLowerCase();
-      const categoria = item.dataset.cat;
-
-      const coincideTexto = nombre.includes(textoBusqueda);
-      const coincideFiltro =
-        filtroActual === "all" || categoria === filtroActual;
-
-      if (coincideTexto && coincideFiltro && visibles < shortVisible) {
-        item.style.display = "";
-        visibles++;
-      } else {
-        item.style.display = "none";
-      }
-    });
-
-    const totalCoinciden = shortItems.filter(item => {
-      const nombre = item.querySelector("h3").textContent.toLowerCase();
-      const categoria = item.dataset.cat;
-      return (
-        nombre.includes(textoBusqueda) &&
-        (filtroActual === "all" || categoria === filtroActual)
-      );
-    }).length;
-
-    btnMoreShort.style.display =
-      totalCoinciden > 6 ? "block" : "none";
-  }
-
-  btnMoreShort.addEventListener("click", () => {
-    if (shortVisible === 6) {
-      shortVisible = shortItems.length;
-      btnMoreShort.textContent = "Ver menos";
-    } else {
-      shortVisible = 6;
-      btnMoreShort.textContent = "Ver más";
-    }
-    mostrarShorts();
-  });
-
-  searchShort.addEventListener("input", () => {
-    textoBusqueda = searchShort.value.toLowerCase();
-    shortVisible = 6;
-    btnMoreShort.textContent = "Ver más";
-    mostrarShorts();
-  });
-
-  window.filtrarShort = function (cat) {
-    filtroActual = cat;
-    shortVisible = 6;
-    btnMoreShort.textContent = "Ver más";
-    mostrarShorts();
-  };
-
-  mostrarShorts();
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  document
-    .querySelectorAll("#actuales .card, #retro .card")
-    .forEach(card => card.classList.add("visible"));
-});
-</script>
-
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  function activarVerMas(sectionId) {
-    const section = document.getElementById(sectionId);
-    if (!section) return;
-
-    const cards = Array.from(section.querySelectorAll(".card"));
-    const btn = section.querySelector(".ver-mas-btn");
-    if (!btn) return;
-
-    let visibles = 6;
-
-    function render() {
-      cards.forEach((card, i) => {
-        card.style.display = i < visibles ? "" : "none";
-      });
-    }
-
-    btn.onclick = () => {
-      if (visibles === 6) {
-        visibles = cards.length;
-        btn.textContent = "Ver menos";
-      } else {
-        visibles = 6;
-        btn.textContent = "Ver más";
-      }
-      render();
-    };
-
-    render();
-  }
-
-  activarVerMas("actuales");
-  activarVerMas("retro");
-  activarVerMas("casacas");
-
-});
-</script>
-  
- <script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const POR_BLOQUE = 6;
-
-  function crearSeccion({
-    sectionId,
-    itemSelector,
-    searchId,
-    moreBtnId,
-    filterBtnSelector
-  }) {
-    const section = document.getElementById(sectionId);
-    if (!section) return;
-
-    const items = Array.from(section.querySelectorAll(itemSelector));
-    const search = document.getElementById(searchId);
-    const btnMore = document.getElementById(moreBtnId);
-    const filterBtns = section.querySelectorAll(filterBtnSelector);
-
-    let texto = "";
-    let categoria = "all";
-    let visibles = POR_BLOQUE;
-
-    function render() {
-      let mostrados = 0;
-      let total = 0;
-
-      items.forEach(item => {
-        const nombre = item.querySelector("h3")
-          .textContent.toLowerCase();
-        const cat = item.dataset.cat;
-
-        const okTexto = nombre.includes(texto);
-        const okCat = categoria === "all" || cat === categoria;
-
-        if (okTexto && okCat) {
-          total++;
-          if (mostrados < visibles) {
-            item.style.display = "";
-            mostrados++;
-          } else {
-            item.style.display = "none";
-          }
-        } else {
-          item.style.display = "none";
-        }
-      });
-
-      if (btnMore) {
-        btnMore.style.display = total > POR_BLOQUE ? "block" : "none";
-        btnMore.textContent =
-          visibles >= total ? "Ver menos" : "Ver más";
-      }
-    }
-
-    /* 🔍 BUSCADOR */
-    if (search) {
-      search.addEventListener("input", () => {
-        texto = search.value.toLowerCase();
-        visibles = POR_BLOQUE;
-        render();
-      });
-    }
-
-    /* 🎯 FILTROS */
-    filterBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        categoria = btn.dataset.filter;
-        visibles = POR_BLOQUE;
-
-        filterBtns.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-
-        render();
-      });
-    });
-
-    /* ➕ VER MÁS / ➖ VER MENOS */
-    if (btnMore) {
-      btnMore.addEventListener("click", () => {
-        visibles =
-          visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
-        render();
-      });
-    }
-
-    render();
-  }
-
-  /* ================= CONFIGURACIÓN ================= */
-
-  crearSeccion({
-    sectionId: "short",
-    itemSelector: ".short-item",
-    searchId: "search-short",
-    moreBtnId: "btn-more-short",
-    filterBtnSelector: ".ver-mas-btn button"
-  });
-
-  crearSeccion({
-    sectionId: "actuales",
-    itemSelector: ".producto",
-    searchId: "buscador",
-    moreBtnId: "btnToggle",
-    filterBtnSelector: ".ver-mas-btn button"
-  });
-
-  crearSeccion({
-    sectionId: "retro",
-    itemSelector: ".producto-retro",
-    searchId: "buscadorRetro",
-    moreBtnId: "btnRetroToggle",
-    filterBtnSelector: ".ver-mas-btn button"
-  });
-
-  crearSeccion({
-    sectionId: "casacas",
-    itemSelector: ".casaca-item",
-    searchId: "search-casaca",
-    moreBtnId: "btn-more-casaca",
-    filterBtnSelector: ".ver-mas-btn button"
-  });
-
-});
-</script>
-  
-</body>
-</html>
-
 <header>
-  <div style="background:#f9d423;color:#000;padding:10px;font-weight:700;">
-    🚚 Envíos a toda la región y el Perú
-  </div>
-
-  <img src="logo-kaylusport.png" alt="KayluSport Logo">
-  <div class="hero">
   <h1>KayluSport</h1>
-  <p class="hero-sub">
-    Pasión por el fútbol • Camisetas y accesorios deportivos
-  </p>
-
-  </div>
 
   <nav>
     <a href="#actuales">Actuales</a>
@@ -713,46 +212,27 @@ document.addEventListener("DOMContentLoaded", () => {
     <a href="#short">Short</a>
     <a href="#casacas">Casacas</a>
     <a href="#medias">Medias</a>
-    <a href="#licras">Licras y Más</a>
     <a href="#souvenirs">Souvenirs</a>
   </nav>
 </header>
 
-<!-- ======= CONTENIDO PRINCIPAL ======= -->
-<main> <!-- MODIFICADO: agregado main para semántica -->
+<main>
+
 
 <!-- CAMISETAS ACTUALES -->
 <section id="actuales">
-<h2>Camisetas Actuales</h2>
+  <h2>Actuales</h2>
 
-  <p id="contador" style="text-align:center; margin-bottom:20px; font-weight:bold;"></p>
-  
-  <div style="text-align:center; margin:20px 0;">
-  <input 
-    type="text" 
-    id="buscador"
-    placeholder="Buscar camiseta..."
-    style="
-      padding:12px 16px;
-      width:100%;
-      max-width:400px;
-      border-radius:30px;
-      border:none;
-      font-size:16px;
-      outline:none;
-    "
-  >
-</div>
+  <!-- FILTROS -->
+  <div class="ver-mas-btn">
+    <button data-cat="todos" class="active">TODOS</button>
+    <button data-cat="peru">PERÚ</button>
+    <button data-cat="europa">EUROPA</button>
+    <button data-cat="selecciones">SELECCIONES</button>
+    <button data-cat="resto-del-mundo">RESTO DEL MUNDO</button>
+  </div>
 
- <div class="ver-mas-btn">
-  <button id="btnTodos" onclick="filtrar('todos', this)">TODOS</button>
-  <button id="btnPeru" onclick="filtrar('peru', this)">PERÚ</button>
-  <button id="btnEuropa" onclick="filtrar('europa', this)">EUROPA</button>
-  <button id="btnSelecciones" onclick="filtrar('selecciones', this)">SELECCIONES</button>
-  <button id="btnResto" onclick="filtrar('resto-del-mundo', this)">RESTO DEL MUNDO</button>
-</div>
-
-<div class="grid" id="productosActuales">
+<div class="grid">
   
   <!-- AGREGA TODAS TUS CAMISETAS AQUÍ -->
  
@@ -1127,48 +607,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </div>
 
-<div class="ver-mas-btn">
-  <button id="btnToggle" onclick="toggleMostrar()">VER MÁS</button>
-</div>
+  <div class="ver-mas-btn">
+    <button id="btnToggleActuales">Ver más</button>
+  </div>
 </section>
 
 <!-- ================= CAMISETAS RETRO ================= -->
 <section id="retro">
-  <h2>Camisetas Retro</h2>
+  <h2>Retro</h2>
 
-  <!-- CONTADOR -->
-  <p id="contadorRetro" style="text-align:center; margin-bottom:20px; font-weight:bold;"></p>
-
-  <!-- BUSCADOR -->
-  <div style="text-align:center; margin:20px 0;">
-    <input 
-      type="text" 
-      id="buscadorRetro"
-      placeholder="Buscar camiseta retro..."
-      style="
-        padding:12px 16px;
-        width:100%;
-        max-width:400px;
-        border-radius:30px;
-        border:none;
-        font-size:16px;
-        outline:none;
-      "
-    >
-  </div>
-
-  
-  <!-- FILTROS RETRO -->
+  <!-- FILTROS -->
   <div class="ver-mas-btn">
-    <button onclick="filtrarRetro('todos', this)" class="active">TODOS</button>
-    <button onclick="filtrarRetro('peru', this)">PERÚ</button>
-    <button onclick="filtrarRetro('europa', this)">EUROPA</button>
-    <button onclick="filtrarRetro('selecciones', this)">SELECCIONES</button>
-    <button onclick="filtrarRetro('resto-del-mundo', this)">RESTO DEL MUNDO</button>
+    <button data-cat="todos" class="active">TODOS</button>
+    <button data-cat="peru">PERÚ</button>
+    <button data-cat="europa">EUROPA</button>
+    <button data-cat="selecciones">SELECCIONES</button>
+    <button data-cat="resto-del-mundo">RESTO DEL MUNDO</button>
   </div>
 
   <!-- PRODUCTOS -->
-  <div class="grid" id="productosRetro">
+ <div class="grid">
 
     <!-- CAMISETA RETRO 1 -->
     <article class="card producto-retro" data-category="peru">
@@ -1772,9 +1230,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
   </div>
 
-   <!-- BOTÓN VER MÁS -->
   <div class="ver-mas-btn">
-    <button id="btnRetroToggle" onclick="toggleRetro()">VER MÁS</button>
+    <button id="btnRetroToggle">Ver más</button>
   </div>
 </section>
 
@@ -1784,7 +1241,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <h2>Ediciones Especiales</h2>
 
   <p style="text-align:center; margin-bottom:20px; font-weight:bold;">
-    ⚠️ Unidades limitadas · No reposición
+    ⚠️ Unidades limitadas · Stock Único
   </p>
 
   <div class="grid">
@@ -2219,23 +1676,19 @@ document.addEventListener("DOMContentLoaded", () => {
   <h2>Casacas</h2>
 
   <!-- BUSCADOR -->
-  <input
-    type="text"
-    id="search-casaca"
-    class="search-input"
-    placeholder="Buscar casaca..."
-    oninput="buscarCasaca()"
-  >
+  <input type="text" id="search-casaca" class="search-input" placeholder="Buscar casaca...">
 
-  <!-- BOTONES TODOS / LOCAL / VISITA -->
+  <!-- FILTROS -->
   <div class="ver-mas-btn">
-    <button onclick="filtrarCasaca('all')">TODOS</button>
-    <button onclick="filtrarCasaca('local')">LOCAL</button>
-    <button onclick="filtrarCasaca('visita')">VISITA</button>
+    <button data-cat="all" class="active">TODOS</button>
+    <button data-cat="local">LOCAL</button>
+    <button data-cat="visita">VISITA</button>
   </div>
 
+ 
+
   <!-- PRODUCTOS -->
-  <div class="grid" id="grid-casaca">
+ <div class="grid">
 
     <!-- CASACA 1 -->
     <article class="card casaca-item" data-cat="local">
@@ -2413,9 +1866,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <!-- VER MÁS -->
   <div class="ver-mas-btn">
-    <button id="btn-more-casaca" onclick="toggleCasaca()">
-      Ver más
-    </button>
+    <button id="btn-more-casaca">Ver más</button>
   </div>
 </section>
 
@@ -2442,7 +1893,6 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 </section>
 
-</main> <!-- MODIFICADO: cierre main -->
 
 <footer>
   <p>© 2026 KayluSport | Pasión futbolera</p>
@@ -2450,56 +1900,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <a class="whatsapp-float" href="https://wa.me/51971245962">💬</a>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
-  <span onclick="closeLightbox()">✖</span>
-  <img id="lightbox-img">
-</div>
+
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
   const POR_BLOQUE = 6;
 
-  /* ==================================================
-     FUNCIÓN BASE (MISMA LÓGICA QUE SHORT)
-  ================================================== */
-  function crearFiltroSeccion({
+  /* =====================================================
+     FUNCIÓN GENÉRICA PARA TODAS LAS SECCIONES
+  ===================================================== */
+  function activarSeccion({
     sectionId,
-    itemSelector,
-    buscadorId,
-    contadorId,
-    btnSelector,
-    btnToggleId
+    itemClass,
+    searchId,
+    btnMoreId
   }) {
     const section = document.getElementById(sectionId);
     if (!section) return;
 
-    const items = Array.from(section.querySelectorAll(itemSelector));
-    const buscador = document.getElementById(buscadorId);
-    const contador = document.getElementById(contadorId);
-    const btnToggle = document.getElementById(btnToggleId);
-    const botones = section.querySelectorAll(btnSelector);
+    const items = Array.from(section.querySelectorAll(itemClass));
+    const search = searchId ? document.getElementById(searchId) : null;
+    const btnMore = document.getElementById(btnMoreId);
+    const filterBtns = section.querySelectorAll("[data-cat]");
 
-    let categoria = "todos";
-    let texto = "";
     let visibles = POR_BLOQUE;
+    let texto = "";
+    let categoria = "all";
 
     function render() {
       let mostrados = 0;
-      let totalCoinciden = 0;
+      let total = 0;
 
       items.forEach(item => {
         const nombre = item.querySelector("h3").textContent.toLowerCase();
-        const catItem = item.dataset.category;
+        const cat = item.dataset.cat || item.dataset.category;
 
         const okTexto = nombre.includes(texto);
-        const okCategoria =
-          categoria === "todos" || catItem === categoria;
+        const okCat = categoria === "all" || cat === categoria;
 
-        if (okTexto && okCategoria) {
-          totalCoinciden++;
-
+        if (okTexto && okCat) {
+          total++;
           if (mostrados < visibles) {
             item.style.display = "";
             mostrados++;
@@ -2511,48 +1952,38 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-      if (contador) {
-        contador.textContent =
-          `Mostrando ${Math.min(visibles, totalCoinciden)} de ${totalCoinciden}`;
-      }
-
-      if (btnToggle) {
-        btnToggle.style.display =
-          totalCoinciden > POR_BLOQUE ? "inline-block" : "none";
-        btnToggle.textContent =
-          visibles >= totalCoinciden ? "Ver menos" : "Ver más";
+      if (btnMore) {
+        btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
+        btnMore.textContent =
+          visibles >= total ? "Ver menos" : "Ver más";
       }
     }
 
-    /* ===== BUSCADOR ===== */
-    if (buscador) {
-      buscador.addEventListener("input", () => {
-        texto = buscador.value.toLowerCase();
+    /* 🔍 BUSCADOR */
+    if (search) {
+      search.addEventListener("input", () => {
+        texto = search.value.toLowerCase();
         visibles = POR_BLOQUE;
         render();
       });
     }
 
-    /* ===== BOTONES DE FILTRO ===== */
-    botones.forEach(btn => {
+    /* 🎯 FILTROS */
+    filterBtns.forEach(btn => {
       btn.addEventListener("click", () => {
-        categoria = btn.getAttribute("onclick")
-          .match(/'(.*?)'/)[1]; // 👈 toma 'peru', 'europa', etc.
-
+        categoria = btn.dataset.cat;
         visibles = POR_BLOQUE;
-        texto = "";
-        if (buscador) buscador.value = "";
 
-        botones.forEach(b => b.classList.remove("active"));
+        filterBtns.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
 
         render();
       });
     });
 
-    /* ===== VER MÁS / VER MENOS ===== */
-    if (btnToggle) {
-      btnToggle.addEventListener("click", () => {
+    /* ➕ VER MÁS / ➖ VER MENOS */
+    if (btnMore) {
+      btnMore.addEventListener("click", () => {
         visibles =
           visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
         render();
@@ -2563,25 +1994,38 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /* ================= ACTUALES ================= */
-  crearFiltroSeccion({
+  activarSeccion({
     sectionId: "actuales",
-    itemSelector: ".producto",
-    buscadorId: "buscador",
-    contadorId: "contador",
-    btnSelector: ".ver-mas-btn button",
-    btnToggleId: "btnToggle"
+    itemClass: ".producto",
+    searchId: "buscador",
+    btnMoreId: "btnToggle"
   });
 
   /* ================= RETRO ================= */
-  crearFiltroSeccion({
+  activarSeccion({
     sectionId: "retro",
-    itemSelector: ".producto-retro",
-    buscadorId: "buscadorRetro",
-    contadorId: "contadorRetro",
-    btnSelector: ".ver-mas-btn button",
-    btnToggleId: "btnRetroToggle"
+    itemClass: ".producto-retro",
+    searchId: "buscadorRetro",
+    btnMoreId: "btnRetroToggle"
+  });
+
+  /* ================= SHORT ================= */
+  activarSeccion({
+    sectionId: "short",
+    itemClass: ".short-item",
+    searchId: "search-short",
+    btnMoreId: "btn-more-short"
+  });
+
+  /* ================= CASACAS ================= */
+  activarSeccion({
+    sectionId: "casacas",
+    itemClass: ".casaca-item",
+    searchId: "search-casaca",
+    btnMoreId: "btn-more-casaca"
   });
 
 });
 </script>
+
 
