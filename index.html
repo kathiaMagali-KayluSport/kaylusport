@@ -1928,126 +1928,172 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const POR_BLOQUE = 6;
 
-  /* ================= FUNCIÓN GENÉRICA PARA BLOQUES ================= */
-  function activarSeccion({
-  sectionId,
-  itemClass,
-  searchId,
-  btnMoreId
-}) {
-  const section = document.getElementById(sectionId);
-  if (!section) return;
+  /* =====================================================
+     FUNCIÓN GENÉRICA PARA TODAS LAS SECCIONES
+  ===================================================== */
+  function activarSeccion({ sectionId, itemClass, searchId, btnMoreId, defaultCategoria }) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
 
-  const items = Array.from(section.querySelectorAll(itemClass));
-  const search = searchId ? document.getElementById(searchId) : null;
-  const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
-  const filterBtns = section.querySelectorAll("[data-cat]");
+    const items = Array.from(section.querySelectorAll(itemClass));
+    const search = searchId ? document.getElementById(searchId) : null;
+    const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
+    const filterBtns = section.querySelectorAll("[data-cat]");
 
-  let visibles = POR_BLOQUE; // SOLO mostrar los 6 primeros al inicio
-  let texto = "";
-  let categoria = "todos";
+    let visibles = POR_BLOQUE;
+    let texto = "";
+    let categoria = defaultCategoria || "all";
 
-  // 🔹 Detectar botón activo inicial
-  filterBtns.forEach(btn => {
-    if (btn.classList.contains("active")) {
-      categoria = btn.dataset.cat;
-    }
-  });
+    function render() {
+      let mostrados = 0;
+      let total = 0;
 
-  function render() {
-    let mostrados = 0;
-    let total = 0;
+      items.forEach(item => {
+        const nombre = item.querySelector("h3").textContent.toLowerCase();
+        const cat = item.dataset.cat || item.dataset.category || "all";
 
-    items.forEach(item => {
-      const nombre = item.querySelector("h3").textContent.toLowerCase();
-      const cat = item.dataset.cat || item.dataset.category;
+        const okTexto = nombre.includes(texto);
+        const okCat = categoria === "all" || categoria === "todos" || cat === categoria;
 
-      const okTexto = nombre.includes(texto);
-      const okCat = categoria === "todos" || cat === categoria;
-
-      if (okTexto && okCat) {
-        total++;
-        if (mostrados < visibles) {
-          item.style.display = "";
-          mostrados++;
+        if (okTexto && okCat) {
+          total++;
+          if (mostrados < visibles) {
+            item.style.display = "";
+            mostrados++;
+          } else {
+            item.style.display = "none";
+          }
         } else {
           item.style.display = "none";
         }
-      } else {
-        item.style.display = "none";
+      });
+
+      if (btnMore) {
+        btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
+        btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
       }
-    });
-
-    if (btnMore) {
-      btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
-      btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
     }
+
+    /* 🔍 BUSCADOR */
+    if (search) {
+      search.addEventListener("input", () => {
+        texto = search.value.toLowerCase();
+        visibles = POR_BLOQUE;
+        render();
+      });
+    }
+
+    /* 🎯 FILTROS */
+    filterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        categoria = btn.dataset.cat;
+        visibles = POR_BLOQUE;
+
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        render();
+      });
+    });
+
+    /* ➕ VER MÁS / ➖ VER MENOS */
+    if (btnMore) {
+      btnMore.addEventListener("click", () => {
+        visibles = visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
+        render();
+      });
+    }
+
+    render();
   }
 
-  // 🔍 BUSCADOR
-  if (search) {
-    search.addEventListener("input", () => {
-      texto = search.value.toLowerCase();
-      visibles = POR_BLOQUE;
-      render();
-    });
-  }
-
-  // 🎯 FILTROS
-  filterBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      categoria = btn.dataset.cat;
-      visibles = POR_BLOQUE; // reinicia para mostrar solo los 6 primeros
-      filterBtns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      render();
-    });
+  /* ================= ACTIVA TODAS LAS SECCIONES ================= */
+  activarSeccion({
+    sectionId: "actuales",
+    itemClass: ".producto",
+    searchId: "buscador",
+    btnMoreId: "btnToggle",
+    defaultCategoria: "todos"
   });
 
-  // ➕ VER MÁS / ➖ VER MENOS
-  if (btnMore) {
-    btnMore.addEventListener("click", () => {
-      const totalFiltrados = items.filter(item => {
-        const cat = item.dataset.cat || item.dataset.category;
-        const nombre = item.querySelector("h3").textContent.toLowerCase();
-        const okTexto = nombre.includes(texto);
-        const okCat = categoria === "todos" || cat === categoria;
-        return okTexto && okCat;
-      }).length;
+  activarSeccion({
+    sectionId: "retro",
+    itemClass: ".producto-retro",
+    searchId: "buscadorRetro",
+    btnMoreId: "btnRetroToggle",
+    defaultCategoria: "todos"
+  });
 
-      visibles = visibles === POR_BLOQUE ? totalFiltrados : POR_BLOQUE;
-      render();
+  activarSeccion({
+    sectionId: "short",
+    itemClass: ".short-item",
+    searchId: "search-short",
+    btnMoreId: "btn-more-short",
+    defaultCategoria: "all"
+  });
+
+  activarSeccion({
+    sectionId: "casacas",
+    itemClass: ".casaca-item",
+    searchId: "search-casaca",
+    btnMoreId: "btn-more-casaca",
+    defaultCategoria: "all"
+  });
+
+  /* =====================================================
+     ACTIVAR BOTONES DE WHATSAPP SEGÚN SELECCIÓN DE TALLA
+  ===================================================== */
+  function activarWhatsApp() {
+    document.querySelectorAll('.talla-select').forEach(select => {
+      const btn = select.nextElementSibling;
+      if (!btn) return;
+
+      // Inicialmente desactivado si no hay valor
+      if (!select.value) btn.classList.add('disabled');
+
+      // Cuando se selecciona talla
+      select.addEventListener('change', () => {
+        if (select.value) {
+          btn.classList.remove('disabled');
+        } else {
+          btn.classList.add('disabled');
+        }
+      });
     });
   }
 
-  render();
-}
-
-  /* ================= FUNCION WHATSAPP GENÉRICA ================= */
-  window.enviarWhatsAppGeneric = function(el) {
-    const card = el.closest(".card");
-    const nombre = card.querySelector("h3") ? card.querySelector("h3").textContent : "";
-    const precio = card.querySelector(".price") ? card.querySelector(".price").textContent : "";
-    const tallaSelect = card.querySelector(".talla-select");
-    const talla = tallaSelect ? tallaSelect.value : "";
-
-    if (tallaSelect && talla === "") {
-      alert("Por favor, selecciona una talla.");
-      return;
-    }
-
-    const url = `https://wa.me/51971245962?text=Hola!%20Quiero%20comprar%20${encodeURIComponent(nombre)}${talla ? "%20Talla:%20" + encodeURIComponent(talla) : ""}%20Precio:%20${encodeURIComponent(precio)}`;
-    window.open(url, "_blank");
-  }
-
-  /* ================= ACTIVAR TODAS LAS SECCIONES ================= */
-  activarSeccion({ sectionId: "actuales", itemClass: ".producto", searchId: "buscador", btnMoreId: "btnToggle" });
-  activarSeccion({ sectionId: "retro", itemClass: ".producto-retro", searchId: "buscadorRetro", btnMoreId: "btnRetroToggle" });
-  activarSeccion({ sectionId: "short", itemClass: ".short-item", searchId: "search-short", btnMoreId: "btn-more-short" });
-  activarSeccion({ sectionId: "casacas", itemClass: ".casaca-item", searchId: "search-casaca", btnMoreId: "btn-more-casaca" });
+  activarWhatsApp();
 
 });
+
+/* =====================================================
+   FUNCIÓN PARA ENVIAR WHATSAPP
+===================================================== */
+function enviarWhatsApp(el) {
+  const select = el.parentElement.querySelector('.talla-select');
+  if (!select || !select.value) {
+    alert("Por favor, selecciona una talla antes de comprar.");
+    return;
+  }
+
+  const nombreProducto = el.parentElement.querySelector('h3').textContent;
+  const precio = el.parentElement.querySelector('.price').textContent;
+  const talla = select.value;
+
+  const mensaje = `Hola, quiero comprar:\n${nombreProducto}\nTalla: ${talla}\nPrecio: ${precio}`;
+  const numero = "51971245962";
+  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+
+  window.open(url, "_blank");
+}
+
+/* =====================================================
+   FUNCIONES ESPECIALES PARA SHORT Y CASACAS (si tienes enlaces separados)
+===================================================== */
+function enviarWhatsAppShort(el) { enviarWhatsApp(el); }
+function enviarWhatsAppCasaca(el) { enviarWhatsApp(el); }
 </script>
+
 
 
 
