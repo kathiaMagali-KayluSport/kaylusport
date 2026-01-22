@@ -2331,7 +2331,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <img id="lightbox-img">
 </div>
 
- <script>
+<script>
 document.addEventListener("DOMContentLoaded", () => {
 
   const POR_BLOQUE = 6;
@@ -2347,14 +2347,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/\s+/g, "-")
       .trim();
-  }
-
-  function obtenerCategoria(btn) {
-    return normalizar(
-      btn.dataset.category ||
-      btn.dataset.cat ||
-      btn.textContent
-    );
   }
 
   function filtrarItems(items, categoria, texto) {
@@ -2376,10 +2368,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function render(items, filtrados, visibles, contadorId, btnId) {
     items.forEach(i => i.style.display = "none");
-
-    filtrados.slice(0, visibles).forEach(i => {
-      i.style.display = "";
-    });
+    filtrados.slice(0, visibles).forEach(i => i.style.display = "");
 
     const contador = document.getElementById(contadorId);
     if (contador) {
@@ -2413,18 +2402,10 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarActuales();
   });
 
-  window.filtrar = function(_, btn) {
-    actCat = obtenerCategoria(btn);
+  window.filtrar = function(cat) {
+    actCat = cat; // 👈 SOLO USAMOS ESTO
     actTxt = "";
     actVis = POR_BLOQUE;
-
-    document.getElementById("buscador").value = "";
-
-    document
-      .querySelectorAll("#actuales .ver-mas-btn button")
-      .forEach(b => b.classList.remove("active"));
-
-    btn.classList.add("active");
     actualizarActuales();
   };
 
@@ -2447,22 +2428,10 @@ document.addEventListener("DOMContentLoaded", () => {
     render(retro, filtrados, retVis, "contadorRetro", "btnRetroToggle");
   }
 
-  document.getElementById("buscadorRetro")?.addEventListener("input", e => {
-    retTxt = e.target.value;
-    retVis = POR_BLOQUE;
-    actualizarRetro();
-  });
-
-  window.filtrarRetro = function(_, btn) {
-    retCat = obtenerCategoria(btn);
+  window.filtrarRetro = function(cat) {
+    retCat = cat;
     retTxt = "";
     retVis = POR_BLOQUE;
-
-    document
-      .querySelectorAll("#retro .ver-mas-btn button")
-      .forEach(b => b.classList.remove("active"));
-
-    btn.classList.add("active");
     actualizarRetro();
   };
 
@@ -2482,7 +2451,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function actualizarCasacas() {
     const filtradas = filtrarItems(casacas, casCat, casTxt);
-
     casacas.forEach(c => c.style.display = "none");
     filtradas.slice(0, casVis).forEach(c => c.style.display = "");
 
@@ -2495,21 +2463,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  window.filtrarCasaca = function(_, btn) {
-    casCat = obtenerCategoria(btn);
+  window.filtrarCasaca = function(cat) {
+    casCat = cat;
     casTxt = "";
-    casVis = POR_BLOQUE;
-
-    document
-      .querySelectorAll(".casaca-filtros button")
-      .forEach(b => b.classList.remove("active"));
-
-    btn.classList.add("active");
-    actualizarCasacas();
-  };
-
-  window.buscarCasaca = function() {
-    casTxt = document.getElementById("search-casaca").value;
     casVis = POR_BLOQUE;
     actualizarCasacas();
   };
@@ -2521,34 +2477,6 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   actualizarCasacas();
-
-  /* ================= WHATSAPP ================= */
-  function enviar(btn, emoji) {
-    event.preventDefault();
-    const card = btn.closest(".card");
-    const nombre = card.querySelector("h3").textContent;
-    const precio = card.querySelector(".price").textContent;
-    const tallaSel = card.querySelector(".talla-select");
-    const talla = tallaSel ? tallaSel.value : "";
-
-    if (tallaSel && !talla) {
-      alert("Selecciona una talla");
-      return;
-    }
-
-    let msg =
-      `Hola 👋 estoy interesado en:\n\n${emoji} ${nombre}\n💰 Precio: ${precio}`;
-    if (talla) msg += `\n📏 Talla: ${talla}`;
-
-    window.open(
-      `https://wa.me/${TELEFONO}?text=${encodeURIComponent(msg)}`,
-      "_blank"
-    );
-  }
-
-  window.enviarWhatsApp = btn => enviar(btn, "🧢");
-  window.enviarWhatsAppShort = btn => enviar(btn, "🩳");
-  window.enviarWhatsAppCasaca = btn => enviar(btn, "🧥");
 
 });
 </script>
