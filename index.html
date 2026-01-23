@@ -2050,7 +2050,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const cat = (item.dataset.cat || "").toLowerCase();
 
         const okTexto = nombre.includes(texto);
-        const okCat = categoria === "todos" || cat === categoria;
+        const okCat =
+  categoria === "todos" ||
+  categoria === "all" ||
+  cat === categoria;
 
         if (okTexto && okCat) {
           total++;
@@ -2198,6 +2201,7 @@ function closeLightbox() {
 }
   
 </script>
+
 
 
 
