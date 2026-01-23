@@ -2041,14 +2041,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     items.forEach(item => {
       const nombre = item.querySelector("h3").textContent.toLowerCase();
-      const cat = (item.dataset.cat || "").toLowerCase();
 
-      const okTexto = nombre.includes(texto);
+// normalizar texto (quita tildes)
+const normalizar = txt =>
+  txt.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-      const okCat =
-        categoria === "todos" ||
-        categoria === "all" ||
-        cat === categoria;
+const cat = normalizar(item.dataset.cat || "").toLowerCase();
+const categoriaActual = normalizar(categoria || "").toLowerCase();
+
+const okTexto = nombre.includes(texto);
+
+const okCat =
+  categoriaActual === "todos" ||
+  categoriaActual === "all" ||
+  cat === categoriaActual;
 
       if (okTexto && okCat) {
         total++;
@@ -2196,6 +2202,7 @@ function closeLightbox() {
 }
   
 </script>
+
 
 
 
