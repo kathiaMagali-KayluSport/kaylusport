@@ -233,6 +233,52 @@
   from { transform: scale(0.8); opacity: 0; }
   to   { transform: scale(1); opacity: 1; }
 }
+
+ /* 📱 GRID RESPONSIVE */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+ /* 📱 BOTÓN COMPRAR */
+.whatsapp {
+  font-size: 16px;
+  padding: 12px;
+}
+
+  /* 📱 SELECT TALLA */
+.talla-select {
+  font-size: 15px;
+  padding: 10px;
+}
+
+  /* 📱 CARD */
+.card {
+  padding: 12px;
+}
+
+    /* 📱 WHATSAPP FLOTANTE */
+.whatsapp-float {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+    /* 📱 MEJOR TOQUE */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
     
   </style>
 </head>
@@ -2152,6 +2198,7 @@ function closeLightbox() {
 }
   
 </script>
+
 
 
 
