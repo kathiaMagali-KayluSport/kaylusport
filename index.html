@@ -197,6 +197,40 @@
       text-decoration: none;
       z-index: 3000;
     }
+
+    /* ===== LIGHTBOX ===== */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 8px;
+  animation: zoom 0.3s ease;
+}
+
+.lightbox .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 32px;
+  color: #fff;
+  cursor: pointer;
+}
+
+@keyframes zoom {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+    
   </style>
 </head>
 
@@ -1925,7 +1959,11 @@
 
 <a class="whatsapp-float" href="https://wa.me/51971245962">💬</a>
 
-
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img">
+  <span class="close">&times;</span>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -2098,7 +2136,20 @@ function enviarWhatsApp(el) {
 
 function enviarWhatsAppShort(el) { enviarWhatsApp(el); }
 function enviarWhatsAppCasaca(el) { enviarWhatsApp(el); }
+
+  function openLightbox(src) {
+  const lightbox = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+  img.src = src;
+  lightbox.style.display = "flex";
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").style.display = "none";
+}
+  
 </script>
+
 
 
 
