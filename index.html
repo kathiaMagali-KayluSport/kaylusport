@@ -610,6 +610,45 @@ section h2 {
   padding: 12px 18px;
   font-weight: 700;
 }
+
+
+/* =========================
+   AJUSTE GRID PARA MÓVIL
+   ========================= */
+@media (max-width: 768px) {
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .card {
+    padding: 10px;
+  }
+
+  .card img {
+    height: auto;
+    max-height: 180px;
+    object-fit: contain;
+  }
+
+  .card h3 {
+    font-size: 0.85rem;
+    line-height: 1.2;
+    margin: 6px 0;
+  }
+
+  .price {
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+
+  .btn-wsp {
+    font-size: 0.8rem;
+    padding: 8px;
+  }
+}
     
   </style>
 </head>
@@ -2539,6 +2578,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
