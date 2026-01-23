@@ -2022,98 +2022,85 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================================================
      FUNCIÓN GENÉRICA PARA TODAS LAS SECCIONES
   ===================================================== */
-  function activarSeccion({
-    sectionId,
-    itemClass,
-    searchId,
-    btnMoreId,
-    defaultCategoria
-  }) {
-    const section = document.getElementById(sectionId);
-    if (!section) return;
+  function activarSeccion({ sectionId, itemClass, searchId, btnMoreId, defaultCategoria }) {
+  const section = document.getElementById(sectionId);
+  if (!section) return;
 
-    const items = Array.from(section.querySelectorAll(itemClass));
-    const search = searchId ? document.getElementById(searchId) : null;
-    const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
-    const filterBtns = section.querySelectorAll("[data-cat]");
+  const items = Array.from(section.querySelectorAll(itemClass));
+  const search = searchId ? document.getElementById(searchId) : null;
+  const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
+  const filterBtns = section.querySelectorAll("[data-cat]");
 
-    let visibles = POR_BLOQUE;
-    let texto = "";
-    let categoria = defaultCategoria;
+  let visibles = POR_BLOQUE;
+  let texto = "";
+  let categoria = defaultCategoria;
 
-    function render() {
-      let mostrados = 0;
-      let total = 0;
+  function render() {
+    let mostrados = 0;
+    let total = 0;
 
-      items.forEach(item => {
-        const nombre = item.querySelector("h3").textContent.toLowerCase();
+    items.forEach(item => {
+      const nombre = item.querySelector("h3").textContent.toLowerCase();
+      const cat = (item.dataset.cat || "").toLowerCase();
 
-// normalizamos categoría del producto
-const cat = (item.dataset.cat || "").toLowerCase();
+      const okTexto = nombre.includes(texto);
 
-// normalizamos categoría seleccionada
-const categoriaActual = (categoria || "").toLowerCase();
+      const okCat =
+        categoria === "todos" ||
+        categoria === "all" ||
+        cat === categoria;
 
-const okTexto = nombre.includes(texto);
-
-// lógica segura de categoría
-const okCat =
-  categoriaActual === "todos" ||
-  categoriaActual === "all" ||
-  cat === categoriaActual ||
-  cat === "";
-
-        if (okTexto && okCat) {
-          total++;
-          if (mostrados < visibles) {
-            item.style.display = "";
-            mostrados++;
-          } else {
-            item.style.display = "none";
-          }
+      if (okTexto && okCat) {
+        total++;
+        if (mostrados < visibles) {
+          item.style.display = "";
+          mostrados++;
         } else {
           item.style.display = "none";
         }
-      });
-
-      if (btnMore) {
-        btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
-        btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
+      } else {
+        item.style.display = "none";
       }
-    }
-
-    /* 🔍 BUSCADOR */
-    if (search) {
-      search.addEventListener("input", () => {
-        texto = search.value.toLowerCase();
-        visibles = POR_BLOQUE;
-        render();
-      });
-    }
-
-    /* 🎯 FILTROS */
-    filterBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        categoria = btn.dataset.cat.toLowerCase();
-        visibles = POR_BLOQUE;
-
-        filterBtns.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-
-        render();
-      });
     });
 
-    /* ➕ VER MÁS / ➖ VER MENOS */
     if (btnMore) {
-      btnMore.addEventListener("click", () => {
-        visibles = visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
-        render();
-      });
+      btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
+      btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
     }
-
-    render();
   }
+
+  // BUSCADOR
+  if (search) {
+    search.addEventListener("input", () => {
+      texto = search.value.toLowerCase();
+      visibles = POR_BLOQUE;
+      render();
+    });
+  }
+
+  // FILTROS
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      categoria = btn.dataset.cat.toLowerCase();
+      visibles = POR_BLOQUE;
+
+      filterBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      render();
+    });
+  });
+
+  // VER MÁS / MENOS
+  if (btnMore) {
+    btnMore.addEventListener("click", () => {
+      visibles = visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
+      render();
+    });
+  }
+
+  render();
+}
 
   /* ================= ACTIVAR SECCIONES ================= */
 
@@ -2209,6 +2196,7 @@ function closeLightbox() {
 }
   
 </script>
+
 
 
 
