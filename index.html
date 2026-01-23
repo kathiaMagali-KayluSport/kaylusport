@@ -1558,9 +1558,9 @@ button, a {
 
   <!-- FILTROS -->
   <div class="ver-mas-btn">
-  <button onclick="filtrarShort('all')">TODOS</button>
-  <button onclick="filtrarShort('local')">LOCAL</button>
-  <button onclick="filtrarShort('visita')">VISITA</button>
+  <button data-cat="todos" class="active">TODOS</button>
+  <button data-cat="local">LOCAL</button>
+  <button data-cat="visita">VISITA</button>
 </div>
 
   <!-- PRODUCTOS -->
@@ -2202,6 +2202,7 @@ function closeLightbox() {
 }
   
 </script>
+
 
 
 
