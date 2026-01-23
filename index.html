@@ -613,48 +613,40 @@ section h2 {
 
 
 /* =========================
-   MÓVIL – 2 PRODUCTOS MÁS GRANDES
+   MÓVIL – IMAGEN MÁS GRANDE
    ========================= */
 @media (max-width: 768px) {
 
   .grid {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    gap: 12px;
   }
 
+  /* CARD NO CRECE */
   .card {
-    padding: 14px;
-    border-radius: 14px;
+    padding: 10px;
   }
 
+  /* SOLO LA IMAGEN CRECE */
   .card img {
     width: 100%;
-    height: 200px;
+    height: 230px;          /* 👈 AQUÍ está el cambio clave */
     object-fit: contain;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .card h3 {
-    font-size: 0.95rem;
-    line-height: 1.25;
-    margin: 6px 0;
+    font-size: 0.9rem;
+    line-height: 1.2;
   }
 
   .price {
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 0.95rem;
   }
 
   .btn-wsp {
-    font-size: 0.85rem;
-    padding: 10px;
-    border-radius: 10px;
-  }
-
-  .talla-select {
-    font-size: 0.85rem;
-    padding: 6px;
+    font-size: 0.8rem;
+    padding: 8px;
   }
 }
     
@@ -2586,6 +2578,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
