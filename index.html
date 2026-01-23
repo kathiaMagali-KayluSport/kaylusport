@@ -613,47 +613,49 @@ section h2 {
 
 
 /* =========================
-   MÓVIL – CARD MÁS BAJA Y ANCHA
+   MÓVIL – CARD MÁS ANCHA (FINAL)
    ========================= */
 @media (max-width: 768px) {
 
   .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 8px;
   }
 
-  /* CARD MÁS COMPACTA */
+  /* Card más ancha visualmente */
   .card {
-    padding: 8px;
+    padding: 6px 5px;     /* 👈 menos padding lateral */
   }
 
-  /* IMAGEN MÁS ANCHA, MENOS ALTA */
+  /* Imagen protagonista */
   .card img {
     width: 100%;
-    height: 170px;        /* 👈 CLAVE: baja la altura */
+    height: 150px;        /* 👈 misma altura, más ancho visual */
     object-fit: contain;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
 
   .card h3 {
-    font-size: 0.85rem;
-    line-height: 1.15;
-    margin: 4px 0;
+    font-size: 0.82rem;
+    line-height: 1.1;
+    margin: 2px 0;
   }
 
   .price {
-    font-size: 0.9rem;
-    margin: 4px 0;
+    font-size: 0.88rem;
+    margin: 2px 0;
   }
 
   .talla-select {
-    font-size: 0.8rem;
-    padding: 4px;
+    font-size: 0.78rem;
+    padding: 3px;
+    margin-top: 2px;
   }
 
   .btn-wsp {
     font-size: 0.75rem;
     padding: 6px;
+    margin-top: 3px;
   }
 }
     
@@ -2585,6 +2587,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
