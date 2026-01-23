@@ -616,8 +616,8 @@
 <section id="retro">
   <h2>Retro</h2>
 
-  <!-- BUSCADOR -->
-  <input type="text" id="buscador" class="search-input" placeholder="Buscar camiseta...">
+  <!-- BUSCADOR RETRO -->
+<input type="text" id="buscadorRetro" class="search-input" placeholder="Buscar producto retro...">
   
   <!-- FILTROS -->
   <div class="ver-mas-btn">
@@ -1934,7 +1934,13 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================================================
      FUNCIÓN GENÉRICA PARA TODAS LAS SECCIONES
   ===================================================== */
-  function activarSeccion({ sectionId, itemClass, searchId, btnMoreId, defaultCategoria }) {
+  function activarSeccion({
+    sectionId,
+    itemClass,
+    searchId,
+    btnMoreId,
+    defaultCategoria
+  }) {
     const section = document.getElementById(sectionId);
     if (!section) return;
 
@@ -1945,18 +1951,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let visibles = POR_BLOQUE;
     let texto = "";
-    let categoria = defaultCategoria || "all";
+    let categoria = defaultCategoria;
 
     function render() {
       let mostrados = 0;
       let total = 0;
 
       items.forEach(item => {
-        const nombre = item.querySelector("h3").textContent.toLowerCase();
-        const cat = item.dataset.cat || item.dataset.category || "all";
+        const nombre = item.querySelector("h3")?.textContent.toLowerCase() || "";
+        const cat = (item.dataset.cat || "").toLowerCase();
 
         const okTexto = nombre.includes(texto);
-        const okCat = categoria === "all" || categoria === "todos" || cat === categoria;
+        const okCat = categoria === "todos" || cat === categoria;
 
         if (okTexto && okCat) {
           total++;
@@ -1989,7 +1995,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* 🎯 FILTROS */
     filterBtns.forEach(btn => {
       btn.addEventListener("click", () => {
-        categoria = btn.dataset.cat;
+        categoria = btn.dataset.cat.toLowerCase();
         visibles = POR_BLOQUE;
 
         filterBtns.forEach(b => b.classList.remove("active"));
@@ -2010,7 +2016,8 @@ document.addEventListener("DOMContentLoaded", () => {
     render();
   }
 
-  /* ================= ACTIVA TODAS LAS SECCIONES ================= */
+  /* ================= ACTIVAR SECCIONES ================= */
+
   activarSeccion({
     sectionId: "actuales",
     itemClass: ".producto",
@@ -2032,7 +2039,7 @@ document.addEventListener("DOMContentLoaded", () => {
     itemClass: ".short-item",
     searchId: "search-short",
     btnMoreId: "btn-more-short",
-    defaultCategoria: "all"
+    defaultCategoria: "todos"
   });
 
   activarSeccion({
@@ -2040,70 +2047,57 @@ document.addEventListener("DOMContentLoaded", () => {
     itemClass: ".casaca-item",
     searchId: "search-casaca",
     btnMoreId: "btn-more-casaca",
-    defaultCategoria: "all"
+    defaultCategoria: "todos"
   });
 
   /* =====================================================
-     ACTIVAR BOTONES DE WHATSAPP SEGÚN SELECCIÓN DE TALLA
+     ACTIVAR BOTONES WHATSAPP SEGÚN TALLA
   ===================================================== */
-  function activarWhatsApp() {
-    document.querySelectorAll('.talla-select').forEach(select => {
-      const btn = select.nextElementSibling;
-      if (!btn) return;
+  document.querySelectorAll(".talla-select").forEach(select => {
+    const btn = select.parentElement.querySelector(".btn-wsp");
 
-      // Inicialmente desactivado si no hay valor
-      if (!select.value) btn.classList.add('disabled');
+    if (!btn) return;
+    btn.classList.add("disabled");
 
-      // Cuando se selecciona talla
-      select.addEventListener('change', () => {
-        if (select.value) {
-          btn.classList.remove('disabled');
-        } else {
-          btn.classList.add('disabled');
-        }
-      });
+    select.addEventListener("change", () => {
+      if (select.value) {
+        btn.classList.remove("disabled");
+      } else {
+        btn.classList.add("disabled");
+      }
     });
-  }
-
-  activarWhatsApp();
+  });
 
 });
 
 /* =====================================================
-   FUNCIÓN PARA ENVIAR WHATSAPP
+   FUNCIÓN WHATSAPP (GENÉRICA)
 ===================================================== */
 function enviarWhatsApp(el) {
-  const select = el.parentElement.querySelector('.talla-select');
+  const card = el.closest(".card");
+  const select = card.querySelector(".talla-select");
+
   if (!select || !select.value) {
-    alert("Por favor, selecciona una talla antes de comprar.");
+    alert("Selecciona una talla primero");
     return;
   }
 
-  const nombreProducto = el.parentElement.querySelector('h3').textContent;
-  const precio = el.parentElement.querySelector('.price').textContent;
+  const nombre = card.querySelector("h3").textContent;
+  const precio = card.querySelector(".price").textContent;
   const talla = select.value;
 
-  const mensaje = `Hola, quiero comprar:\n${nombreProducto}\nTalla: ${talla}\nPrecio: ${precio}`;
+  const mensaje = `Hola, quiero comprar:\n${nombre}\nTalla: ${talla}\nPrecio: ${precio}`;
   const numero = "51971245962";
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
 
-  window.open(url, "_blank");
+  window.open(
+    `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`,
+    "_blank"
+  );
 }
 
-/* =====================================================
-   FUNCIONES ESPECIALES PARA SHORT Y CASACAS (si tienes enlaces separados)
-===================================================== */
 function enviarWhatsAppShort(el) { enviarWhatsApp(el); }
 function enviarWhatsAppCasaca(el) { enviarWhatsApp(el); }
 </script>
-
-
-
-
-
-
-
-
 
 
 
