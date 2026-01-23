@@ -2144,14 +2144,15 @@ function enviarWhatsAppCasaca(el) { enviarWhatsApp(el); }
   const lightbox = document.getElementById("lightbox");
   const img = document.getElementById("lightbox-img");
   img.src = src;
-  lightbox.style.display = "flex";
+  lightbox.classList.add("active");
 }
 
 function closeLightbox() {
-  document.getElementById("lightbox").style.display = "none";
+  document.getElementById("lightbox").classList.remove("active");
 }
   
 </script>
+
 
 
 
