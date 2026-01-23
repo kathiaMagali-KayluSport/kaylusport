@@ -2023,89 +2023,96 @@ document.addEventListener("DOMContentLoaded", () => {
      FUNCIÓN GENÉRICA PARA TODAS LAS SECCIONES
   ===================================================== */
   function activarSeccion({ sectionId, itemClass, searchId, btnMoreId, defaultCategoria }) {
-  const section = document.getElementById(sectionId);
-  if (!section) return;
+    const section = document.getElementById(sectionId);
+    if (!section) return;
 
-  const items = Array.from(section.querySelectorAll(itemClass));
-  const search = searchId ? document.getElementById(searchId) : null;
-  const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
-  const filterBtns = section.querySelectorAll("[data-cat]");
+    const items = Array.from(section.querySelectorAll(itemClass));
+    const search = searchId ? document.getElementById(searchId) : null;
+    const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
+    const filterBtns = section.querySelectorAll("[data-cat]");
 
-  let visibles = POR_BLOQUE;
-  let texto = "";
-  let categoria = defaultCategoria;
+    let visibles = POR_BLOQUE;
+    let texto = "";
+    let categoria = defaultCategoria;
 
-  function render() {
-    let mostrados = 0;
-    let total = 0;
+    const normalizar = txt =>
+      txt
+        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
 
-    items.forEach(item => {
-      const nombre = item.querySelector("h3").textContent.toLowerCase();
+    function render() {
+      let mostrados = 0;
+      let total = 0;
 
-// normalizar texto (quita tildes)
-const normalizar = txt =>
-  txt.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      items.forEach(item => {
+        const nombre = normalizar(
+          item.querySelector("h3")?.textContent || ""
+        );
 
-const catRaw = item.dataset.cat || item.dataset.category || "";
-const cat = normalizar(catRaw).toLowerCase();
-const categoriaActual = normalizar(categoria).toLowerCase();
+        const okTexto = nombre.includes(normalizar(texto));
 
-const okCat =
-  categoriaActual === "todos" ||
-  categoriaActual === "all" ||
-  cat.split(" ").includes(categoriaActual);
+        const catRaw = item.dataset.cat || item.dataset.category || "";
+        const cat = normalizar(catRaw);
+        const categoriaActual = normalizar(categoria);
 
-      if (okTexto && okCat) {
-        total++;
-        if (mostrados < visibles) {
-          item.style.display = "";
-          mostrados++;
+        const okCat =
+          categoriaActual === "todos" ||
+          categoriaActual === "all" ||
+          cat === categoriaActual;
+
+        if (okTexto && okCat) {
+          total++;
+          if (mostrados < visibles) {
+            item.style.display = "";
+            mostrados++;
+          } else {
+            item.style.display = "none";
+          }
         } else {
           item.style.display = "none";
         }
-      } else {
-        item.style.display = "none";
+      });
+
+      if (btnMore) {
+        btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
+        btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
       }
-    });
-
-    if (btnMore) {
-      btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
-      btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
     }
-  }
 
-  // BUSCADOR
-  if (search) {
-    search.addEventListener("input", () => {
-      texto = search.value.toLowerCase();
-      visibles = POR_BLOQUE;
-      render();
+    /* BUSCADOR */
+    if (search) {
+      search.addEventListener("input", () => {
+        texto = search.value;
+        visibles = POR_BLOQUE;
+        render();
+      });
+    }
+
+    /* FILTROS */
+    filterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        categoria = btn.dataset.cat;
+        visibles = POR_BLOQUE;
+
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        render();
+      });
     });
+
+    /* VER MÁS / MENOS */
+    if (btnMore) {
+      btnMore.addEventListener("click", () => {
+        visibles = visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
+        render();
+      });
+    }
+
+    render();
   }
-
-  // FILTROS
-  filterBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      categoria = btn.dataset.cat.toLowerCase();
-      visibles = POR_BLOQUE;
-
-      filterBtns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      render();
-    });
-  });
-
-  // VER MÁS / MENOS
-  if (btnMore) {
-    btnMore.addEventListener("click", () => {
-      visibles = visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
-      render();
-    });
-  }
-
-  render();
-}
 
   /* ================= ACTIVAR SECCIONES ================= */
 
@@ -2145,9 +2152,9 @@ const okCat =
      ACTIVAR BOTONES WHATSAPP SEGÚN TALLA
   ===================================================== */
   document.querySelectorAll(".talla-select").forEach(select => {
-    const btn = select.parentElement.querySelector(".btn-wsp");
-
+    const btn = select.closest(".card")?.querySelector(".btn-wsp");
     if (!btn) return;
+
     btn.classList.add("disabled");
 
     select.addEventListener("change", () => {
@@ -2166,16 +2173,17 @@ const okCat =
 ===================================================== */
 function enviarWhatsApp(el) {
   const card = el.closest(".card");
-  const select = card.querySelector(".talla-select");
+  if (!card) return;
 
-  if (!select || !select.value) {
+  const select = card.querySelector(".talla-select");
+  if (select && !select.value) {
     alert("Selecciona una talla primero");
     return;
   }
 
-  const nombre = card.querySelector("h3").textContent;
-  const precio = card.querySelector(".price").textContent;
-  const talla = select.value;
+  const nombre = card.querySelector("h3")?.textContent || "";
+  const precio = card.querySelector(".price")?.textContent || "";
+  const talla = select ? select.value : "Única";
 
   const mensaje = `Hola, quiero comprar:\n${nombre}\nTalla: ${talla}\nPrecio: ${precio}`;
   const numero = "51971245962";
@@ -2186,7 +2194,10 @@ function enviarWhatsApp(el) {
   );
 }
 
-  function openLightbox(src) {
+/* =====================================================
+   LIGHTBOX
+===================================================== */
+function openLightbox(src) {
   const lightbox = document.getElementById("lightbox");
   const img = document.getElementById("lightbox-img");
   img.src = src;
@@ -2196,19 +2207,7 @@ function enviarWhatsApp(el) {
 function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
-  
 </script>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
