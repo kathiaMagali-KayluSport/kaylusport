@@ -613,40 +613,48 @@ section h2 {
 
 
 /* =========================
-   AJUSTE GRID PARA MÓVIL
+   MÓVIL – 2 PRODUCTOS MÁS GRANDES
    ========================= */
 @media (max-width: 768px) {
 
   .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 14px;
   }
 
   .card {
-    padding: 10px;
+    padding: 14px;
+    border-radius: 14px;
   }
 
   .card img {
-    height: auto;
-    max-height: 180px;
+    width: 100%;
+    height: 200px;
     object-fit: contain;
+    margin-bottom: 8px;
   }
 
   .card h3 {
-    font-size: 0.85rem;
-    line-height: 1.2;
+    font-size: 0.95rem;
+    line-height: 1.25;
     margin: 6px 0;
   }
 
   .price {
-    font-size: 0.9rem;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: 700;
   }
 
   .btn-wsp {
-    font-size: 0.8rem;
-    padding: 8px;
+    font-size: 0.85rem;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .talla-select {
+    font-size: 0.85rem;
+    padding: 6px;
   }
 }
     
@@ -2578,6 +2586,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
