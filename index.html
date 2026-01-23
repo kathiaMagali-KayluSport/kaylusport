@@ -474,6 +474,77 @@ h2 {
   color: white;
   cursor: pointer;
 }    
+
+/* ============================
+   🖥️ AJUSTES SOLO PARA PC
+============================ */
+@media (min-width: 1024px) {
+
+  main {
+    max-width: 1400px;
+    margin: auto;
+  }
+
+  h2 {
+    font-size: 2.2rem;
+    margin: 40px 0 25px;
+  }
+
+  /* GRID MÁS GRANDE */
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+    padding: 0 20px;
+  }
+
+  /* CARD */
+  .card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+    min-height: 50px;
+  }
+
+  .price {
+    font-size: 1.2rem;
+  }
+
+  /* SELECT TALLA */
+  .talla-select {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  /* BOTÓN WHATSAPP */
+  .btn-wsp,
+  .whatsapp {
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  /* BUSCADOR */
+  .search-input {
+    max-width: 480px;
+    font-size: 16px;
+  }
+
+  /* FILTROS */
+  .ver-mas-btn button {
+    font-size: 14px;
+    padding: 10px 18px;
+  }
+
+  /* WHATSAPP FLOTANTE */
+  .whatsapp-float {
+    width: 60px;
+    height: 60px;
+    font-size: 26px;
+  }
+}
     
   </style>
 </head>
@@ -2403,6 +2474,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
