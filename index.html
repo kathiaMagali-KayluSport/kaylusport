@@ -2046,15 +2046,14 @@ document.addEventListener("DOMContentLoaded", () => {
 const normalizar = txt =>
   txt.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-const cat = normalizar(item.dataset.cat || "").toLowerCase();
-const categoriaActual = normalizar(categoria || "").toLowerCase();
-
-const okTexto = nombre.includes(texto);
+const catRaw = item.dataset.cat || item.dataset.category || "";
+const cat = normalizar(catRaw).toLowerCase();
+const categoriaActual = normalizar(categoria).toLowerCase();
 
 const okCat =
   categoriaActual === "todos" ||
   categoriaActual === "all" ||
-  cat === categoriaActual;
+  cat.includes(categoriaActual);
 
       if (okTexto && okCat) {
         total++;
@@ -2202,6 +2201,7 @@ function closeLightbox() {
 }
   
 </script>
+
 
 
 
