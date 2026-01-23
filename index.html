@@ -2053,7 +2053,7 @@ const categoriaActual = normalizar(categoria).toLowerCase();
 const okCat =
   categoriaActual === "todos" ||
   categoriaActual === "all" ||
-  cat.includes(categoriaActual);
+  cat.split(" ").includes(categoriaActual);
 
       if (okTexto && okCat) {
         total++;
@@ -2186,9 +2186,6 @@ function enviarWhatsApp(el) {
   );
 }
 
-function enviarWhatsAppShort(el) { enviarWhatsApp(el); }
-function enviarWhatsAppCasaca(el) { enviarWhatsApp(el); }
-
   function openLightbox(src) {
   const lightbox = document.getElementById("lightbox");
   const img = document.getElementById("lightbox-img");
@@ -2201,6 +2198,7 @@ function closeLightbox() {
 }
   
 </script>
+
 
 
 
