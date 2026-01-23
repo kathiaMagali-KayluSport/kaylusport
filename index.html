@@ -2046,14 +2046,22 @@ document.addEventListener("DOMContentLoaded", () => {
       let total = 0;
 
       items.forEach(item => {
-        const nombre = item.querySelector("h3")?.textContent.toLowerCase() || "";
-        const cat = (item.dataset.cat || "").toLowerCase();
+        const nombre = item.querySelector("h3").textContent.toLowerCase();
 
-        const okTexto = nombre.includes(texto);
-        const okCat =
-  categoria === "todos" ||
-  categoria === "all" ||
-  cat === categoria;
+// normalizamos categoría del producto
+const cat = (item.dataset.cat || "").toLowerCase();
+
+// normalizamos categoría seleccionada
+const categoriaActual = (categoria || "").toLowerCase();
+
+const okTexto = nombre.includes(texto);
+
+// lógica segura de categoría
+const okCat =
+  categoriaActual === "todos" ||
+  categoriaActual === "all" ||
+  cat === categoriaActual ||
+  cat === "";
 
         if (okTexto && okCat) {
           total++;
@@ -2201,6 +2209,7 @@ function closeLightbox() {
 }
   
 </script>
+
 
 
 
