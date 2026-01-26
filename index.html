@@ -643,23 +643,24 @@ section h2 {
 
   /* 📸 IMAGEN PROTAGONISTA SIN EXAGERAR */
   .card img {
-    width: 100%;
-    height: 230px;              /* ⬅️ apenas menor, más balance */
-    object-fit: contain;
-    background: #0f1a0f;
-    border-radius: 12px;
-    padding: 4px;
-    margin-bottom: 4px;         /* ⬅️ clave: junta imagen con texto */
-  }
+  width: 100%;
+  height: 230px;
+  object-fit: contain;
+  background: #0f1a0f;
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 0px;   /* ⬅️ antes 4px → ahora 0 */
+}
 
   /* 📝 NOMBRE MÁS GRANDE Y CERCANO */
   .card h3 {
-    font-size: 1rem;            /* ⬅️ MÁS GRANDE */
-    margin: 2px 0;              /* ⬅️ menos aire */
-    text-align: center;
-    line-height: 1.25;
-    font-weight: 600;
-  }
+  font-size: 1.1rem;    /* ⬅️ MÁS VISIBLE */
+  margin-top: 2px;      /* ⬅️ pegado a la imagen */
+  margin-bottom: 2px;
+  text-align: center;
+  line-height: 1.2;
+  font-weight: 700;     /* ⬅️ más fuerza visual */
+}
 
   /* 💰 PRECIO PEGADO AL NOMBRE */
   .price {
@@ -2609,6 +2610,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
