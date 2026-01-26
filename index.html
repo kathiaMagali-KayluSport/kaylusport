@@ -749,7 +749,57 @@ header {
       letter-spacing: 1px;
     }
   }
+/* =========================
+   HEADER FUTBOLERO POTENTE
+   ========================= */
+header {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.85), rgba(0,80,0,.85)),
+    url("pasto.jpg");
+  background-size: cover;
+  background-position: center;
+  border-bottom: 4px solid #1db954; /* verde intenso */
+}
 
+/* Nombre de tienda más potente */
+.brand-title {
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0,0,0,.8);
+}
+
+/* Logos */
+.logo-left,
+.logo-right {
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.7));
+}
+
+/* =========================
+   TÍTULOS DE SECCIÓN FUTBOLEROS
+   ========================= */
+section h2 {
+  background: linear-gradient(90deg, #0b3d0b, #145214);
+  color: #fff;
+  padding: 10px 14px;
+  margin: 20px 6px 12px;
+  border-left: 6px solid #1db954;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+section h2::before {
+  content: "⚽ ";
+}
+
+@media (max-width: 768px) {
+  section h2 {
+    font-size: 1.1rem;
+    padding: 8px 10px;
+  }
+}
+
+    
     
     
   </style>
@@ -2686,6 +2736,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
