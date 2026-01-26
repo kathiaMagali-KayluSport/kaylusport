@@ -681,6 +681,76 @@ section h2 {
     padding: 8px;
   }
 }
+
+ /* =========================
+   HEADER FUTBOLERO – MARCA
+   ========================= */
+
+header {
+  background: linear-gradient(
+    rgba(0,0,0,0.75),
+    rgba(0,0,0,0.85)
+  ),
+  url("pasto.jpg"); /* opcional */
+  background-size: cover;
+  background-position: center;
+  padding: 14px 10px 10px;
+}
+
+.brand-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+/* LOGO IZQUIERDA */
+.logo-left {
+  height: 42px;
+  width: auto;
+}
+
+/* TEXTO CENTRAL */
+.brand-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #ffffff;
+  text-shadow: 
+    2px 2px 6px rgba(0,0,0,0.9);
+}
+
+/* PELOTA DERECHA */
+.logo-right {
+  height: 36px;
+  width: auto;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.7));
+}
+
+    /* =========================
+     👇 PASO 3 — SOLO MÓVIL
+     ========================= */
+  @media (max-width: 768px) {
+
+    .brand-bar {
+      gap: 10px;
+    }
+
+    .logo-left {
+      height: 34px;
+    }
+
+    .logo-right {
+      height: 28px;
+    }
+
+    .brand-title {
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+    }
+  }
+
+    
     
   </style>
 </head>
@@ -688,7 +758,13 @@ section h2 {
 <body>
 
 <header>
-  <h1>KayluSport</h1>
+  <div class="brand-bar">
+  <img src="logo-kaylusport.png" alt="Kaylu Sport Logo" class="logo-left">
+
+  <h1 class="brand-title">KAYLU SPORT</h1>
+
+  <img src="pelota.png" alt="Pelota fútbol" class="logo-right">
+</div>
 
   <nav>
     <a href="#actuales">Actuales</a>
@@ -2610,6 +2686,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
