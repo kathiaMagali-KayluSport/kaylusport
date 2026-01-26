@@ -613,11 +613,10 @@ section h2 {
 
 
 /* =========================
-   MÓVIL – CARD FUTBOLERO OPTIMIZADO
+   MÓVIL – CARD FUTBOLERO OPTIMIZADO (AJUSTE FINO)
    ========================= */
 @media (max-width: 768px) {
 
-  /* 🔑 RECUPERAR ANCHO REAL */
   body {
     margin: 0;
     padding: 0;
@@ -631,51 +630,53 @@ section h2 {
   .grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px; /* ⬅️ más ancho útil para cada card */
+    gap: 6px;
   }
 
-  /* 🧱 CARD MÁS ANCHA, MENOS ALTA */
+  /* 🧱 CARD COMPACTO Y POTENTE */
   .card {
-    padding: 4px;
+    padding: 6px;
     border-radius: 14px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
   }
 
-  /* 📸 IMAGEN MÁS GRANDE Y PROTAGONISTA */
+  /* 📸 IMAGEN PROTAGONISTA SIN EXAGERAR */
   .card img {
     width: 100%;
-    height: 230px;          /* ⬅️ MÁS GRANDE DE VERDAD */
+    height: 220px;              /* ⬅️ apenas menor, más balance */
     object-fit: contain;
-    background: #0f1a0f;    /* verde estadio */
+    background: #0f1a0f;
     border-radius: 12px;
     padding: 4px;
+    margin-bottom: 4px;         /* ⬅️ clave: junta imagen con texto */
   }
 
-  /* 📝 TEXTO COMPACTO */
+  /* 📝 NOMBRE MÁS GRANDE Y CERCANO */
   .card h3 {
-    font-size: 0.85rem;
-    margin: 4px 0 2px;
+    font-size: 1rem;            /* ⬅️ MÁS GRANDE */
+    margin: 2px 0;              /* ⬅️ menos aire */
     text-align: center;
-    line-height: 1.2;
+    line-height: 1.25;
+    font-weight: 600;
   }
 
+  /* 💰 PRECIO PEGADO AL NOMBRE */
   .price {
-    font-size: 0.95rem;
-    margin: 4px 0;
+    font-size: 1rem;
+    margin: 2px 0 6px;          /* ⬅️ más compacto */
     text-align: center;
     font-weight: bold;
   }
 
   .talla-select {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     padding: 6px;
     margin-bottom: 6px;
   }
 
   .btn-wsp {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     padding: 8px;
   }
 }
@@ -2608,6 +2609,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
