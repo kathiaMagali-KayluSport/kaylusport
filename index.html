@@ -840,7 +840,19 @@ section h2::before {
     font-size: 0.75rem;
   }
 }
-        
+
+/* =========================
+   CORREGIR SCROLL CON MENÚ + AVISO
+   ========================= */
+section {
+  scroll-margin-top: 130px; /* menú + aviso */
+}
+
+@media (max-width: 768px) {
+  section {
+    scroll-margin-top: 150px;
+  }
+}    
     
   </style>
 </head>
@@ -2783,6 +2795,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
