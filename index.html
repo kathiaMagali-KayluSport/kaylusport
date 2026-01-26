@@ -613,45 +613,47 @@ section h2 {
 
 
 /* =========================
-   MÓVIL – PRODUCTO PROTAGONISTA
+   MÓVIL – CARDS GRANDES (2 POR PANTALLA)
    ========================= */
 @media (max-width: 768px) {
 
   .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 10px;
   }
 
   .card {
-    padding: 6px 4px;
-    border-radius: 14px;
+    padding: 6px;
+    border-radius: 16px;
   }
 
-  /* 👕 IMAGEN MÁS GRANDE */
+  /* 👕 AQUÍ ESTÁ LA MAGIA */
   .card img {
     width: 100%;
-    height: 175px;          /* 🔥 aquí está la clave */
-    object-fit: contain;
+    height: 220px;              /* ⬅️ ANTES era muy bajo */
+    object-fit: cover;          /* llena el ancho */
+    border-radius: 12px;
   }
 
   .card h3 {
-    font-size: 0.9rem;
-    margin: 4px 0;
+    font-size: 0.95rem;
+    margin: 6px 0 2px;
   }
 
   .price {
-    font-size: 1rem;
-    margin: 4px 0;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
   }
 
   .talla-select {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     padding: 6px;
+    margin-bottom: 6px;
   }
 
   .btn-wsp {
-    font-size: 0.85rem;
-    padding: 8px;
+    font-size: 0.9rem;
+    padding: 9px;
   }
 }
     
@@ -2583,6 +2585,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
