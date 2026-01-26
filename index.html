@@ -613,13 +613,13 @@ section h2 {
 
 
 /* =========================
-   MÓVIL – CARD ANCHA Y POTENTE
+   MÓVIL – 2 CARDS GRANDES POR FILA
    ========================= */
 @media (max-width: 768px) {
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    grid-template-columns: 1fr 1fr; /* ⬅️ SIEMPRE 2 */
     gap: 12px;
   }
 
@@ -628,47 +628,42 @@ section h2 {
     border-radius: 16px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px; /* ⬅️ menos aire, más fuerza */
   }
 
-  /* 📸 IMAGEN */
   .card img {
     width: 100%;
-    height: 210px;          /* vuelve a ser protagonista */
+    height: 200px;          /* ⬅️ grande pero controlada */
     object-fit: contain;
     background: #0f1a0f;
     border-radius: 12px;
-    padding: 6px;
+    padding: 4px;
   }
 
-  /* 🏷️ NOMBRE */
   .card h3 {
-    font-size: 1.05rem;     /* ⬅️ ya no miniatura */
+    font-size: 1.05rem;
     font-weight: 700;
-    line-height: 1.25;
-    margin: 4px 0 2px;
+    line-height: 1.2;
+    margin: 2px 0;
     text-align: center;
   }
 
-  /* 💰 PRECIO */
   .price {
     font-size: 1.1rem;
     font-weight: bold;
-    text-align: center;
     margin: 0;
+    text-align: center;
   }
 
-  /* 📏 TALLA */
   .talla-select {
     font-size: 0.9rem;
     padding: 6px;
     margin: 4px 0;
   }
 
-  /* 📲 WHATSAPP */
   .btn-wsp {
     font-size: 0.9rem;
-    padding: 10px;
+    padding: 9px;
   }
 }
     
@@ -2600,6 +2595,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
