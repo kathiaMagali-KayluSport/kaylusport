@@ -613,7 +613,7 @@ section h2 {
 
 
 /* =========================
-   MÓVIL – CARDS GRANDES (2 POR PANTALLA)
+   MÓVIL – CARD COMPACTO FUTBOLERO
    ========================= */
 @media (max-width: 768px) {
 
@@ -625,35 +625,42 @@ section h2 {
   .card {
     padding: 6px;
     border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
-  /* 👕 AQUÍ ESTÁ LA MAGIA */
+  /* 📸 IMAGEN PROTAGONISTA PERO CONTROLADA */
   .card img {
     width: 100%;
-    height: 220px;              /* ⬅️ ANTES era muy bajo */
-    object-fit: cover;          /* llena el ancho */
+    height: 200px;          /* ⬅️ controlado */
+    object-fit: contain;    /* ⬅️ clave: ya no se ve “aplastada” */
+    background: #0f1a0f;    /* verde oscuro tipo estadio */
     border-radius: 12px;
+    padding: 6px;
   }
 
   .card h3 {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     margin: 6px 0 2px;
+    text-align: center;
   }
 
   .price {
-    font-size: 1.05rem;
+    font-size: 1rem;
     margin-bottom: 6px;
+    text-align: center;
   }
 
   .talla-select {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     padding: 6px;
     margin-bottom: 6px;
   }
 
   .btn-wsp {
-    font-size: 0.9rem;
-    padding: 9px;
+    font-size: 0.85rem;
+    padding: 8px;
   }
 }
     
@@ -2585,6 +2592,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
