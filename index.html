@@ -613,69 +613,60 @@ section h2 {
 
 
 /* =========================
-   MÓVIL – CARD FUTBOLERO OPTIMIZADO
+   MÓVIL – CARD FUTBOLERO POTENTE
    ========================= */
 @media (max-width: 768px) {
 
-  /* 🔑 RECUPERAR ANCHO REAL */
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  section {
-    padding-left: 6px;
-    padding-right: 6px;
-  }
-
   .grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px; /* ⬅️ más ancho útil para cada card */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
-  /* 🧱 CARD MÁS ANCHA, MENOS ALTA */
   .card {
-    padding: 4px;
-    border-radius: 14px;
+    padding: 6px;
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    gap: 6px; /* 🔥 controla el espacio interno */
   }
 
-  /* 📸 IMAGEN MÁS GRANDE Y PROTAGONISTA */
+  /* 📸 IMAGEN: llena mejor el card sin exagerar */
   .card img {
     width: 100%;
-    height: 230px;          /* ⬅️ MÁS GRANDE DE VERDAD */
+    height: 190px;          /* un poco más protagonista */
     object-fit: contain;
-    background: #0f1a0f;    /* verde estadio */
+    background: #0f1a0f;
     border-radius: 12px;
-    padding: 4px;
+    padding: 4px;           /* 🔥 antes era mucho */
   }
 
-  /* 📝 TEXTO COMPACTO */
+  /* 🏷️ NOMBRE DEL PRODUCTO */
   .card h3 {
-    font-size: 0.85rem;
-    margin: 4px 0 2px;
-    text-align: center;
+    font-size: 1rem;        /* 🔥 más grande */
+    font-weight: 700;       /* 🔥 más fuerza */
     line-height: 1.2;
-  }
-
-  .price {
-    font-size: 0.95rem;
-    margin: 4px 0;
+    margin: 2px 0;          /* 🔥 quita aire innecesario */
     text-align: center;
+  }
+
+  /* 💰 PRECIO */
+  .price {
+    font-size: 1.05rem;
     font-weight: bold;
+    margin: 0;
+    text-align: center;
   }
 
+  /* 📏 SELECT TALLA */
   .talla-select {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     padding: 6px;
-    margin-bottom: 6px;
+    margin: 2px 0;
   }
 
+  /* 📲 BOTÓN WHATSAPP */
   .btn-wsp {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     padding: 8px;
   }
 }
@@ -2608,6 +2599,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
