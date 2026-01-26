@@ -807,8 +807,40 @@ section h2::before {
   }
 }
 
-    
-    
+/* =========================
+   AVISO TALLAS PARA NIÑOS
+   ========================= */
+.aviso-ninos {
+  position: sticky;
+  top: 0; /* se queda visible al hacer scroll */
+  z-index: 999;
+  background: linear-gradient(90deg, #1e7f34, #0f3d1e);
+  color: #fff;
+  text-align: center;
+  padding: 8px 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+.aviso-ninos span {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+/* Ajuste móvil */
+@media (max-width: 768px) {
+  .aviso-ninos {
+    font-size: 0.85rem;
+    padding: 6px 8px;
+  }
+
+  .aviso-ninos span {
+    font-size: 0.75rem;
+  }
+}
+        
     
   </style>
 </head>
@@ -833,6 +865,13 @@ section h2::before {
     <a href="#medias">Medias</a>
     <a href="#souvenirs">Souvenirs</a>
   </nav>
+
+  <div class="aviso-ninos">
+  👕⚽ <strong>¡También contamos con tallas para NIÑOS!</strong>
+  <span>Escríbenos por WhatsApp para consultar modelos disponibles</span>
+</div>
+
+  
 </header>
 
 <main>
@@ -2744,6 +2783,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
