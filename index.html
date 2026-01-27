@@ -3297,20 +3297,14 @@ document.addEventListener("DOMContentLoaded", () => {
       grid.after(msg);
     }
 
-    // IMPORTANTE: mover botón VER MÁS fuera del contenedor de cards
-    if (btnMore) {
-      grid.after(btnMore); // lo ponemos después del grid
-      btnMore.style.position = "relative";
-      btnMore.style.zIndex = "10";
-      btnMore.style.display = "block";
-      btnMore.style.marginTop = "20px";
-      btnMore.style.clear = "both";
-    }
-
     function scrollSeccion() {
       const header = document.querySelector("header");
       let offset = header ? header.offsetHeight : 0;
-      if (window.innerWidth <= 768) offset += 30;
+
+      /* extra SOLO en móvil */
+      if (window.innerWidth <= 768) {
+        offset += 30;
+      }
 
       window.scrollTo({
         top: section.offsetTop - offset - 20,
@@ -3328,7 +3322,12 @@ document.addEventListener("DOMContentLoaded", () => {
       items.forEach(obj => {
         const item = obj.el;
 
-        if (!obj.nombre.includes(t) || !(c === "todos" || c === "all" || obj.cat === c)) {
+        if (!obj.nombre.includes(t)) {
+          item.style.display = "none";
+          return;
+        }
+
+        if (!(c === "todos" || c === "all" || obj.cat === c)) {
           item.style.display = "none";
           return;
         }
@@ -3346,6 +3345,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    /* BUSCADOR */
     if (search) {
       search.addEventListener("input", () => {
         texto = search.value;
@@ -3354,6 +3354,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+    /* FILTROS (con scroll corregido) */
     filterBtns.forEach(btn => {
       btn.addEventListener("click", () => {
         categoria = btn.dataset.cat;
@@ -3367,12 +3368,16 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    /* VER MÁS / VER MENOS */
     if (btnMore) {
       btnMore.addEventListener("click", () => {
         const volver = visibles !== POR_BLOQUE;
         visibles = volver ? POR_BLOQUE : items.length;
         render();
-        if (volver) scrollSeccion();
+
+        if (volver) {
+          scrollSeccion();
+        }
       });
     }
 
@@ -3384,7 +3389,7 @@ document.addEventListener("DOMContentLoaded", () => {
   activarSeccion({ sectionId:"short", itemClass:".short-item", searchId:"search-short", btnMoreId:"btn-more-short", defaultCategoria:"todos" });
   activarSeccion({ sectionId:"casacas", itemClass:".casaca-item", searchId:"search-casaca", btnMoreId:"btn-more-casaca", defaultCategoria:"todos" });
 
-  // WhatsApp por talla
+  /* BOTONES WHATSAPP POR TALLA */
   document.querySelectorAll(".talla-select").forEach(select => {
     const btn = select.closest(".card")?.querySelector(".btn-wsp");
     if (!btn) return;
@@ -3403,45 +3408,104 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.textContent = "Comprar ahora 💬";
   });
 
-  // Mensaje flotante
-  const msgConsulta = document.createElement("div");
-  msgConsulta.className = "consulta-flotante";
-  msgConsulta.innerHTML = `
-    💬 ¿No ves tu modelo?<br>
-    <span>Consúltanos, lo conseguimos</span>
-  `;
-
-  msgConsulta.addEventListener("click", () => {
-    const texto = "Hola 👋 no veo el modelo que busco en la web, ¿me puedes ayudar?";
-    window.open(
-      `https://wa.me/51971245962?text=${encodeURIComponent(texto)}`,
-      "_blank"
-    );
-  });
-
-  document.body.appendChild(msgConsulta);
-
-  function estaEnSeccion(seccion) {
-    if (!seccion) return false;
-    const top = seccion.offsetTop;
-    const bottom = top + seccion.offsetHeight;
-    const y = window.scrollY + 200;
-    return y >= top && y <= bottom;
+  /* WHATSAPP FLOTANTE */
+  const wspFloat = document.querySelector(".whatsapp-float");
+  if (wspFloat) {
+    wspFloat.style.opacity = "0";
+    wspFloat.style.pointerEvents = "none";
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 400) {
+        wspFloat.style.opacity = "1";
+        wspFloat.style.pointerEvents = "auto";
+      } else {
+        wspFloat.style.opacity = "0";
+        wspFloat.style.pointerEvents = "none";
+      }
+    });
   }
-
-  function controlarMensajeConsulta() {
-    const licras = document.getElementById("licras");
-    const souvenirs = document.getElementById("souvenirs");
-
-    const ocultar =
-      estaEnSeccion(licras) ||
-      estaEnSeccion(souvenirs);
-
-    msgConsulta.style.display = ocultar ? "none" : "block";
-  }
-
-  window.addEventListener("scroll", controlarMensajeConsulta);
-  window.addEventListener("load", controlarMensajeConsulta);
 
 });
+
+/* ===== WHATSAPP ===== */
+function enviarWhatsApp(el) {
+  if (el.classList.contains("wsp-sending")) return;
+  el.classList.add("wsp-sending");
+
+  const card = el.closest(".card");
+  const select = card?.querySelector(".talla-select");
+  if (select && !select.value) {
+    alert("Selecciona una talla primero");
+    el.classList.remove("wsp-sending");
+    return;
+  }
+
+  const nombre = card.querySelector("h3")?.textContent || "";
+  const precio = card.querySelector(".price")?.textContent || "";
+  const talla = select ? select.value : "Única";
+
+  let msg = `Hola 👋 vi este producto en *KayluSport* y quiero comprarlo hoy 🔥\n\n🛍️ ${nombre}\n💰 ${precio}`;
+  if (select) msg += `\n👕 Talla: ${talla}`;
+  msg += `\n\n¿Está disponible?`;
+
+  window.open(`https://wa.me/51971245962?text=${encodeURIComponent(msg)}`, "_blank");
+  setTimeout(() => el.classList.remove("wsp-sending"), 800);
+}
+
+/* ===== LIGHTBOX ===== */
+function openLightbox(src) {
+  const lb = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+  if (!lb || !img) return;
+
+  img.src = src;
+  lb.classList.add("active");
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox")?.classList.remove("active");
+}
+
+/* =========================================
+   MENSAJE FLOTANTE (TODOS EXCEPTO LICRAS Y SOUVENIRS)
+========================================= */
+
+const msgConsulta = document.createElement("div");
+msgConsulta.className = "consulta-flotante";
+msgConsulta.innerHTML = `
+  💬 ¿No ves tu modelo?<br>
+  <span>Consúltanos, lo conseguimos</span>
+`;
+
+msgConsulta.addEventListener("click", () => {
+  const texto = "Hola 👋 no veo el modelo que busco en la web, ¿me puedes ayudar?";
+  window.open(
+    `https://wa.me/51971245962?text=${encodeURIComponent(texto)}`,
+    "_blank"
+  );
+});
+
+document.body.appendChild(msgConsulta);
+
+function estaEnSeccion(seccion) {
+  if (!seccion) return false;
+  const top = seccion.offsetTop;
+  const bottom = top + seccion.offsetHeight;
+  const y = window.scrollY + 200; // margen visual
+  return y >= top && y <= bottom;
+}
+
+function controlarMensajeConsulta() {
+  const licras = document.getElementById("licras");
+  const souvenirs = document.getElementById("souvenirs");
+
+  const ocultar =
+    estaEnSeccion(licras) ||
+    estaEnSeccion(souvenirs);
+
+  msgConsulta.style.display = ocultar ? "none" : "block";
+}
+
+window.addEventListener("scroll", controlarMensajeConsulta);
+window.addEventListener("load", controlarMensajeConsulta);
+  
 </script>
