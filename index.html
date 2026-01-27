@@ -2778,22 +2778,22 @@ section {
  
   <div class="grid">
 
-  <!-- PRODUCTO MEDIAS 1 --> PRUEBA
-    <article class="card medias-item">
-  <img src="mediaslargas1.jpg"
-       onclick="openLightbox(this.src)"
-       loading="lazy">
+   <!-- PRODUCTO MEDIAS 1 -->
+    <article class="card">
+      <img src="mediaslargas1.jpg"
+           alt="Medias Largas mil rayas"
+           loading="lazy"
+           onclick="openLightbox(this.src)">
 
-  <h3>Medias Largas mil rayas</h3>
-
-  <div class="price">S/ 12.00</div>
-
-  <a class="whatsapp btn-wsp"
-     href="#"
-     onclick="enviarWhatsAppGeneric(this)">
-     Comprar por WhatsApp
-  </a>
-</article>
+      <h3 class="nombre-producto">Medias Largas mil rayas</h3>
+      <div class="price">S/ 12.00</div>
+      
+      <a class="whatsapp btn-wsp disabled"
+         href="#"
+         onclick="enviarWhatsApp(this)">
+        Comprar por WhatsApp
+      </a>
+    </article>
 
     <!-- PRODUCTO MEDIAS 2 -->
     <article class="card">
@@ -3235,6 +3235,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
