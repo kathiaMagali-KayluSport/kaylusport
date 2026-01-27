@@ -1067,6 +1067,30 @@ section {
   position: relative;
   padding-bottom: 60px; /* ajusta según el tamaño del botón */
 }
+
+/* Solución definitiva para que VER MÁS siempre clicable */
+section .grid {
+  position: relative;
+  margin-bottom: 100px; /* deja espacio suficiente para Ver más */
+}
+
+section .btn-more, /* si tienes clase btnMore */
+#btnToggle,
+#btnRetroToggle,
+#btn-more-short,
+#btn-more-casaca {
+  position: relative; /* sacar del flujo que tapa cards */
+  z-index: 10;        /* encima de las cards */
+  display: block;
+  margin: 20px auto 0; /* centrado y separado de las cards */
+}
+
+/* Ajuste fino para móviles */
+@media (max-width: 768px) {
+  section .grid {
+    margin-bottom: 150px; /* más espacio si cards grandes en móvil */
+  }
+}
     
   </style>
 </head>
@@ -3479,3 +3503,4 @@ window.addEventListener("scroll", controlarMensajeConsulta);
 window.addEventListener("load", controlarMensajeConsulta);
 
 </script>
+
