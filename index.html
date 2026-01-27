@@ -947,7 +947,9 @@ section:target::before {
   </select>
 
   <!-- WHATSAPP -->
-  <a class="whatsapp btn-wsp" href="#" onclick="enviarWhatsAppGeneric(this)">Comprar por WhatsApp</a>
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
   </article>
 
   <article class="card producto" data-category="peru"><img src="actual-al.jpg" alt="Camiseta Alianza Lima" loading="lazy" onclick="openLightbox(this.src)"><h3>Alianza Lima</h3><div class="price">S/ 50.00</div>
@@ -3093,24 +3095,41 @@ function activarSeccion({ sectionId, itemClass, searchId, btnMoreId, defaultCate
     let mostrados = 0;
     let total = 0;
 
-    items.forEach(item => {
-      const nombre = normalizar(item.querySelector("h3")?.textContent || "");
-      const okTexto = nombre.includes(normalizar(texto));
+    const textoNormalizado = normalizar(texto);
+const categoriaNormalizada = normalizar(categoria);
 
-      const cat = normalizar(item.dataset.cat || "todos");
-      const okCat =
-        categoria === "todos" ||
-        categoria === "all" ||
-        cat === normalizar(categoria);
+items.forEach(item => {
+  if (mostrados >= visibles) {
+    item.style.display = "none";
+    return;
+  }
 
-      if (okTexto && okCat) {
-        total++;
-        item.style.display = mostrados < visibles ? "" : "none";
-        mostrados++;
-      } else {
-        item.style.display = "none";
-      }
-    });
+  const nombre = normalizar(
+    item.querySelector("h3")?.textContent || ""
+  );
+
+  if (!nombre.includes(textoNormalizado)) {
+    item.style.display = "none";
+    return;
+  }
+
+  const catRaw = item.dataset.cat || item.dataset.category || "";
+  const cat = normalizar(catRaw);
+
+  const okCat =
+    categoriaNormalizada === "todos" ||
+    categoriaNormalizada === "all" ||
+    cat === categoriaNormalizada;
+
+  if (!okCat) {
+    item.style.display = "none";
+    return;
+  }
+
+  total++;
+  item.style.display = "";
+  mostrados++;
+});
 
     if (btnMore) {
       btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
@@ -3245,3 +3264,4 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
