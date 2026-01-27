@@ -879,6 +879,65 @@ section:target::before {
     margin-top: -90px;
   }
 }
+
+/* ===== MEJORAS UX (B) ===== */
+  .ver-mas-btn button {
+    transition: all 0.2s ease;
+  }
+
+  .ver-mas-btn button.active {
+    background: #111;
+    color: #fff;
+    transform: scale(1.05);
+  }
+
+  .ver-mas-btn button:not(.active) {
+    opacity: 0.7;
+  }
+
+  .card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.18);
+  }
+
+  .btn-wsp.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    filter: grayscale(1);
+  }
+
+  .btn-wsp:not(.disabled):hover {
+    transform: scale(1.05);
+  }
+
+  .search-input {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .search-input:focus {
+    border-color: #111;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.15);
+    outline: none;
+  }
+
+  .card {
+    animation: fadeIn 0.35s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
     
   </style>
 </head>
@@ -3311,3 +3370,4 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
