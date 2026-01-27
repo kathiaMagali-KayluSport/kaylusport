@@ -996,6 +996,18 @@ section:target::before {
   opacity: 0.7;
   pointer-events: none;
 }
+
+/* Evita que el menú fijo tape los títulos */
+section {
+  scroll-margin-top: 90px; /* AJUSTA según la altura real del menú */
+}
+
+/* En móvil, normalmente el menú es más alto */
+@media (max-width: 768px) {
+  section {
+    scroll-margin-top: 120px;
+  }
+}
     
   </style>
 </head>
@@ -3394,6 +3406,7 @@ function closeLightbox() {
   document.getElementById("lightbox")?.classList.remove("active");
 }
 </script>
+
 
 
 
