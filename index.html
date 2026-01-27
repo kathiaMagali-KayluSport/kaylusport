@@ -1050,6 +1050,23 @@ section {
     font-size: 13px;
   }
 }    
+
+ /* Aseguramos que los botones Ver más estén siempre encima */
+.ver-mas-btn, 
+#btnToggle, 
+#btnRetroToggle, 
+#btn-more-short, 
+#btn-more-casaca {
+  position: relative;
+  z-index: 10; /* más alto que las secciones siguientes */
+  display: inline-block;
+}
+
+/* Dejamos margen suficiente para que la sección siguiente no tape el botón */
+.section {
+  position: relative;
+  padding-bottom: 60px; /* ajusta según el tamaño del botón */
+}
     
   </style>
 </head>
@@ -3362,6 +3379,11 @@ document.addEventListener("DOMContentLoaded", () => {
   activarSeccion({ sectionId:"short", itemClass:".short-item", searchId:"search-short", btnMoreId:"btn-more-short", defaultCategoria:"todos" });
   activarSeccion({ sectionId:"casacas", itemClass:".casaca-item", searchId:"search-casaca", btnMoreId:"btn-more-casaca", defaultCategoria:"todos" });
 
+  // Dentro de activarSeccion(), después de definir btnMore:
+if (btnMore) {
+  btnMore.classList.add("ver-mas-btn"); // para aplicar el CSS de z-index
+}
+
   /* BOTONES WHATSAPP POR TALLA */
   document.querySelectorAll(".talla-select").forEach(select => {
     const btn = select.closest(".card")?.querySelector(".btn-wsp");
@@ -3471,3 +3493,4 @@ window.addEventListener("scroll", controlarMensajeConsulta);
 window.addEventListener("load", controlarMensajeConsulta);
 
 </script>
+
