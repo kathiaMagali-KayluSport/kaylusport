@@ -1008,7 +1008,20 @@ section {
     scroll-margin-top: 120px;
   }
 }
-    
+
+/* SOLUCIÓN DEFINITIVA PARA MENÚ FIJO (MÓVIL Y PC) */
+section {
+  padding-top: 140px;
+  margin-top: -140px;
+}
+
+/* Ajuste fino solo para móvil */
+@media (max-width: 768px) {
+  section {
+    padding-top: 160px;
+    margin-top: -160px;
+  }
+}    
   </style>
 </head>
 
@@ -3406,6 +3419,7 @@ function closeLightbox() {
   document.getElementById("lightbox")?.classList.remove("active");
 }
 </script>
+
 
 
 
