@@ -1022,6 +1022,35 @@ section {
     margin-top: -160px;
   }
 }    
+
+.consulta-flotante {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: #111;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.25);
+  display: none;
+  z-index: 999;
+  cursor: pointer;
+}
+
+.consulta-flotante span {
+  font-weight: 600;
+  color: #25D366;
+}
+
+@media (max-width: 768px) {
+  .consulta-flotante {
+    bottom: 110px; /* encima del WhatsApp flotante */
+    right: 12px;
+    font-size: 13px;
+  }
+}    
+    
   </style>
 </head>
 
@@ -3418,7 +3447,47 @@ function openLightbox(src) {
 function closeLightbox() {
   document.getElementById("lightbox")?.classList.remove("active");
 }
+
+// ===== MENSAJE FLOTANTE SOLO EN ACTUALES Y RETRO =====
+const msgConsulta = document.createElement("div");
+msgConsulta.className = "consulta-flotante";
+msgConsulta.innerHTML = `
+  💬 ¿No ves tu modelo?<br>
+  <span>Consúltanos, lo conseguimos</span>
+`;
+
+msgConsulta.addEventListener("click", () => {
+  const texto = "Hola 👋 no veo el modelo que busco en la web, ¿me puedes ayudar?";
+  window.open(
+    `https://wa.me/51971245962?text=${encodeURIComponent(texto)}`,
+    "_blank"
+  );
+});
+
+document.body.appendChild(msgConsulta);
+
+function actualizarMensajeConsulta() {
+  const y = window.scrollY;
+  const actuales = document.getElementById("actuales");
+  const retro = document.getElementById("retro");
+
+  if (!actuales || !retro) return;
+
+  const enActuales =
+    y >= actuales.offsetTop - 200 &&
+    y < actuales.offsetTop + actuales.offsetHeight;
+
+  const enRetro =
+    y >= retro.offsetTop - 200 &&
+    y < retro.offsetTop + retro.offsetHeight;
+
+  msgConsulta.style.display = enActuales || enRetro ? "block" : "none";
+}
+
+window.addEventListener("scroll", actualizarMensajeConsulta);
+  
 </script>
+
 
 
 
