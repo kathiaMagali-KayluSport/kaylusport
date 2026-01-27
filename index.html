@@ -3180,12 +3180,12 @@ section:target::before {
   <p>© 2026 KayluSport | Pasión futbolera</p>
 </footer>
 
-<a class="whatsapp-float" href="https://wa.me/51971245962">💬</a>
+<a class="whatsapp-float" href="https://wa.me/51971245962" target="_blank">💬</a>
 
 <!-- LIGHTBOX -->
 <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img">
-  <span class="close">&times;</span>
+  <span class="close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" onclick="event.stopPropagation()">
 </div>
 
 <script>
@@ -3208,7 +3208,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const search = searchId ? document.getElementById(searchId) : null;
     const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
-    const filterBtns = section.querySelectorAll(".ver-mas-btn [data-cat]");
+    const filterBtns = section.querySelectorAll("button[data-cat]");
     const grid = section.querySelector(".grid") || section;
 
     let visibles = POR_BLOQUE;
@@ -3320,6 +3320,22 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.textContent = "Comprar ahora 💬";
   });
 
+  /* WhatsApp flotante inteligente */
+  const wspFloat = document.querySelector(".whatsapp-float");
+  if (wspFloat) {
+    wspFloat.style.opacity = "0";
+    wspFloat.style.pointerEvents = "none";
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 400) {
+        wspFloat.style.opacity = "1";
+        wspFloat.style.pointerEvents = "auto";
+      } else {
+        wspFloat.style.opacity = "0";
+        wspFloat.style.pointerEvents = "none";
+      }
+    });
+  }
+
 });
 
 /* ===== WHATSAPP ===== */
@@ -3344,8 +3360,22 @@ function enviarWhatsApp(el) {
   msg += `\n\n¿Está disponible?`;
 
   window.open(`https://wa.me/51971245962?text=${encodeURIComponent(msg)}`, "_blank");
-
   setTimeout(() => el.classList.remove("wsp-sending"), 800);
 }
+
+/* ===== LIGHTBOX ===== */
+function openLightbox(src) {
+  const lb = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+  if (!lb || !img) return;
+
+  img.src = src;
+  lb.classList.add("active");
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox")?.classList.remove("active");
+}
 </script>
+
 
