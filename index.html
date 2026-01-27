@@ -2188,8 +2188,6 @@ section:target::before {
       <h3>Short Local Alemania 2026</h3>
       <div class="price">S/ 25.00</div>
       <a class="whatsapp btn-wsp"
-     href="#"
-     <a class="whatsapp btn-wsp"
    href="javascript:void(0)"
    onclick="enviarWhatsApp(this)">
    Comprar por WhatsApp
@@ -2205,8 +2203,6 @@ section:target::before {
       <h3>Short Local Alianza 2026</h3>
       <div class="price">S/ 25.00</div>
       <a class="whatsapp btn-wsp"
-     href="#"
-     <a class="whatsapp btn-wsp"
    href="javascript:void(0)"
    onclick="enviarWhatsApp(this)">
    Comprar por WhatsApp
@@ -2237,8 +2233,6 @@ section:target::before {
       <h3>Short Local Manchester City 2026</h3>
       <div class="price">S/ 25.00</div>
       <a class="whatsapp btn-wsp"
-     href="#"
-     <a class="whatsapp btn-wsp"
    href="javascript:void(0)"
    onclick="enviarWhatsApp(this)">
    Comprar por WhatsApp
@@ -2254,8 +2248,6 @@ section:target::before {
       <h3>Short Local España 2026</h3>
       <div class="price">S/ 25.00</div>
       <a class="whatsapp btn-wsp"
-     href="#"
-     <a class="whatsapp btn-wsp"
    href="javascript:void(0)"
    onclick="enviarWhatsApp(this)">
    Comprar por WhatsApp
@@ -2271,8 +2263,6 @@ section:target::before {
       <h3>Short Local Juventus 2026</h3>
       <div class="price">S/ 25.00</div>
       <a class="whatsapp btn-wsp"
-     href="#"
-     <a class="whatsapp btn-wsp"
    href="javascript:void(0)"
    onclick="enviarWhatsApp(this)">
    Comprar por WhatsApp
@@ -2288,8 +2278,6 @@ section:target::before {
       <h3>Short Local Liverpool 2026</h3>
       <div class="price">S/ 25.00</div>
       <a class="whatsapp btn-wsp"
-     href="#"
-     <a class="whatsapp btn-wsp"
    href="javascript:void(0)"
    onclick="enviarWhatsApp(this)">
    Comprar por WhatsApp
@@ -2305,8 +2293,6 @@ section:target::before {
       <h3>Short Local Real Madrid 2026</h3>
       <div class="price">S/ 25.00</div>
       <a class="whatsapp btn-wsp"
-     href="#"
-     <a class="whatsapp btn-wsp"
    href="javascript:void(0)"
    onclick="enviarWhatsApp(this)">
    Comprar por WhatsApp
@@ -2322,8 +2308,6 @@ section:target::before {
       <h3>Short Visita Real Madrid 2026</h3>
       <div class="price">S/ 25.00</div>
       <a class="whatsapp btn-wsp"
-     href="#"
-     <a class="whatsapp btn-wsp"
    href="javascript:void(0)"
    onclick="enviarWhatsApp(this)">
    Comprar por WhatsApp
@@ -2339,8 +2323,6 @@ section:target::before {
       <h3>Short Local Perú 2026</h3>
       <div class="price">S/ 25.00</div>
       <a class="whatsapp btn-wsp"
-     href="#"
-     <a class="whatsapp btn-wsp"
    href="javascript:void(0)"
    onclick="enviarWhatsApp(this)">
    Comprar por WhatsApp
@@ -2356,8 +2338,6 @@ section:target::before {
       <h3>Short Local Portugal 2026</h3>
       <div class="price">S/ 25.00</div>
       <a class="whatsapp btn-wsp"
-     href="#"
-     <a class="whatsapp btn-wsp"
    href="javascript:void(0)"
    onclick="enviarWhatsApp(this)">
    Comprar por WhatsApp
@@ -3087,233 +3067,4 @@ section:target::before {
   <span class="close">&times;</span>
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const POR_BLOQUE = 6;
-
-  /* =====================================================
-     FUNCIÓN GENÉRICA PARA TODAS LAS SECCIONES
-  ===================================================== */
-  function activarSeccion({ sectionId, itemClass, searchId, btnMoreId, defaultCategoria }) {
-    const section = document.getElementById(sectionId);
-    if (!section) return;
-
-    const items = Array.from(section.querySelectorAll(itemClass));
-    const search = searchId ? document.getElementById(searchId) : null;
-    const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
-    const filterBtns = section.querySelectorAll("[data-cat]");
-
-    let visibles = POR_BLOQUE;
-    let texto = "";
-    let categoria = defaultCategoria;
-
-    const normalizar = txt =>
-      txt
-        .toString()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase();
-
-    function render() {
-      let mostrados = 0;
-      let total = 0;
-
-      items.forEach(item => {
-        const nombre = normalizar(
-          item.querySelector("h3")?.textContent || ""
-        );
-
-        const okTexto = nombre.includes(normalizar(texto));
-
-        const catRaw = item.dataset.cat || item.dataset.category || "";
-        const cat = normalizar(catRaw);
-        const categoriaActual = normalizar(categoria);
-
-        const okCat =
-          categoriaActual === "todos" ||
-          categoriaActual === "all" ||
-          cat === categoriaActual;
-
-        if (okTexto && okCat) {
-          total++;
-          if (mostrados < visibles) {
-            item.style.display = "";
-            mostrados++;
-          } else {
-            item.style.display = "none";
-          }
-        } else {
-          item.style.display = "none";
-        }
-      });
-
-      if (btnMore) {
-        btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
-        btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
-      }
-    }
-
-    /* BUSCADOR */
-    if (search) {
-      search.addEventListener("input", () => {
-        texto = search.value;
-        visibles = POR_BLOQUE;
-        render();
-      });
-    }
-
-    /* FILTROS */
-    filterBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        categoria = btn.dataset.cat;
-        visibles = POR_BLOQUE;
-
-        filterBtns.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-
-        render();
-      });
-    });
-
-    /* VER MÁS / MENOS */
-    if (btnMore) {
-      btnMore.addEventListener("click", () => {
-        visibles = visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
-        render();
-      });
-    }
-
-    render();
-  }
-
-  /* ================= ACTIVAR SECCIONES ================= */
-
-  activarSeccion({
-    sectionId: "actuales",
-    itemClass: ".producto",
-    searchId: "buscador",
-    btnMoreId: "btnToggle",
-    defaultCategoria: "todos"
-  });
-
-  activarSeccion({
-    sectionId: "retro",
-    itemClass: ".producto-retro",
-    searchId: "buscadorRetro",
-    btnMoreId: "btnRetroToggle",
-    defaultCategoria: "todos"
-  });
-
-  activarSeccion({
-    sectionId: "short",
-    itemClass: ".short-item",
-    searchId: "search-short",
-    btnMoreId: "btn-more-short",
-    defaultCategoria: "todos"
-  });
-
-  activarSeccion({
-    sectionId: "casacas",
-    itemClass: ".casaca-item",
-    searchId: "search-casaca",
-    btnMoreId: "btn-more-casaca",
-    defaultCategoria: "todos"
-  });
-
-  /* =====================================================
-     ACTIVAR BOTONES WHATSAPP SEGÚN TALLA
-  ===================================================== */
-  document.querySelectorAll(".talla-select").forEach(select => {
-    const btn = select.closest(".card")?.querySelector(".btn-wsp");
-    if (!btn) return;
-
-    btn.classList.add("disabled");
-
-    select.addEventListener("change", () => {
-      if (select.value) {
-        btn.classList.remove("disabled");
-      } else {
-        btn.classList.add("disabled");
-      }
-    });
-  });
-
-});
-
-/* =====================================================
-   FUNCIÓN WHATSAPP (GENÉRICA)
-===================================================== */
-function enviarWhatsApp(el) {
-  const card = el.closest(".card");
-  if (!card) return;
-
-  const select = card.querySelector(".talla-select");
-
-  // 👉 SOLO valida talla si el selector existe
-  if (select && select.value === "") {
-    alert("Selecciona una talla primero");
-    return;
-  }
-
-  const nombre = card.querySelector("h3")?.textContent || "Producto";
-  const precio = card.querySelector(".price")?.textContent || "";
-  const talla = select ? select.value : "Única";
-
-  let mensaje = `Hola 👋, quiero comprar:\n\n🛍️ ${nombre}\n💰 ${precio}`;
-
-  if (select) {
-    mensaje += `\n👕 Talla: ${talla}`;
-  }
-
-  mensaje += `\n\n¿Está disponible?`;
-
-  const numero = "51971245962";
-
-  window.open(
-    `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`,
-    "_blank"
-  );
-}
-
-/* =====================================================
-   LIGHTBOX
-===================================================== */
-function openLightbox(src) {
-  const lightbox = document.getElementById("lightbox");
-  const img = document.getElementById("lightbox-img");
-  img.src = src;
-  lightbox.classList.add("active");
-}
-
-function closeLightbox() {
-  document.getElementById("lightbox").classList.remove("active");
-}
-
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-  link.addEventListener("click", function (e) {
-    const targetId = this.getAttribute("href");
-    const target = document.querySelector(targetId);
-    if (!target) return;
-
-    e.preventDefault();
-
-    /* 👇 AJUSTA AQUÍ SI TU MENÚ NO ES <header> */
-    const header = document.querySelector("header");
-    const headerHeight = header ? header.offsetHeight : 0;
-
-    const y =
-      target.getBoundingClientRect().top +
-      window.pageYOffset -
-      headerHeight -
-      20;
-
-    window.scrollTo({
-      top: y,
-      behavior: "smooth"
-    });
-  });
-});  
-</script>
-
-
+>
