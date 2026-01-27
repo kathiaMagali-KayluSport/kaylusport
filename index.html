@@ -3162,12 +3162,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* VER MÁS / MENOS */
-    if (btnMore) {
-      btnMore.addEventListener("click", () => {
-        visibles = visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
-        render();
+   if (btnMore) {
+  btnMore.addEventListener("click", () => {
+    const esVerMenos = visibles !== POR_BLOQUE;
+
+    visibles = esVerMenos ? POR_BLOQUE : items.length;
+    render();
+
+    // 👇 SI ES "VER MENOS", VOLVER AL INICIO DE LA SECCIÓN
+    if (esVerMenos) {
+      const header = document.querySelector("header");
+      const offset = header ? header.offsetHeight : 0;
+
+      const y =
+        section.getBoundingClientRect().top +
+        window.pageYOffset -
+        offset -
+        20;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth"
       });
     }
+  });
+}
 
     render();
   }
@@ -3281,3 +3300,4 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
