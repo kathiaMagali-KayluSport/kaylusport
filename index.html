@@ -3269,7 +3269,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let texto = "";
     let categoria = defaultCategoria;
 
-    // Mensaje "No hay resultados"
     let msg = section.querySelector(".no-resultados");
     if (!msg) {
       msg = document.createElement("p");
@@ -3285,10 +3284,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const header = document.querySelector("header");
       let offset = header ? header.offsetHeight : 0;
       if (window.innerWidth <= 768) offset += 30;
-      window.scrollTo({
-        top: section.offsetTop - offset - 20,
-        behavior: "smooth"
-      });
+      window.scrollTo({ top: section.offsetTop - offset - 20, behavior: "smooth" });
     }
 
     function render() {
@@ -3299,13 +3295,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
       items.forEach(obj => {
         const item = obj.el;
+
         if (!obj.nombre.includes(t) || !(c === "todos" || c === "all" || obj.cat === c)) {
           item.style.display = "none";
+          item.style.pointerEvents = "none";
           return;
         }
+
         total++;
-        item.style.display = mostrados < visibles ? "block" : "none"; // usar "block" evita superposición
-        item.style.position = "relative"; // asegura que no flote sobre otros elementos
+        if (mostrados < visibles) {
+          item.style.display = "block";
+          item.style.pointerEvents = "auto";
+        } else {
+          item.style.display = "none";
+          item.style.pointerEvents = "none";
+        }
+
+        item.style.position = "relative";
         mostrados++;
       });
 
@@ -3317,7 +3323,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // Buscador
+    /* BUSCADOR */
     if (search) {
       search.addEventListener("input", () => {
         texto = search.value;
@@ -3326,7 +3332,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Filtros
+    /* FILTROS */
     filterBtns.forEach(btn => {
       btn.addEventListener("click", () => {
         categoria = btn.dataset.cat;
@@ -3338,7 +3344,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Ver más / Ver menos
+    /* VER MÁS / VER MENOS */
     if (btnMore) {
       btnMore.addEventListener("click", () => {
         const volver = visibles !== POR_BLOQUE;
@@ -3356,7 +3362,7 @@ document.addEventListener("DOMContentLoaded", () => {
   activarSeccion({ sectionId:"short", itemClass:".short-item", searchId:"search-short", btnMoreId:"btn-more-short", defaultCategoria:"todos" });
   activarSeccion({ sectionId:"casacas", itemClass:".casaca-item", searchId:"search-casaca", btnMoreId:"btn-more-casaca", defaultCategoria:"todos" });
 
-  // Botones WhatsApp por talla
+  /* BOTONES WHATSAPP POR TALLA */
   document.querySelectorAll(".talla-select").forEach(select => {
     const btn = select.closest(".card")?.querySelector(".btn-wsp");
     if (!btn) return;
@@ -3374,12 +3380,11 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.textContent = "Comprar ahora 💬";
   });
 
-  // WhatsApp flotante
+  /* WHATSAPP FLOTANTE */
   const wspFloat = document.querySelector(".whatsapp-float");
   if (wspFloat) {
     wspFloat.style.opacity = "0";
     wspFloat.style.pointerEvents = "none";
-    wspFloat.style.zIndex = "9999";
     window.addEventListener("scroll", () => {
       if (window.scrollY > 400) {
         wspFloat.style.opacity = "1";
@@ -3393,7 +3398,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// Función WhatsApp
+/* ===== WHATSAPP ===== */
 function enviarWhatsApp(el) {
   if (el.classList.contains("wsp-sending")) return;
   el.classList.add("wsp-sending");
@@ -3418,7 +3423,7 @@ function enviarWhatsApp(el) {
   setTimeout(() => el.classList.remove("wsp-sending"), 800);
 }
 
-// Lightbox
+/* ===== LIGHTBOX ===== */
 function openLightbox(src) {
   const lb = document.getElementById("lightbox");
   const img = document.getElementById("lightbox-img");
@@ -3426,23 +3431,16 @@ function openLightbox(src) {
   img.src = src;
   lb.classList.add("active");
 }
+
 function closeLightbox() {
   document.getElementById("lightbox")?.classList.remove("active");
 }
 
-// Mensaje flotante de consulta
+/* =========================================
+   MENSAJE FLOTANTE (TODOS EXCEPTO LICRAS Y SOUVENIRS)
+========================================= */
 const msgConsulta = document.createElement("div");
 msgConsulta.className = "consulta-flotante";
-msgConsulta.style.position = "fixed";
-msgConsulta.style.right = "20px";
-msgConsulta.style.bottom = "80px"; // justo arriba del WhatsApp flotante
-msgConsulta.style.zIndex = "9998"; 
-msgConsulta.style.background = "#fff";
-msgConsulta.style.border = "1px solid #ccc";
-msgConsulta.style.padding = "10px 15px";
-msgConsulta.style.borderRadius = "10px";
-msgConsulta.style.cursor = "pointer";
-msgConsulta.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
 msgConsulta.innerHTML = `
   💬 ¿No ves tu modelo?<br>
   <span>Consúltanos, lo conseguimos</span>
@@ -3457,17 +3455,19 @@ function estaEnSeccion(seccion) {
   if (!seccion) return false;
   const top = seccion.offsetTop;
   const bottom = top + seccion.offsetHeight;
-  const y = window.scrollY + 200; // margen visual
+  const y = window.scrollY + 200;
   return y >= top && y <= bottom;
 }
 
 function controlarMensajeConsulta() {
   const licras = document.getElementById("licras");
   const souvenirs = document.getElementById("souvenirs");
+
   const ocultar = estaEnSeccion(licras) || estaEnSeccion(souvenirs);
   msgConsulta.style.display = ocultar ? "none" : "block";
 }
 
 window.addEventListener("scroll", controlarMensajeConsulta);
 window.addEventListener("load", controlarMensajeConsulta);
+
 </script>
