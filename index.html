@@ -864,6 +864,21 @@ section {
     scroll-margin-top: 110px;
   }
 }
+
+/* ===== FIX TÍTULOS TAPADOS EN MÓVIL ===== */
+section:target::before {
+  content: "";
+  display: block;
+  height: 120px; /* altura del menú móvil */
+  margin-top: -120px;
+}
+
+@media (min-width: 769px) {
+  section:target::before {
+    height: 90px;
+    margin-top: -90px;
+  }
+}
     
   </style>
 </head>
@@ -3275,6 +3290,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
