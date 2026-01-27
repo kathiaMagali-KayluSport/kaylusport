@@ -3081,7 +3081,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const section = document.getElementById(sectionId);
     if (!section) return;
 
-    const items = Array.from(section.querySelectorAll(itemClass));
+    const normalizar = txt =>
+      txt.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+    const items = Array.from(section.querySelectorAll(itemClass)).map(item => ({
+      el: item,
+      nombre: normalizar(item.querySelector("h3")?.textContent || ""),
+      cat: normalizar(item.dataset.cat || item.dataset.category || "")
+    }));
+
     const search = searchId ? document.getElementById(searchId) : null;
     const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
     const filterBtns = section.querySelectorAll("[data-cat]");
@@ -3090,13 +3098,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let texto = "";
     let categoria = defaultCategoria;
 
-    const normalizar = txt =>
-      txt
-        .toString()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase();
-
     function render() {
       let mostrados = 0;
       let total = 0;
@@ -3104,23 +3105,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const textoNormalizado = normalizar(texto);
       const categoriaNormalizada = normalizar(categoria);
 
-      items.forEach(item => {
-        const nombre = normalizar(
-          item.querySelector("h3")?.textContent || ""
-        );
+      items.forEach(obj => {
+        const item = obj.el;
 
-        if (!nombre.includes(textoNormalizado)) {
+        if (!obj.nombre.includes(textoNormalizado)) {
           item.style.display = "none";
           return;
         }
 
-        const catRaw = item.dataset.cat || item.dataset.category || "";
-        const cat = normalizar(catRaw);
-
         const okCat =
           categoriaNormalizada === "todos" ||
           categoriaNormalizada === "all" ||
-          cat === categoriaNormalizada;
+          obj.cat === categoriaNormalizada;
 
         if (!okCat) {
           item.style.display = "none";
@@ -3210,8 +3206,9 @@ document.addEventListener("DOMContentLoaded", () => {
     defaultCategoria: "todos"
   });
 
-  /* ================= ACTIVAR BOTONES WHATSAPP POR TALLA ================= */
-
+  /* =====================================================
+     ACTIVAR BOTONES WHATSAPP SEGÚN TALLA
+  ===================================================== */
   document.querySelectorAll(".talla-select").forEach(select => {
     const btn = select.closest(".card")?.querySelector(".btn-wsp");
     if (!btn) return;
@@ -3225,7 +3222,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-/* ================= WHATSAPP ================= */
+/* =====================================================
+   FUNCIÓN WHATSAPP (GENÉRICA)
+===================================================== */
 function enviarWhatsApp(el) {
   const card = el.closest(".card");
   if (!card) return;
@@ -3251,7 +3250,9 @@ function enviarWhatsApp(el) {
   );
 }
 
-/* ================= SCROLL AJUSTADO AL MENÚ ================= */
+/* =====================================================
+   SCROLL CORREGIDO PARA MENÚ
+===================================================== */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener("click", e => {
     const target = document.querySelector(link.getAttribute("href"));
@@ -3268,7 +3269,9 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   });
 });
 
-/* ================= LIGHTBOX ================= */
+/* =====================================================
+   LIGHTBOX
+===================================================== */
 function openLightbox(src) {
   document.getElementById("lightbox-img").src = src;
   document.getElementById("lightbox").classList.add("active");
