@@ -3282,15 +3282,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const filterBtns = section.querySelectorAll("button[data-cat]");
     const grid = section.querySelector(".grid") || section;
 
-    // IMPORTANTE: hacemos que el botón salga del flujo de las cards
-    if (btnMore) {
-      btnMore.style.position = "relative";
-      btnMore.style.zIndex = "10"; // siempre arriba
-      btnMore.style.display = "block";
-      btnMore.style.marginTop = "20px";
-      btnMore.style.clear = "both"; // evita que las cards lo tapen
-    }
-
     let visibles = POR_BLOQUE;
     let texto = "";
     let categoria = defaultCategoria;
@@ -3306,10 +3297,19 @@ document.addEventListener("DOMContentLoaded", () => {
       grid.after(msg);
     }
 
+    // IMPORTANTE: mover botón VER MÁS fuera del contenedor de cards
+    if (btnMore) {
+      grid.after(btnMore); // lo ponemos después del grid
+      btnMore.style.position = "relative";
+      btnMore.style.zIndex = "10";
+      btnMore.style.display = "block";
+      btnMore.style.marginTop = "20px";
+      btnMore.style.clear = "both";
+    }
+
     function scrollSeccion() {
       const header = document.querySelector("header");
       let offset = header ? header.offsetHeight : 0;
-
       if (window.innerWidth <= 768) offset += 30;
 
       window.scrollTo({
