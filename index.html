@@ -3226,6 +3226,21 @@ document.addEventListener("DOMContentLoaded", () => {
       grid.after(msg);
     }
 
+    function scrollSeccion() {
+      const header = document.querySelector("header");
+      let offset = header ? header.offsetHeight : 0;
+
+      /* extra SOLO en móvil */
+      if (window.innerWidth <= 768) {
+        offset += 30;
+      }
+
+      window.scrollTo({
+        top: section.offsetTop - offset - 20,
+        behavior: "smooth"
+      });
+    }
+
     function render() {
       let mostrados = 0;
       let total = 0;
@@ -3259,6 +3274,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    /* BUSCADOR */
     if (search) {
       search.addEventListener("input", () => {
         texto = search.value;
@@ -3267,16 +3283,21 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+    /* FILTROS (con scroll corregido) */
     filterBtns.forEach(btn => {
       btn.addEventListener("click", () => {
         categoria = btn.dataset.cat;
         visibles = POR_BLOQUE;
+
         filterBtns.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
+
         render();
+        scrollSeccion();
       });
     });
 
+    /* VER MÁS / VER MENOS */
     if (btnMore) {
       btnMore.addEventListener("click", () => {
         const volver = visibles !== POR_BLOQUE;
@@ -3284,12 +3305,7 @@ document.addEventListener("DOMContentLoaded", () => {
         render();
 
         if (volver) {
-          const header = document.querySelector("header");
-          const offset = header ? header.offsetHeight : 0;
-          window.scrollTo({
-            top: section.offsetTop - offset - 20,
-            behavior: "smooth"
-          });
+          scrollSeccion();
         }
       });
     }
@@ -3302,6 +3318,7 @@ document.addEventListener("DOMContentLoaded", () => {
   activarSeccion({ sectionId:"short", itemClass:".short-item", searchId:"search-short", btnMoreId:"btn-more-short", defaultCategoria:"todos" });
   activarSeccion({ sectionId:"casacas", itemClass:".casaca-item", searchId:"search-casaca", btnMoreId:"btn-more-casaca", defaultCategoria:"todos" });
 
+  /* BOTONES WHATSAPP POR TALLA */
   document.querySelectorAll(".talla-select").forEach(select => {
     const btn = select.closest(".card")?.querySelector(".btn-wsp");
     if (!btn) return;
@@ -3320,7 +3337,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.textContent = "Comprar ahora 💬";
   });
 
-  /* WhatsApp flotante inteligente */
+  /* WHATSAPP FLOTANTE */
   const wspFloat = document.querySelector(".whatsapp-float");
   if (wspFloat) {
     wspFloat.style.opacity = "0";
@@ -3377,6 +3394,7 @@ function closeLightbox() {
   document.getElementById("lightbox")?.classList.remove("active");
 }
 </script>
+
 
 
 
