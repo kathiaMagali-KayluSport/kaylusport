@@ -948,6 +948,49 @@ section:target::before {
   50% { transform: scale(1.08); }
   100% { transform: scale(1); }
 }
+
+/* =========================
+   UX – BOTÓN WHATSAPP (CONVERSIÓN)
+========================= */
+
+/* Botón principal */
+.btn-wsp {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Hover / toque */
+.btn-wsp:hover,
+.btn-wsp:active {
+  transform: scale(1.04);
+  box-shadow: 0 6px 18px rgba(34,197,94,0.45);
+}
+
+/* Pulso sutil SOLO si está activo */
+.btn-wsp:not(.disabled)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(34,197,94,0.6);
+  animation: pulseWsp 2.5s infinite;
+  pointer-events: none;
+}
+
+@keyframes pulseWsp {
+  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
+  70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+/* Estado bloqueado (talla no seleccionada) */
+.btn-wsp.disabled {
+  opacity: 0.5;
+  filter: grayscale(0.7);
+  animation: none;
+}
     
   </style>
 </head>
@@ -3342,24 +3385,48 @@ function enviarWhatsApp(el) {
   const card = el.closest(".card");
   if (!card) return;
 
+  // 🚫 evitar doble clic rápido
+  if (el.classList.contains("wsp-sending")) return;
+  el.classList.add("wsp-sending");
+
   const select = card.querySelector(".talla-select");
   if (select && !select.value) {
     alert("Selecciona una talla primero");
+    el.classList.remove("wsp-sending");
     return;
   }
 
-  const nombre = card.querySelector("h3")?.textContent || "Producto";
-  const precio = card.querySelector(".price")?.textContent || "";
+  const nombre = card.querySelector("h3")?.textContent.trim() || "Producto";
+  const precio = card.querySelector(".price")?.textContent.trim() || "";
   const talla = select ? select.value : "Única";
 
-  let mensaje = `Hola 👋 vi este producto en *KayluSport* y quiero comprarlo hoy 🔥\n\n🛍️ ${nombre}\n💰 ${precio}`;
-  if (select) mensaje += `\n👕 Talla: ${talla}`;
+  let mensaje =
+`Hola 👋 vi este producto en *KayluSport* y quiero comprarlo hoy 🔥
+
+🛍️ ${nombre}
+💰 ${precio}`;
+
+  if (select) {
+    mensaje += `\n👕 Talla: ${talla}`;
+  }
+
   mensaje += `\n\n¿Está disponible?`;
 
+  // 💬 abrir WhatsApp
   window.open(
     `https://wa.me/51971245962?text=${encodeURIComponent(mensaje)}`,
     "_blank"
   );
+
+  // ♻️ liberar botón luego de un momento
+  setTimeout(() => {
+    el.classList.remove("wsp-sending");
+  }, 800);
+}
+
+  .btn-wsp.wsp-sending {
+  opacity: 0.7;
+  pointer-events: none;
 }
 
 /* =====================================================
@@ -3412,3 +3479,4 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
