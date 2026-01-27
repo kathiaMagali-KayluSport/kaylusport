@@ -938,6 +938,16 @@ section:target::before {
       transform: scale(1);
     }
   }
+
+.wsp-pulse {
+  animation: pulseWSP 0.6s ease-in-out 2;
+}
+
+@keyframes pulseWSP {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
     
   </style>
 </head>
@@ -3298,22 +3308,35 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================================================
-     ACTIVAR BOTONES WHATSAPP SEGÚN TALLA
+     ACTIVAR BOTONES WHATSAPP SEGÚN TALLA + PULSE
   ===================================================== */
   document.querySelectorAll(".talla-select").forEach(select => {
     const btn = select.closest(".card")?.querySelector(".btn-wsp");
     if (!btn) return;
 
     btn.classList.add("disabled");
+
     select.addEventListener("change", () => {
       btn.classList.toggle("disabled", !select.value);
+
+      if (select.value) {
+        btn.classList.add("wsp-pulse");
+        setTimeout(() => btn.classList.remove("wsp-pulse"), 1200);
+      }
     });
+  });
+
+  /* =====================================================
+     CTA MÁS PERSUASIVO
+  ===================================================== */
+  document.querySelectorAll(".btn-wsp").forEach(btn => {
+    btn.textContent = "Comprar ahora 💬";
   });
 
 });
 
 /* =====================================================
-   FUNCIÓN WHATSAPP (GENÉRICA)
+   FUNCIÓN WHATSAPP (CONVERSIÓN)
 ===================================================== */
 function enviarWhatsApp(el) {
   const card = el.closest(".card");
@@ -3329,7 +3352,7 @@ function enviarWhatsApp(el) {
   const precio = card.querySelector(".price")?.textContent || "";
   const talla = select ? select.value : "Única";
 
-  let mensaje = `Hola 👋, quiero comprar:\n\n🛍️ ${nombre}\n💰 ${precio}`;
+  let mensaje = `Hola 👋 vi este producto en *KayluSport* y quiero comprarlo hoy 🔥\n\n🛍️ ${nombre}\n💰 ${precio}`;
   if (select) mensaje += `\n👕 Talla: ${talla}`;
   mensaje += `\n\n¿Está disponible?`;
 
@@ -3337,6 +3360,25 @@ function enviarWhatsApp(el) {
     `https://wa.me/51971245962?text=${encodeURIComponent(mensaje)}`,
     "_blank"
   );
+}
+
+/* =====================================================
+   BOTÓN WHATSAPP FLOTANTE INTELIGENTE
+===================================================== */
+const wspFloat = document.querySelector(".whatsapp-float");
+if (wspFloat) {
+  wspFloat.style.opacity = "0";
+  wspFloat.style.pointerEvents = "none";
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 400) {
+      wspFloat.style.opacity = "1";
+      wspFloat.style.pointerEvents = "auto";
+    } else {
+      wspFloat.style.opacity = "0";
+      wspFloat.style.pointerEvents = "none";
+    }
+  });
 }
 
 /* =====================================================
