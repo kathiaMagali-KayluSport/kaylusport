@@ -3448,7 +3448,10 @@ function closeLightbox() {
   document.getElementById("lightbox")?.classList.remove("active");
 }
 
-// ===== MENSAJE FLOTANTE SOLO EN ACTUALES Y RETRO =====
+/* =========================================
+   MENSAJE FLOTANTE (TODOS EXCEPTO LICRAS Y SOUVENIRS)
+========================================= */
+
 const msgConsulta = document.createElement("div");
 msgConsulta.className = "consulta-flotante";
 msgConsulta.innerHTML = `
@@ -3466,27 +3469,30 @@ msgConsulta.addEventListener("click", () => {
 
 document.body.appendChild(msgConsulta);
 
-function actualizarMensajeConsulta() {
-  const y = window.scrollY;
-  const actuales = document.getElementById("actuales");
-  const retro = document.getElementById("retro");
-
-  if (!actuales || !retro) return;
-
-  const enActuales =
-    y >= actuales.offsetTop - 200 &&
-    y < actuales.offsetTop + actuales.offsetHeight;
-
-  const enRetro =
-    y >= retro.offsetTop - 200 &&
-    y < retro.offsetTop + retro.offsetHeight;
-
-  msgConsulta.style.display = enActuales || enRetro ? "block" : "none";
+function estaEnSeccion(seccion) {
+  if (!seccion) return false;
+  const top = seccion.offsetTop;
+  const bottom = top + seccion.offsetHeight;
+  const y = window.scrollY + 200; // margen visual
+  return y >= top && y <= bottom;
 }
 
-window.addEventListener("scroll", actualizarMensajeConsulta);
+function controlarMensajeConsulta() {
+  const licras = document.getElementById("licras");
+  const souvenirs = document.getElementById("souvenirs");
+
+  const ocultar =
+    estaEnSeccion(licras) ||
+    estaEnSeccion(souvenirs);
+
+  msgConsulta.style.display = ocultar ? "none" : "block";
+}
+
+window.addEventListener("scroll", controlarMensajeConsulta);
+window.addEventListener("load", controlarMensajeConsulta);
   
 </script>
+
 
 
 
