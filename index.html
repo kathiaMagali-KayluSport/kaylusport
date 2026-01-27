@@ -3350,30 +3350,17 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    /* FILTROS (con scroll corregido como Ver menos) */
+    /* FILTROS (reset como Ver menos) */
     filterBtns.forEach(btn => {
       btn.addEventListener("click", () => {
-        // Guardamos la posición actual del scroll
-        const scrollPrevio = window.scrollY;
-
         categoria = btn.dataset.cat;
-        visibles = POR_BLOQUE;
+        visibles = POR_BLOQUE; // ← reset al estado inicial igual que Ver menos
 
         filterBtns.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
 
         render();
-
-        // Ajuste para que no tape el menú
-        const header = document.querySelector("header");
-        let offset = header ? header.offsetHeight : 0;
-        if (window.innerWidth <= 768) offset += 30;
-
-        // Volvemos al mismo lugar que antes
-        window.scrollTo({
-          top: scrollPrevio - offset,
-          behavior: "smooth"
-        });
+        scrollSeccion(); // ajusta al top de la sección como Ver menos
       });
     });
 
@@ -3384,9 +3371,7 @@ document.addEventListener("DOMContentLoaded", () => {
         visibles = volver ? POR_BLOQUE : items.length;
         render();
 
-        if (volver) {
-          scrollSeccion();
-        }
+        if (volver) scrollSeccion();
       });
     }
 
