@@ -853,6 +853,17 @@ section {
     scroll-margin-top: 150px;
   }
 }    
+
+/* CORRECCIÓN SCROLL EN MÓVIL */
+section {
+  scroll-margin-top: 90px; /* ajusta si tu menú es más alto */
+}
+
+@media (max-width: 768px) {
+  section {
+    scroll-margin-top: 110px;
+  }
+}
     
   </style>
 </head>
@@ -3264,6 +3275,7 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
 
 
