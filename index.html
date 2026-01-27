@@ -1412,7 +1412,9 @@ section:target::before {
   </select>
 
   <!-- WHATSAPP -->
-  <a class="whatsapp btn-wsp" href="#" onclick="enviarWhatsAppGeneric(this)">Comprar por WhatsApp</a>
+  <a class="whatsapp btn-wsp disabled" href="#" onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
   </article>
 
 </div>
@@ -3479,4 +3481,5 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
+
 
