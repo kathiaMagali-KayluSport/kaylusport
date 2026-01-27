@@ -3070,135 +3070,159 @@ section:target::before {
 </div>
 
 <script>
-const POR_BLOQUE = 6;
+document.addEventListener("DOMContentLoaded", () => {
 
-/* =====================================================
-   FUNCIÓN GENÉRICA PARA TODAS LAS SECCIONES
-===================================================== */
-function activarSeccion({ sectionId, itemClass, searchId, btnMoreId, defaultCategoria }) {
-  const section = document.getElementById(sectionId);
-  if (!section) return;
+  const POR_BLOQUE = 6;
 
-  const items = Array.from(section.querySelectorAll(itemClass));
-  const search = searchId ? document.getElementById(searchId) : null;
-  const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
-  const filterBtns = section.querySelectorAll("[data-cat]");
+  /* =====================================================
+     FUNCIÓN GENÉRICA PARA TODAS LAS SECCIONES
+  ===================================================== */
+  function activarSeccion({ sectionId, itemClass, searchId, btnMoreId, defaultCategoria }) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
 
-  let visibles = POR_BLOQUE;
-  let texto = "";
-  let categoria = defaultCategoria;
+    const items = Array.from(section.querySelectorAll(itemClass));
+    const search = searchId ? document.getElementById(searchId) : null;
+    const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
+    const filterBtns = section.querySelectorAll("[data-cat]");
 
-  const normalizar = txt =>
-    txt.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    let visibles = POR_BLOQUE;
+    let texto = "";
+    let categoria = defaultCategoria;
 
-  function render() {
-    let mostrados = 0;
-    let total = 0;
+    const normalizar = txt =>
+      txt
+        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
 
-    const textoNormalizado = normalizar(texto);
-const categoriaNormalizada = normalizar(categoria);
+    function render() {
+      let mostrados = 0;
+      let total = 0;
 
-items.forEach(item => {
-  if (mostrados >= visibles) {
-    item.style.display = "none";
-    return;
-  }
+      const textoNormalizado = normalizar(texto);
+      const categoriaNormalizada = normalizar(categoria);
 
-  const nombre = normalizar(
-    item.querySelector("h3")?.textContent || ""
-  );
+      items.forEach(item => {
+        const nombre = normalizar(
+          item.querySelector("h3")?.textContent || ""
+        );
 
-  if (!nombre.includes(textoNormalizado)) {
-    item.style.display = "none";
-    return;
-  }
+        if (!nombre.includes(textoNormalizado)) {
+          item.style.display = "none";
+          return;
+        }
 
-  const catRaw = item.dataset.cat || item.dataset.category || "";
-  const cat = normalizar(catRaw);
+        const catRaw = item.dataset.cat || item.dataset.category || "";
+        const cat = normalizar(catRaw);
 
-  const okCat =
-    categoriaNormalizada === "todos" ||
-    categoriaNormalizada === "all" ||
-    cat === categoriaNormalizada;
+        const okCat =
+          categoriaNormalizada === "todos" ||
+          categoriaNormalizada === "all" ||
+          cat === categoriaNormalizada;
 
-  if (!okCat) {
-    item.style.display = "none";
-    return;
-  }
+        if (!okCat) {
+          item.style.display = "none";
+          return;
+        }
 
-  total++;
-  item.style.display = "";
-  mostrados++;
-});
+        total++;
 
-    if (btnMore) {
-      btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
-      btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
+        if (mostrados < visibles) {
+          item.style.display = "";
+          mostrados++;
+        } else {
+          item.style.display = "none";
+        }
+      });
+
+      if (btnMore) {
+        btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
+        btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
+      }
     }
-  }
 
-  if (search) {
-    search.addEventListener("input", () => {
-      texto = search.value;
-      visibles = POR_BLOQUE;
-      render();
+    /* BUSCADOR */
+    if (search) {
+      search.addEventListener("input", () => {
+        texto = search.value;
+        visibles = POR_BLOQUE;
+        render();
+      });
+    }
+
+    /* FILTROS */
+    filterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        categoria = btn.dataset.cat;
+        visibles = POR_BLOQUE;
+
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        render();
+      });
     });
+
+    /* VER MÁS / MENOS */
+    if (btnMore) {
+      btnMore.addEventListener("click", () => {
+        visibles = visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
+        render();
+      });
+    }
+
+    render();
   }
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      categoria = btn.dataset.cat;
-      visibles = POR_BLOQUE;
+  /* ================= ACTIVAR SECCIONES ================= */
 
-      filterBtns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
+  activarSeccion({
+    sectionId: "actuales",
+    itemClass: ".producto",
+    searchId: "buscador",
+    btnMoreId: "btnToggle",
+    defaultCategoria: "todos"
+  });
 
-      render();
+  activarSeccion({
+    sectionId: "retro",
+    itemClass: ".producto-retro",
+    searchId: "buscadorRetro",
+    btnMoreId: "btnRetroToggle",
+    defaultCategoria: "todos"
+  });
+
+  activarSeccion({
+    sectionId: "short",
+    itemClass: ".short-item",
+    searchId: "search-short",
+    btnMoreId: "btn-more-short",
+    defaultCategoria: "todos"
+  });
+
+  activarSeccion({
+    sectionId: "casacas",
+    itemClass: ".casaca-item",
+    searchId: "search-casaca",
+    btnMoreId: "btn-more-casaca",
+    defaultCategoria: "todos"
+  });
+
+  /* ================= ACTIVAR BOTONES WHATSAPP POR TALLA ================= */
+
+  document.querySelectorAll(".talla-select").forEach(select => {
+    const btn = select.closest(".card")?.querySelector(".btn-wsp");
+    if (!btn) return;
+
+    btn.classList.add("disabled");
+
+    select.addEventListener("change", () => {
+      btn.classList.toggle("disabled", !select.value);
     });
   });
 
-  if (btnMore) {
-    btnMore.addEventListener("click", () => {
-      visibles = visibles === POR_BLOQUE ? items.length : POR_BLOQUE;
-      render();
-    });
-  }
-
-  render();
-}
-
-/* ================= ACTIVAR SECCIONES ================= */
-
-activarSeccion({
-  sectionId: "actuales",
-  itemClass: ".producto",
-  searchId: "buscador",
-  btnMoreId: "btnToggle",
-  defaultCategoria: "todos"
-});
-
-activarSeccion({
-  sectionId: "retro",
-  itemClass: ".producto-retro",
-  searchId: "buscadorRetro",
-  btnMoreId: "btnRetroToggle",
-  defaultCategoria: "todos"
-});
-
-activarSeccion({
-  sectionId: "short",
-  itemClass: ".short-item",
-  searchId: "search-short",
-  btnMoreId: "btn-more-short",
-  defaultCategoria: "todos"
-});
-
-activarSeccion({
-  sectionId: "casacas",
-  itemClass: ".casaca-item",
-  searchId: "search-casaca",
-  btnMoreId: "btn-more-casaca",
-  defaultCategoria: "todos"
 });
 
 /* ================= WHATSAPP ================= */
@@ -3207,6 +3231,7 @@ function enviarWhatsApp(el) {
   if (!card) return;
 
   const select = card.querySelector(".talla-select");
+
   if (select && !select.value) {
     alert("Selecciona una talla primero");
     return;
@@ -3226,18 +3251,7 @@ function enviarWhatsApp(el) {
   );
 }
 
-/* ================= ACTIVAR BOTONES POR TALLA ================= */
-document.querySelectorAll(".talla-select").forEach(select => {
-  const btn = select.closest(".card")?.querySelector(".btn-wsp");
-  if (!btn) return;
-
-  btn.classList.add("disabled");
-  select.addEventListener("change", () => {
-    btn.classList.toggle("disabled", !select.value);
-  });
-});
-
-/* ================= SCROLL MENÚ ================= */
+/* ================= SCROLL AJUSTADO AL MENÚ ================= */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener("click", e => {
     const target = document.querySelector(link.getAttribute("href"));
@@ -3264,4 +3278,3 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
-
