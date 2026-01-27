@@ -3152,7 +3152,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const search = searchId ? document.getElementById(searchId) : null;
     const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
     const filterBtns = section.querySelectorAll("[data-cat]");
-    const grid = section.querySelector(".grid");
+    const grid = section.querySelector(".grid") || section;
 
     let visibles = POR_BLOQUE;
     let texto = "";
@@ -3370,4 +3370,3 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
-
