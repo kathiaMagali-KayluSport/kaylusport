@@ -1036,6 +1036,37 @@ section {
     font-size: 13px;
   }
 }    
+
+/* ================================
+   CORRECCIÓN SCROLL MENÚ FIJO
+   ================================ */
+
+/* Para todas las secciones */
+section {
+  scroll-margin-top: 140px; /* Altura total del header + aviso sticky */
+}
+
+/* Ajuste solo para móviles */
+@media (max-width: 768px) {
+  section {
+    scroll-margin-top: 160px; /* Ajusta según tu header móvil */
+  }
+}
+
+/* Alternativa con pseudo-elemento: más compatible */
+section:target::before {
+  content: "";
+  display: block;
+  height: 140px; /* igual que scroll-margin-top */
+  margin-top: -140px;
+}
+
+@media (max-width: 768px) {
+  section:target::before {
+    height: 160px;
+    margin-top: -160px;
+  }
+}
     
   </style>
 </head>
@@ -3478,4 +3509,5 @@ window.addEventListener("scroll", controlarMensajeConsulta);
 window.addEventListener("load", controlarMensajeConsulta);
   
 </script>
+
 
