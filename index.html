@@ -3093,10 +3093,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const search = searchId ? document.getElementById(searchId) : null;
     const btnMore = btnMoreId ? document.getElementById(btnMoreId) : null;
     const filterBtns = section.querySelectorAll("[data-cat]");
+    const grid = section.querySelector(".grid");
 
     let visibles = POR_BLOQUE;
     let texto = "";
     let categoria = defaultCategoria;
+
+    /* ===== MENSAJE SIN RESULTADOS ===== */
+    let msg = section.querySelector(".no-resultados");
+    if (!msg) {
+      msg = document.createElement("p");
+      msg.className = "no-resultados";
+      msg.textContent = "No hay productos para este filtro o búsqueda.";
+      msg.style.textAlign = "center";
+      msg.style.margin = "20px 0";
+      msg.style.display = "none";
+      grid.after(msg);
+    }
 
     function render() {
       let mostrados = 0;
@@ -3133,6 +3146,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
+      msg.style.display = total === 0 ? "block" : "none";
+
       if (btnMore) {
         btnMore.style.display = total > POR_BLOQUE ? "inline-block" : "none";
         btnMore.textContent = visibles >= total ? "Ver menos" : "Ver más";
@@ -3162,31 +3177,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* VER MÁS / MENOS */
-   if (btnMore) {
-  btnMore.addEventListener("click", () => {
-    const esVerMenos = visibles !== POR_BLOQUE;
+    if (btnMore) {
+      btnMore.addEventListener("click", () => {
+        const esVerMenos = visibles !== POR_BLOQUE;
+        visibles = esVerMenos ? POR_BLOQUE : items.length;
+        render();
 
-    visibles = esVerMenos ? POR_BLOQUE : items.length;
-    render();
+        if (esVerMenos) {
+          const header = document.querySelector("header");
+          const offset = header ? header.offsetHeight : 0;
 
-    // 👇 SI ES "VER MENOS", VOLVER AL INICIO DE LA SECCIÓN
-    if (esVerMenos) {
-      const header = document.querySelector("header");
-      const offset = header ? header.offsetHeight : 0;
+          const y =
+            section.getBoundingClientRect().top +
+            window.pageYOffset -
+            offset -
+            20;
 
-      const y =
-        section.getBoundingClientRect().top +
-        window.pageYOffset -
-        offset -
-        20;
-
-      window.scrollTo({
-        top: y,
-        behavior: "smooth"
+          window.scrollTo({
+            top: y,
+            behavior: "smooth"
+          });
+        }
       });
     }
-  });
-}
 
     render();
   }
@@ -3233,7 +3246,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!btn) return;
 
     btn.classList.add("disabled");
-
     select.addEventListener("change", () => {
       btn.classList.toggle("disabled", !select.value);
     });
@@ -3249,7 +3261,6 @@ function enviarWhatsApp(el) {
   if (!card) return;
 
   const select = card.querySelector(".talla-select");
-
   if (select && !select.value) {
     alert("Selecciona una talla primero");
     return;
@@ -3300,4 +3311,3 @@ function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
 </script>
-
