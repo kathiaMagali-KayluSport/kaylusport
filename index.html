@@ -3300,11 +3300,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function scrollSeccion() {
       const header = document.querySelector("header");
       let offset = header ? header.offsetHeight : 0;
-
-      /* extra SOLO en móvil */
-      if (window.innerWidth <= 768) {
-        offset += 30;
-      }
+      if (window.innerWidth <= 768) offset += 30;
 
       window.scrollTo({
         top: section.offsetTop - offset - 20,
@@ -3354,9 +3350,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    /* FILTROS (con scroll corregido) */
+    /* FILTROS (con scroll corregido como Ver menos) */
     filterBtns.forEach(btn => {
       btn.addEventListener("click", () => {
+        // Guardamos la posición actual del scroll
+        const scrollPrevio = window.scrollY;
+
         categoria = btn.dataset.cat;
         visibles = POR_BLOQUE;
 
@@ -3364,7 +3363,17 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.classList.add("active");
 
         render();
-        scrollSeccion();
+
+        // Ajuste para que no tape el menú
+        const header = document.querySelector("header");
+        let offset = header ? header.offsetHeight : 0;
+        if (window.innerWidth <= 768) offset += 30;
+
+        // Volvemos al mismo lugar que antes
+        window.scrollTo({
+          top: scrollPrevio - offset,
+          behavior: "smooth"
+        });
       });
     });
 
@@ -3507,7 +3516,4 @@ function controlarMensajeConsulta() {
 
 window.addEventListener("scroll", controlarMensajeConsulta);
 window.addEventListener("load", controlarMensajeConsulta);
-  
 </script>
-
-
