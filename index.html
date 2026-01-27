@@ -3297,13 +3297,19 @@ document.addEventListener("DOMContentLoaded", () => {
       grid.after(msg);
     }
 
+    // ===== Scroll ajustado dinámicamente
     function scrollSeccion() {
       const header = document.querySelector("header");
-      let offset = header ? header.offsetHeight : 0;
-      if (window.innerWidth <= 768) offset += 30;
+      const aviso = document.querySelector(".aviso-ninos"); // aviso sticky si existe
+      let offset = 0;
+
+      if (header) offset += header.offsetHeight;
+      if (aviso) offset += aviso.offsetHeight;
+
+      offset += 10; // margen extra visual
 
       window.scrollTo({
-        top: section.offsetTop - offset - 20,
+        top: section.offsetTop - offset,
         behavior: "smooth"
       });
     }
@@ -3350,17 +3356,17 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    /* FILTROS (reset como Ver menos) */
+    /* FILTROS */
     filterBtns.forEach(btn => {
       btn.addEventListener("click", () => {
         categoria = btn.dataset.cat;
-        visibles = POR_BLOQUE; // ← reset al estado inicial igual que Ver menos
+        visibles = POR_BLOQUE;
 
         filterBtns.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
 
         render();
-        scrollSeccion(); // ajusta al top de la sección como Ver menos
+        scrollSeccion();
       });
     });
 
@@ -3371,13 +3377,21 @@ document.addEventListener("DOMContentLoaded", () => {
         visibles = volver ? POR_BLOQUE : items.length;
         render();
 
-        if (volver) scrollSeccion();
+        if (volver) {
+          scrollSeccion();
+        } else {
+          // Si se expandió, volvemos a la posición original del botón
+          const rect = btnMore.getBoundingClientRect();
+          const scrollTop = window.scrollY + rect.top - (document.querySelector("header")?.offsetHeight || 0) - 10;
+          window.scrollTo({ top: scrollTop, behavior: "smooth" });
+        }
       });
     }
 
     render();
   }
 
+  // ===== Inicialización de secciones
   activarSeccion({ sectionId:"actuales", itemClass:".producto", searchId:"buscador", btnMoreId:"btnToggle", defaultCategoria:"todos" });
   activarSeccion({ sectionId:"retro", itemClass:".producto-retro", searchId:"buscadorRetro", btnMoreId:"btnRetroToggle", defaultCategoria:"todos" });
   activarSeccion({ sectionId:"short", itemClass:".short-item", searchId:"search-short", btnMoreId:"btn-more-short", defaultCategoria:"todos" });
@@ -3501,4 +3515,5 @@ function controlarMensajeConsulta() {
 
 window.addEventListener("scroll", controlarMensajeConsulta);
 window.addEventListener("load", controlarMensajeConsulta);
+
 </script>
