@@ -3203,7 +3203,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const items = Array.from(section.querySelectorAll(itemClass)).map(item => ({
       el: item,
       nombre: normalizar(item.querySelector("h3")?.textContent || ""),
-      cat: normalizar(item.dataset.cat || "")
+      cat: normalizar(item.dataset.cat || item.dataset.category || "")
     }));
 
     const search = searchId ? document.getElementById(searchId) : null;
@@ -3377,5 +3377,6 @@ function closeLightbox() {
   document.getElementById("lightbox")?.classList.remove("active");
 }
 </script>
+
 
 
