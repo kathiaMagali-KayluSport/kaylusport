@@ -2138,31 +2138,27 @@ section:target::before {
 
   <div class="grid">
 
-    <!-- PRODUCTO ESPECIAL 1 -->
-    <article class="card">
-      <img src="especial-goku.jpg"
-           alt="Edición Especial Japón Goku"
-           loading="lazy"
-           onclick="openLightbox(this.src)">
+ <!-- PRODUCTO ESPECIAL 1 -->
+<article class="card" data-talla="M">
+  <img src="especial-goku.jpg"
+       alt="Edición Especial Japón Goku"
+       loading="lazy"
+       onclick="openLightbox(this.src)">
 
-      <h3 class="nombre-producto">Camiseta Edición Especial Japón Goku</h3>
-      <div class="price">S/ 60.00</div>
-      <span class="badge-stock">🔥 Últimas unidades</span>
+  <h3 class="nombre-producto">Camiseta Edición Especial Japón Goku</h3>
+  <div class="price">S/ 60.00</div>
 
-      <select class="talla-select">
-        <option value="">Selecciona talla</option>
-        <option value="S">S</option>
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-      </select>
+  <span class="badge-stock">🔥 Últimas unidades</span>
 
-      <a class="whatsapp btn-wsp disabled"
-         href="#"
-         onclick="enviarWhatsApp(this)">
-        Comprar por WhatsApp
-      </a>
-    </article>
+  <!-- TALLA FIJA -->
+  <p class="talla-fija">🧵 Talla disponible: <strong>S</strong></p>
+
+  <a class="whatsapp btn-wsp"
+     href="#"
+     onclick="enviarWhatsApp(this)">
+    Comprar por WhatsApp
+  </a>
+</article>
 
     <!-- PRODUCTO ESPECIAL 2 -->
     <article class="card">
@@ -3517,3 +3513,4 @@ window.addEventListener("scroll", controlarMensajeConsulta);
 window.addEventListener("load", controlarMensajeConsulta);
 
 </script>
+
