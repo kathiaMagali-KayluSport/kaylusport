@@ -1067,12 +1067,87 @@ section:target::before {
     margin-top: -160px;
   }
 }
+
+/* ======================
+POPUP CAMISETA DESTACADA
+====================== */
+
+.promo-popup {
+
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 10000;
+}
+
+.promo-content {
+
+  background: #020617;
+  padding: 25px;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+}
+
+.promo-content img {
+
+  width: 100%;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+.promo-btn {
+
+  display: block;
+  background: #22c55e;
+  color: #022c22;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.promo-close {
+
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
     
   </style>
 </head>
 
 <body>
 
+<!-- POPUP CAMISETA DESTACADA -->
+<div id="promoPopup" class="promo-popup">
+
+  <div class="promo-content">
+
+    <span class="promo-close" onclick="cerrarPromo()">✖</span>
+
+    <h2>🔥 Camiseta en tendencia</h2>
+
+    <img src="camiseta-tendencia.jpg" alt="Camiseta en tendencia">
+
+    <a href="https://wa.me/51971245962?text=Hola%20quiero%20la%20camiseta%20en%20tendencia"
+       class="promo-btn">
+       Comprar por WhatsApp
+    </a>
+
+  </div>
+
+</div>
+  
 <header>
   <div class="brand-bar">
   <img src="logo-kaylusport.png" alt="Kaylu Sport Logo" class="logo-left">
@@ -3728,7 +3803,13 @@ function controlarMensajeConsulta() {
 window.addEventListener("scroll", controlarMensajeConsulta);
 window.addEventListener("load", controlarMensajeConsulta);
 
+function cerrarPromo(){
+document.getElementById("promoPopup").style.display="none";
+}
+  
 </script>
+</body>
+</html>
 
 
 
